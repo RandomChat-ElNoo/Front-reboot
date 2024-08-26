@@ -1,31 +1,31 @@
-import type { Config } from "tailwindcss";
-import plugin from "tailwindcss/plugin";
+import type { Config } from 'tailwindcss'
+import plugin from 'tailwindcss/plugin'
 
-type AccType = Record<string, string>;
+type AccType = Record<string, string>
 
 const range = (start: number, end: number): number[] => {
-  const array: number[] = [];
+  const array: number[] = []
   for (let i = start; i <= end; i += 1) {
-    array.push(i);
+    array.push(i)
   }
-  return array;
-};
+  return array
+}
 
-const pxToRem = (px: number, base = 16) => `${px / base}rem`;
+const pxToRem = (px: number, base = 16) => `${px / base}rem`
 
 const config = {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     spacing: {
       ...range(0, 1600).reduce((acc: AccType, px: number) => {
-        acc[`${px}pxr`] = pxToRem(px);
-        return acc;
+        acc[`${px}pxr`] = pxToRem(px)
+        return acc
       }, {}),
     },
     fontSize: {
       ...range(0, 200).reduce((acc: AccType, px: number) => {
-        acc[`${px}pxr`] = pxToRem(px);
-        return acc;
+        acc[`${px}pxr`] = pxToRem(px)
+        return acc
       }, {}),
     },
     extend: {
@@ -37,11 +37,11 @@ const config = {
   },
   plugins: [
     plugin(({ addUtilities }) => {
-      const newUtilities = {};
+      const newUtilities = {}
 
-      addUtilities(newUtilities);
+      addUtilities(newUtilities)
     }),
   ],
-} satisfies Config;
+} satisfies Config
 
-export default config;
+export default config
