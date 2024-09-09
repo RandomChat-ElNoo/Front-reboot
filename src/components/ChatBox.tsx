@@ -28,9 +28,7 @@ export default function ChatBox({
   const timeDirection = isMine ? 'flex-row-reverse' : ''
   const classNames = `${color} 'justify-start' flex flex-col gap-10pxr w-fit max-w-700pxr rounded-[15px] text-white`
   return (
-    <div
-      className={`${location} ${timeDirection} flex w-full items-end gap-5pxr`}
-    >
+    <div className={`${timeDirection} flex w-full items-end gap-5pxr`}>
       {type === 'chat' ? (
         <div className={`${classNames} px-15pxr py-7pxr text-16pxr`}>
           {context}
