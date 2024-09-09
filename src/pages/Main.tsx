@@ -1,3 +1,3 @@
 export default function Main() {
-  return <div></div>
+  return <div className="h-screen w-screen bg-background-main"></div>
 }

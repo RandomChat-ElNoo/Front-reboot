@@ -5,8 +5,15 @@ export default function App() {
   return (
     <ConfigProvider
       theme={{
+        components: {
+          Modal: {
+            contentBg: '#343439',
+            headerBg: '#343439',
+          },
+        },
         token: {
-          fontFamily: 'Jua',
+          fontFamily: 'Pretendard Variable',
+          lineHeight: 1,
         },
       }}
     >
