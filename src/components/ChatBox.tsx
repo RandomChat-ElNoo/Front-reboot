@@ -1,4 +1,5 @@
-import MeetNowButton from './MeetNowButton'
+import formatTime from '../utills/formatTime'
+import CustomButton from './CustomButton'
 
 interface ChatBoxProps {
   context: string
@@ -14,9 +15,8 @@ interface ChatBoxProps {
  * @param title - 버튼의 큰 글씨
  * @param context - 버튼의 작은 글씨
  * @param onClick - 클릭시 이벤트 핸들러 함수
- *
- * @todo 시간 표시 해야됨
  */
+
 export default function ChatBox({
   context,
   writingTime,
@@ -27,6 +27,9 @@ export default function ChatBox({
   const color = isMine ? 'bg-chat-box-me' : 'bg-chat-box'
   const timeDirection = isMine ? 'flex-row-reverse' : ''
   const classNames = `${color} 'justify-start' flex flex-col gap-10pxr w-fit max-w-700pxr rounded-[15px] text-white`
+
+  const fomattedTime = formatTime(writingTime)
+
   return (
     <div className={`${timeDirection} flex w-full items-end gap-5pxr`}>
       {type === 'chat' ? (
@@ -38,11 +41,16 @@ export default function ChatBox({
           <p className="text-24pxr">당장 만나</p>
           <p className="text-16pxr">{context}</p>
           <div className="flex w-full justify-end">
-            <MeetNowButton onClick={() => open(url)} />
+            <CustomButton
+              onClick={() => open(url)}
+              type="meetNow"
+              size="l"
+              text="당장만나!"
+            />
           </div>
         </div>
       )}
-      <div className="text-13pxr text-white">{writingTime.toISOString()}</div>
+      <div className="text-13pxr text-white">{fomattedTime}</div>
     </div>
   )
 }
