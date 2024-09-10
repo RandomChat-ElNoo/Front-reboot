@@ -23,15 +23,15 @@ export default function MainButton({
     'bg-button-mian bg-button-main hover:bg-button-main-hover flex w-full max-h-full gap-10pxr flex-row rounded-[10px] p-15pxr text-white'
   const flexDirection = buttonType === 'high' ? 'flex-col' : 'flex-row'
   const buttonWidth = buttonType === 'wide' ? 'max-w-530pxr' : 'max-w-250pxr'
-  const buttonheight = buttonType === 'high' ? 'max-h-48pxr' : 'max-h-150pxr'
+  const buttonheight = buttonType === 'high' ? 'min-h-150pxr' : 'min-h-48pxr'
   const itemsCenter = buttonType === 'wide' ? 'items-center' : ''
   return (
     <div
       onClick={onClick}
       className={`${classNames} ${flexDirection} ${buttonWidth} ${buttonheight} ${itemsCenter}`}
     >
-      <div className="text-[28px]">{title}</div>
-      <div className="text-[20px]">{context}</div>
+      <div className="text-nowrap text-28pxr">{title}</div>
+      <div className="text-pretty text-20pxr">{context}</div>
     </div>
   )
 }
