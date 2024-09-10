@@ -23,24 +23,29 @@ export default function SideBarMenuButton({
 }: SideBarMenuButtonProps) {
   const { randomChatAlert, groupChatAlert } = useChatAlertStore()
   const background = actived ? 'bg-button-sidebar-hover' : 'bg-transparent'
+
+  const buttonAlert = [
+    { title: '전체 채팅', alertType: groupChatAlert },
+    { title: '랜덤 채팅', alertType: randomChatAlert },
+  ]
+
   return (
     <button
       onClick={onClick}
-      className={`${background} hover:bg-button-sidebar-hover relative flex h-50pxr w-250pxr flex-row items-center gap-10pxr rounded-[10px] px-10pxr`}
+      className={`${background} relative flex h-50pxr w-250pxr shrink-0 flex-row items-center gap-10pxr rounded-[10px] px-10pxr hover:bg-button-sidebar-hover`}
     >
       <div className="h-28pxr w-28pxr">{icon}</div>
       <p className="text-18pxr text-white">{title}</p>
       <div className="absolute -top-7pxr right-0pxr">
-        {title === '전체 채팅' && groupChatAlert > 0 && (
-          <div className="bg-alert-red h-28pxr w-28pxr text-white">
-            {groupChatAlert}
-          </div>
-        )}
-        {title === '랜덤 채팅' && randomChatAlert > 0 && (
-          <div className="bg-alert-red flex h-28pxr w-28pxr items-center justify-center rounded-full text-[#ffffff]">
-            {randomChatAlert}
-          </div>
-        )}
+        {buttonAlert.map((item) => (
+          <>
+            {title === item.title && item.alertType > 0 && (
+              <div className="flex h-28pxr w-28pxr items-center justify-center rounded-full bg-alert-red text-white">
+                {item.alertType > 10 ? '10⁺' : item.alertType}
+              </div>
+            )}
+          </>
+        ))}
       </div>
     </button>
   )
