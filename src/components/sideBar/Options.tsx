@@ -3,12 +3,16 @@ import { Button, ConfigProvider, Input, Switch } from 'antd'
 import useOptionStore from '../../store/useOptionStore'
 import { useState } from 'react'
 
+interface OptionsProps {
+  closeOption: () => void
+}
+
 /**
  * 사이드바 하단에 있는 옵션창
- * @todo 나중에 닫는 함수 넣어줘야함
+ * @param closeOption 옵션 닫는 함수
  */
 
-export default function Options() {
+export default function Options({ closeOption }: OptionsProps) {
   const {
     avatar,
     setAvatar,
@@ -27,6 +31,7 @@ export default function Options() {
 
     setAvatar(avatarInputValue)
   }
+
   return (
     <ConfigProvider
       theme={{
@@ -34,7 +39,9 @@ export default function Options() {
           colorPrimary: '#2CDB75',
         },
         components: {
-          Switch: {},
+          Switch: {
+            handleSize: 18,
+          },
         },
       }}
     >
@@ -43,30 +50,30 @@ export default function Options() {
           <UnorderedListOutlined style={{ fontSize: '28px', color: 'white' }} />
           <p className="text-18pxr text-white">옵션</p>
           <CloseOutlined
-            onClick={() => {}} // 나중에 옵션 닫는 함수 넣어줘야함
+            onClick={closeOption}
             style={{ fontSize: '28px', color: 'white' }}
           />
         </section>
         <section className="flex w-full flex-col gap-10pxr bg-background-sidebar px-10pxr py-20pxr">
           <p className="text-18pxr text-white">이미지 미리보기</p>
-          <div className="flex flex-row justify-between">
-            <p className="text-18pxr text-white">전체 채팅</p>
+          <div className="flex flex-row items-center justify-between">
+            <p className="text-16pxr text-white">전체 채팅</p>
             <Switch
               defaultValue={isRandomChatImgPreview}
               onChange={() => {
                 setIsRandomChatImgPreview(!isRandomChatImgPreview)
               }}
-              className="bg-black"
+              className="h-22pxr w-44pxr bg-black"
             />
           </div>
-          <div className="flex flex-row justify-between">
-            <p className="text-18pxr text-white">랜덤 채팅</p>
+          <div className="flex flex-row items-center justify-between">
+            <p className="text-16pxr text-white">랜덤 채팅</p>
             <Switch
               defaultValue={isGroupChatImgPreview}
               onChange={() => {
                 setIsGroupChatImgPreview(!isGroupChatImgPreview)
               }}
-              className="bg-black"
+              className="h-22pxr w-44pxr bg-black"
             />
           </div>
           <div className="flex flex-col gap-5pxr">
@@ -75,7 +82,7 @@ export default function Options() {
               <Button
                 disabled={avatar === avatarInputValue}
                 onClick={setAvatarState}
-                className="rounded-full bg-button-green text-white"
+                className="rounded-full bg-button-green text-white disabled:bg-button-green disabled:opacity-70"
               >
                 적용
               </Button>
