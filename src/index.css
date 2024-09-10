@@ -7,3 +7,25 @@
   font-weight: 600;
   line-height: 100%;
 }
+
+::-webkit-scrollbar {
+  width: 3px; /* 수직 스크롤바 너비 */
+  height: 3px; /* 수평 스크롤바 높이 */
+}
+
+/* 스크롤바 트랙 스타일 */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 스크롤바 thumb 스타일 */
+::-webkit-scrollbar-thumb {
+  background: #636363;
+  border-radius: 3px;
+}
+
+/* 스크롤바 thumb hover 스타일 */
+::-webkit-scrollbar-thumb:hover {
+  width: 4px; /* 수직 스크롤바 너비 */
+  height: 4px; /* 수평 스크롤바 높이 */
+}

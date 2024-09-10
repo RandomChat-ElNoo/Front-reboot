@@ -46,6 +46,9 @@ const config = {
         'text-placeHolder': '#C7C8D1',
         'alert-red': '#F23F42',
       },
+      boxShadow: {
+        'top-shadow': '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+      },
       keyframes: {},
       animation: {},
       screens: {},
