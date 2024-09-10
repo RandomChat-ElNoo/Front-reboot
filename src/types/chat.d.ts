@@ -7,7 +7,9 @@ interface Chat {
 }
 
 interface MeetNow {
+  isRandomChat: boolean
   message: string
   url: string
+  time: Date
   endTime: Date
 }
