@@ -26,7 +26,7 @@ export default function ChatBox({
 }: ChatBoxProps) {
   const color = isMine ? 'bg-chat-box-me' : 'bg-chat-box'
   const timeDirection = isMine ? 'flex-row-reverse' : ''
-  const classNames = `${color} 'justify-start' flex flex-col gap-10pxr w-fit max-w-700pxr rounded-[15px] text-white`
+  const classNames = `${color} text-wrap justify-start flex flex-col gap-10pxr max-w-600pxr rounded-[15px] text-white`
 
   const fomattedTime = formatTime(writingTime)
 

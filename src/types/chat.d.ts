@@ -1,6 +1,6 @@
 interface Chat {
   isMine: boolean
-  type?: 'chat ' | 'meetNow'
+  type: 'chat' | 'meetNow'
   context: string
   time: Date
   link?: string
