@@ -35,12 +35,12 @@ export default function SideBarMenuButton({
       className={`${background} relative flex h-50pxr w-250pxr shrink-0 flex-row items-center gap-10pxr rounded-[10px] px-10pxr hover:bg-button-sidebar-hover`}
     >
       <div className="h-28pxr w-28pxr">{icon}</div>
-      <p className="text-18pxr text-white">{title}</p>
+      <p className="text-18pxr">{title}</p>
       <div className="absolute -top-7pxr right-0pxr">
         {buttonAlert.map((item) => (
           <>
             {title === item.title && item.alertType > 0 && (
-              <div className="flex h-28pxr w-28pxr items-center justify-center rounded-full bg-alert-red text-white">
+              <div className="flex h-28pxr w-28pxr items-center justify-center rounded-full bg-alert-red">
                 {item.alertType > 10 ? '10⁺' : item.alertType}
               </div>
             )}

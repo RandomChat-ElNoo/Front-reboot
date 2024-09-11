@@ -20,7 +20,7 @@ export default function MainButton({
   onClick,
 }: MainButtonProps) {
   const classNames =
-    'bg-button-mian bg-button-main hover:bg-button-main-hover flex w-full max-h-full gap-10pxr flex-row rounded-[10px] p-15pxr text-white'
+    'bg-button-mian bg-button-main hover:bg-button-main-hover flex w-full max-h-full gap-10pxr flex-row rounded-[10px] p-15pxr'
   const flexDirection = buttonType === 'high' ? 'flex-col' : 'flex-row'
   const buttonWidth = buttonType === 'wide' ? 'max-w-530pxr' : 'max-w-250pxr'
   const buttonheight = buttonType === 'high' ? 'min-h-150pxr' : 'min-h-48pxr'
