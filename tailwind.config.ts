@@ -51,7 +51,9 @@ const config = {
       },
       keyframes: {},
       animation: {},
-      screens: {},
+      screens: {
+        tb: { max: '800px' },
+      },
     },
   },
   plugins: [
