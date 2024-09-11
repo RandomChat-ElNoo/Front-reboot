@@ -88,7 +88,7 @@ export default function Options({ closeOption }: OptionsProps) {
               </Button>
             </div>
             <Input
-              className="rounded-[10px] text-17pxr"
+              className="rounded-[10px] text-17pxr text-black"
               maxLength={10}
               onChange={(e) => {
                 setAvatarInputValue(e.target.value)

@@ -14,6 +14,7 @@ export default function App() {
         token: {
           fontFamily: 'Pretendard Variable',
           lineHeight: 1,
+          colorText: 'white',
         },
       }}
     >
