@@ -43,8 +43,8 @@ export default function SideBar() {
     ? '-translate-y-[295px]'
     : '-translate-y-[60px]'
   return (
-    <div className="z-0 h-screen w-260pxr select-none overflow-hidden bg-background-sidebar">
-      <section className="shadow-top-shadow flex h-50pxr w-full flex-row items-center justify-center bg-background-sidebar">
+    <div className="z-0 h-screen w-260pxr shrink-0 select-none overflow-hidden bg-background-sidebar">
+      <section className="flex h-50pxr w-full flex-row items-center justify-center bg-background-sidebar shadow-top-shadow">
         <img src="/imgs/svgs/logo-text.svg" className="h-40pxr" />
       </section>
       <section className="h-[calc(100%-110px)] w-full overflow-y-scroll pt-10pxr">
@@ -61,20 +61,20 @@ export default function SideBar() {
               />
               {index === 0 && (
                 <Divider
-                  className="border-white px-10pxr text-white"
+                  className="border-white px-10pxr"
                   style={{ borderColor: 'white', margin: '0px' }}
                 >
-                  <p className="text-white"> 채팅 </p>
+                  채팅
                 </Divider>
               )}
             </>
           ))}
           {isMeetNow && (
             <Divider
-              className="border-white px-10pxr text-white"
+              className="border-white px-10pxr"
               style={{ borderColor: 'white', margin: '0px' }}
             >
-              <p className="text-white">당장만나</p>
+              당장만나
             </Divider>
           )}
           <div className="flex w-full flex-col gap-10pxr px-10pxr">
@@ -108,8 +108,8 @@ export default function SideBar() {
               }}
               className="flex flex-row items-center gap-10pxr"
             >
-              <p className="text-18pxr text-white">아바타</p>
-              <p className="text-16pxr text-white">{avatar}</p>
+              <p className="text-18pxr">아바타</p>
+              <p className="text-16pxr">{avatar}</p>
             </button>
             <button onClick={handleOption} className="">
               <MoreOutlined className="text-24pxr text-white" />

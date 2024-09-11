@@ -36,12 +36,12 @@ export default function SideBarMeetNowButton({
         <div className="flex h-full flex-col gap-10pxr">
           <div className="felx-row flex items-center justify-between">
             <div className="flex flex-row items-end gap-6pxr">
-              <h1 className="text-18pxr text-white">당장만나!</h1>
-              <p className="text-16pxr text-white">{formattedTime}</p>
+              <h1 className="text-18pxr">당장만나!</h1>
+              <p className="text-16pxr">{formattedTime}</p>
             </div>
-            <p className="text-13pxr text-white">{indicator}</p>
+            <p className="text-13pxr">{indicator}</p>
           </div>
-          <p className="text-left text-14pxr text-white">{slicedDescription}</p>
+          <p className="text-left text-14pxr">{slicedDescription}</p>
         </div>
         <div
           className={`${tipColor} absolute left-0pxr top-0pxr h-full w-10pxr rounded-bl-[10px] rounded-tl-[10px]`}

@@ -28,7 +28,7 @@ export default function MeetNowModal({
   return (
     <Modal
       open={isOpen}
-      title={<p className="text-25pxr text-white">당장만나!</p>}
+      title={<p className="text-25pxr">당장만나!</p>}
       width={400}
       onClose={handleClose}
       onCancel={handleClose}
@@ -52,7 +52,7 @@ export default function MeetNowModal({
         </div>
       }
     >
-      <p className="mt-10pxr text-16pxr text-white"> {context}</p>
+      <p className="mt-10pxr text-16pxr"> {context}</p>
     </Modal>
   )
 }
