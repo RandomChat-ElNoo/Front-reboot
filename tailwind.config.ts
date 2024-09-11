@@ -53,6 +53,7 @@ const config = {
       animation: {},
       screens: {
         tb: { max: '800px' },
+        mb: { max: '425px' },
       },
     },
   },
