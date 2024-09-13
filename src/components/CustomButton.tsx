@@ -4,6 +4,7 @@ interface ButtonBigProps {
   type: 'meetNow' | 'exit'
   size: 'l' | 'sm'
   text: string
+  disabled?: boolean
   onClick: () => void
 }
 
@@ -19,9 +20,11 @@ export default function CustomButton({
   type,
   size,
   text,
+  disabled = false,
   onClick,
 }: ButtonBigProps) {
   const themeColor = type === 'meetNow' ? '#5865F2' : '#909090'
+  const disabledBgColor = type === 'meetNow' ? '#8089f0' : '#909090'
   const classNames =
     size === 'l'
       ? 'px-10pxr py-9pxr text-22pxr tb:px-9pxr tb:py-8pxr tb:text-18pxr'
@@ -34,6 +37,7 @@ export default function CustomButton({
         },
         token: {
           colorPrimary: themeColor,
+          colorBgContainerDisabled: disabledBgColor,
         },
       }}
     >
@@ -41,6 +45,7 @@ export default function CustomButton({
         type="primary"
         className={`${classNames} h-fit w-fit rounded-[10px] font-semibold leading-none`}
         onClick={onClick}
+        disabled={disabled}
       >
         {text}
       </Button>
