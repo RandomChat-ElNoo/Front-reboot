@@ -1,32 +1,57 @@
 import { useState } from 'react'
-import logoFull from '../../public/imgs/svgs/logo-full.svg'
 import ContactModal from './ContactModal'
 import DonationModal from './DonationModal'
 import MainButton from './MainButton'
+import usePageStore from '../../store/usePageStore'
+import { notification } from 'antd'
 
 /**
  * main 화면에서 보여일 버튼들
  */
+
 export default function MainButtons() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false)
+  const { setPage } = usePageStore()
+  const [api, contextHolder] = notification.useNotification()
+
+  const openNotificationWithIcon = (
+    isMailSendSuccess: boolean,
+    error?: string,
+  ) => {
+    api[isMailSendSuccess ? 'success' : 'error']({
+      message: isMailSendSuccess ? '문의 완료!' : '문의 실패....',
+      description: isMailSendSuccess ? '' : error,
+      className: 'bg-[#343439] rounded-[5px]',
+      closeIcon: null,
+      duration: 2,
+    })
+  }
+
   return (
     <>
-      <div className="flex w-full max-w-530pxr flex-col items-center gap-30pxr">
-        <img className="h-350pxr w-350pxr" src={logoFull} />
-        <div className="flex w-full max-w-530pxr flex-col items-center gap-20pxr">
-          <div className="flex w-full flex-row gap-30pxr">
+      <div className="flex w-full max-w-530pxr flex-col items-center gap-30pxr tb:gap-15pxr">
+        <img
+          className="h-full max-h-350pxr w-full max-w-350pxr object-contain"
+          src="/imgs/pngs/logo-full.png"
+        />
+        <div className="flex w-full flex-col items-center gap-20pxr">
+          <div className="flex w-full flex-row justify-between gap-30pxr tb:gap-15pxr">
             <MainButton
               title="전체 채팅"
               context="익명으로 유저들과 대화해요"
               buttonType="high"
-              onClick={() => {}}
+              onClick={() => {
+                setPage(1)
+              }}
             />
             <MainButton
               title="랜덤 채팅"
               context="랜덤 유저와 대화해요"
               buttonType="high"
-              onClick={() => {}}
+              onClick={() => {
+                setPage(2)
+              }}
             />
           </div>
           <MainButton
@@ -44,11 +69,13 @@ export default function MainButtons() {
           <ContactModal
             isOpen={isContactModalOpen}
             closeModal={() => setIsContactModalOpen(false)}
+            openNotification={openNotificationWithIcon}
           />
           <DonationModal
             isOpen={isDonationModalOpen}
             closeModal={() => setIsDonationModalOpen(false)}
           />
+          {contextHolder}
         </div>
       </div>
     </>

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import SideBar from '../components/sideBar/SideBar'
 import TopBar from '../components/TopBar'
+import Pages from '../components/Pages'
 import useGlobalStateStore from '../store/useGlobalStateStore'
 import usePageStore from '../store/usePageStore'
 
@@ -23,10 +24,10 @@ export default function Main() {
   }, [page])
 
   return (
-    <div className="relative h-screen w-screen bg-background-main leading-none">
+    <div className="relative h-fit min-h-screen w-screen bg-background-main leading-none">
       <div
         data-open={isSideBarOpen}
-        className="tb:data-[open=false]:-translate-x-260pxr tb:data-[open=true]:translate-x-0pxr absolute z-20 translate-x-0pxr transition-transform duration-300 ease-in-out"
+        className="fixed z-20 translate-x-0pxr transition-transform duration-300 ease-in-out tb:data-[open=false]:-translate-x-260pxr tb:data-[open=true]:translate-x-0pxr"
       >
         <SideBar />
       </div>
@@ -34,11 +35,14 @@ export default function Main() {
       {isSideBarOpen && (
         <button
           onClick={closeSideBar}
-          className="tb:block absolute left-0pxr top-0pxr z-10 hidden h-screen w-screen bg-black opacity-70"
+          className="fixed left-0pxr top-0pxr z-10 hidden h-screen w-screen bg-black opacity-70 tb:block"
         />
       )}
-      <div className="tb:ml-0pxr tb:w-full ml-260pxr flex w-[calc(100%-260px)] flex-col">
+      <div className="ml-260pxr flex h-full w-[calc(100%-260px)] flex-col tb:ml-0pxr tb:w-full">
         <TopBar onClickSideBarButton={openSideBar} />
+        <section className="h-full w-full">
+          <Pages />
+        </section>
       </div>
     </div>
   )
