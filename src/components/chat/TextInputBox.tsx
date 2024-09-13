@@ -1,5 +1,5 @@
-import EmojiButton from '../components/EmojiButton'
-import SendButton from '../components/SendButton'
+import EmojiButton from './EmojiButton'
+import SendButton from './SendButton'
 import React from 'react'
 
 interface TextInputBoxProps {

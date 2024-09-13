@@ -1,5 +1,5 @@
-import formatTime from '../utills/formatTime'
-import CustomButton from './CustomButton'
+import formatTime from '../../utills/formatTime'
+import CustomButton from '../CustomButton'
 
 interface ChatBoxProps {
   context: string
