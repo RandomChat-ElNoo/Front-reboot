@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 
 interface ChatAlertStore {
   randomChatAlert: number
@@ -6,6 +6,7 @@ interface ChatAlertStore {
   groupChatAlert: number
   setGroupChatAlert: (value: number) => void
 }
+
 const useChatAlertStore = create<ChatAlertStore>((set) => ({
   randomChatAlert: 0,
   setRandomChatAlert: (value: number) => set({ randomChatAlert: value }),
