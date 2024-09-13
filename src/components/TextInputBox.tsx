@@ -26,16 +26,18 @@ export default function TextInputBox({
     handleSendMessage(event)
   }
   return (
-    <div className="bg-text-box flex max-w-1160pxr items-center gap-10pxr rounded-[10px] px-10pxr py-5pxr">
+    <div className="bg-text-box relative flex h-fit w-full max-w-1160pxr items-center gap-10pxr rounded-[10px] px-10pxr py-5pxr">
       <input
         type="text"
         maxLength={300}
         placeholder="메시지 보내기"
-        className="bg-text-box h-36pxr w-full rounded-[10px] focus:outline-none"
+        className="bg-text-box h-36pxr w-full rounded-[10px] pr-90pxr focus:outline-none"
         onKeyDown={onEnterListener}
       />
-      <EmojiButton onClick={onEmojiButtonClick} />
-      <SendButton onClick={onSendButtonClick} />
+      <div className="absolute right-10pxr flex items-center gap-10pxr">
+        <EmojiButton onClick={onEmojiButtonClick} />
+        <SendButton onClick={onSendButtonClick} />
+      </div>
     </div>
   )
 }
