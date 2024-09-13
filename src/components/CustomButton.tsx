@@ -14,6 +14,7 @@ interface ButtonBigProps {
  * @param size l, sm 사이즈 프롭
  * @param text 버튼 텍스트
  * @param onClick 클릭시 이벤트 핸들러 함수
+ * @param disabled boolean값으로 disable 제어
  */
 
 export default function CustomButton({
