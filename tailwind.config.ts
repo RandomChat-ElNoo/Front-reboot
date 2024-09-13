@@ -44,6 +44,7 @@ const config = {
         'chat-box': '#595C6C',
         'chat-box-me': '#575B78',
         'text-placeHolder': '#C7C8D1',
+        'text-box': '#404048',
         'alert-red': '#F23F42',
       },
       boxShadow: {
