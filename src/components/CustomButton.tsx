@@ -23,12 +23,14 @@ export default function CustomButton({
 }: ButtonBigProps) {
   const themeColor = type === 'meetNow' ? '#5865F2' : '#909090'
   const classNames =
-    size === 'l' ? 'px-10pxr py-9pxr text-22pxr' : 'px-9pxr py-8pxr text-18pxr'
+    size === 'l'
+      ? 'px-10pxr py-9pxr text-22pxr tb:px-9pxr tb:py-8pxr tb:text-18pxr'
+      : 'px-9pxr py-8pxr text-18pxr'
   return (
     <ConfigProvider
       theme={{
         components: {
-          Button: {},
+          Button: { lineHeight: 1 },
         },
         token: {
           colorPrimary: themeColor,
@@ -37,7 +39,7 @@ export default function CustomButton({
     >
       <Button
         type="primary"
-        className={`${classNames} h-fit w-fit rounded-[10px]`}
+        className={`${classNames} h-fit w-fit rounded-[10px] font-semibold leading-none`}
         onClick={onClick}
       >
         {text}

@@ -1,4 +1,4 @@
-import { HomeFilled, MoreOutlined } from '@ant-design/icons'
+import { CloseOutlined, HomeFilled, MoreOutlined } from '@ant-design/icons'
 import SideBarMenuButton from './SideBarMenuButton'
 import usePageStore from '../../store/usePageStore'
 import { Divider } from 'antd'
@@ -7,6 +7,7 @@ import Options from './Options'
 import { useState } from 'react'
 import SideBarMeetNowButton from './SideBarMeetNowButton'
 import useChatStore from '../../store/useChatStore'
+import useGlobalStateStore from '../../store/useGlobalStateStore'
 
 const sideButtons = [
   { title: '홈', icon: <HomeFilled className="text-28pxr text-white" /> },
@@ -24,13 +25,20 @@ const sideButtons = [
   },
 ]
 
+/** 채팅창과 당장만나를 고를 수 있는 사이드 메뉴*/
+
 export default function SideBar() {
   const { randomChatMeetNow, groupChatMeetNow } = useChatStore()
+  const { setIsSideBarOpen } = useGlobalStateStore()
   const { page, setPage } = usePageStore()
   const { avatar } = useOptionStore()
   const [isOptionOpen, setIsOptionOpen] = useState(false)
   const isMeetNow =
     randomChatMeetNow.length !== 0 || groupChatMeetNow.length !== 0
+
+  const toggleOptionTransitionClass = isOptionOpen
+    ? '-translate-y-[295px]'
+    : '-translate-y-[60px]'
 
   const handleOption = () => {
     setIsOptionOpen((prev) => !prev)
@@ -39,13 +47,24 @@ export default function SideBar() {
   const closeOption = () => {
     setIsOptionOpen(false)
   }
-  const toggleOptionTransitionClass = isOptionOpen
-    ? '-translate-y-[295px]'
-    : '-translate-y-[60px]'
+
+  const closeSideBar = () => {
+    setIsSideBarOpen(false)
+  }
+
   return (
     <div className="z-0 h-screen w-260pxr shrink-0 select-none overflow-hidden bg-background-sidebar">
-      <section className="flex h-50pxr w-full flex-row items-center justify-center bg-background-sidebar shadow-top-shadow">
+      <section className="relative flex h-50pxr w-full flex-row items-center justify-center bg-background-sidebar shadow-top-shadow">
         <img src="/imgs/svgs/logo-text.svg" className="h-40pxr" />
+        <button
+          onClick={closeSideBar}
+          className="tb:block absolute right-11pxr hidden"
+        >
+          <CloseOutlined
+            onClick={closeOption}
+            style={{ fontSize: '28px', color: 'white' }}
+          />
+        </button>
       </section>
       <section className="h-[calc(100%-110px)] w-full overflow-y-scroll pt-10pxr">
         <div className="flex flex-col items-center gap-10pxr">
