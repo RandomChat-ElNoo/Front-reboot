@@ -20,6 +20,7 @@ export default function ContactModal({
     <Modal
       closeIcon={null}
       open={isOpen}
+      onCancel={closeModal}
       width={240}
       title={
         <div className="flex flex-row justify-center">
