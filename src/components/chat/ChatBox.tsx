@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react'
 import formatTime from '../../utills/formatTime'
+import isImageFile from '../../utills/isImageFile'
 import CustomButton from '../CustomButton'
+import ReplaceUrl from './ReplaceUrl'
 
 interface ChatBoxProps {
   context: string
@@ -23,24 +26,33 @@ export default function ChatBox({
   type,
   url,
 }: ChatBoxProps) {
+  const [isImg, setIsImg] = useState(false)
   const color = isMine ? 'bg-chat-box-me' : 'bg-chat-box'
   const timeDirection = isMine ? 'flex-row-reverse' : ''
-  const classNames = `${color} break-words text-wrap justify-start flex flex-col gap-10pxr max-w-500pxr rounded-[15px]`
+  const classNames = `${color} break-words text-wrap max-w-500pxr rounded-[15px]`
 
   const fomattedTime = formatTime(writingTime)
 
+  useEffect(() => {
+    const isImgUrl = async () => {
+      const isimg = await isImageFile(context)
+      setIsImg(type === 'chat' && isimg)
+    }
+    isImgUrl()
+  }, [context])
   return (
-    <pre
-      className={`${timeDirection} text-['Pretendard Variable'] flex w-full items-end gap-5pxr`}
-    >
+    <pre className={`${timeDirection} flex w-full items-end gap-5pxr`}>
       {type === 'chat' ? (
-        <p
-          className={`${classNames} px-15pxr py-7pxr text-16pxr leading-[140%]`}
-        >
-          {context.trim()}
-        </p>
+        <ReplaceUrl
+          className="text-16pxr leading-[140%]"
+          text={context.trim()}
+          isImage={isImg}
+          isMine={isMine}
+        />
       ) : (
-        <div className={`${classNames} w-340pxr p-15pxr`}>
+        <div
+          className={`${classNames} flex w-340pxr flex-col justify-start gap-10pxr p-15pxr`}
+        >
           <p className="text-24pxr">당장만나!</p>
           <p className="text-16pxr leading-[140%]">{context.trim()}</p>
           <div className="flex w-full justify-end">
