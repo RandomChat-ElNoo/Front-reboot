@@ -1,7 +1,9 @@
+import { Divider } from 'antd'
 import ChatBox from './ChatBox'
 
 interface ChatListProps {
   chatList: Chat[]
+  isConnected: boolean
 }
 
 /**
@@ -9,9 +11,19 @@ interface ChatListProps {
  * @param chatList - 채팅 박스 리스트
  */
 
-export default function ChatList({ chatList }: ChatListProps) {
+export default function ChatList({ chatList, isConnected }: ChatListProps) {
   return (
-    <div className="flex max-h-full max-w-1203pxr flex-col gap-20pxr overflow-y-auto">
+    <div className="flex h-full max-w-1200pxr flex-col gap-20pxr px-20pxr pt-20pxr">
+      {isConnected ? (
+        <Divider
+          className="border-white"
+          style={{ borderColor: 'white', margin: '0px' }}
+        >
+          채팅에 연결되었습니다!
+        </Divider>
+      ) : (
+        ''
+      )}
       {chatList.map((chat) => (
         <ChatBox
           key={chat.time.toString()}
