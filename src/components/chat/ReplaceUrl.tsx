@@ -65,13 +65,15 @@ export default function ReplaceUrl({
               setter={setLinkWarningModal}
             />
             {useImgTag ? (
-              <button className="max-h-600pxr max-w-700pxr" onClick={handleImg}>
-                <img className="w-full" key={index} src={matches[index]} />
+              <button className="max-h-450pxr max-w-700pxr" onClick={handleImg}>
+                <img
+                  className="max-h-450pxr max-w-700pxr object-contain"
+                  key={index}
+                  src={matches[index]}
+                />
               </button>
             ) : (
-              <div
-                className={`${color} max-w-500pxr text-wrap break-words rounded-[15px] px-15pxr py-7pxr`}
-              >
+              <>
                 <a
                   key={index}
                   href={matches[index]}
@@ -80,7 +82,7 @@ export default function ReplaceUrl({
                 >
                   {matches[index]}
                 </a>
-              </div>
+              </>
             )}
           </>,
         )
@@ -90,5 +92,13 @@ export default function ReplaceUrl({
     [] as (string | JSX.Element)[],
   )
 
-  return <>{linkifiedText}</>
+  return useImgTag ? (
+    <>{linkifiedText}</>
+  ) : (
+    <div
+      className={`${color} max-w-500pxr text-wrap break-words rounded-[15px] px-15pxr py-7pxr`}
+    >
+      {linkifiedText}
+    </div>
+  )
 }
