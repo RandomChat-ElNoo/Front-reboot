@@ -41,11 +41,8 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
 
   // 연결되어있어야 버튼이 활성화 되는 조건문
   const isConnected =
-    page === 1 && isGroupChatConnected
-      ? true
-      : page === 2 && isRandomChatConnected
-        ? true
-        : false
+    (page === 1 && isGroupChatConnected) ||
+    (page === 2 && isRandomChatConnected)
 
   // 당장만나 버튼의 비활성화 조건문
   const canCreateMeetNow =
