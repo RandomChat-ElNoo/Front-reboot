@@ -3,6 +3,9 @@ import usePageStore from '../store/usePageStore'
 import CustomButton from './CustomButton'
 import useChatStore from '../store/useChatStore'
 import useGlobalStateStore from '../store/useGlobalStateStore'
+import { groupChatWorker, randomChatWorker } from '../pages/Main'
+import CreateMeetNowModal from './chat/CreateMeetNowModal'
+import useCanGroupChatMeetNowStore from '../store/useCanGroupChatMeetNowStore'
 
 interface TopBarProps {
   onClickSideBarButton: () => void
@@ -10,14 +13,17 @@ interface TopBarProps {
 
 /** 상단 바
  * @param onClickSideBarButton 사이드 바를 닫아주는 함수
- * @todo indicatorColor 나중에 연결 상태값 넣어주기
+ * @todo canCreateMeetNow 랜덤챗 만들때 수정해야함
  */
 
 export default function TopBar({ onClickSideBarButton }: TopBarProps) {
-  const { groupChatUserCount, opponentAvatar } = useChatStore()
+  const { groupChatUserCount, setGroupChatUserCount, opponentAvatar } =
+    useChatStore()
   const { isRandomChatConnected, isGroupChatConnected } = useGlobalStateStore()
+  const { canCreateGroupMeetNow } = useCanGroupChatMeetNowStore()
   const { page, setPage } = usePageStore()
   const [title, setTitle] = useState('홈')
+  const [isOpenCreateModal, setIsOpenCreateModal] = useState(false)
 
   const indicatorColor = [
     { page: 0, color: '' },
@@ -33,8 +39,35 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
 
   const isChatting = page === 0 ? 'hidden' : ''
 
-  const clickMeetNow = () => {}
-  const clickExit = () => {
+  // 연결되어있어야 버튼이 활성화 되는 조건문
+  const isConnected =
+    page === 1 && isGroupChatConnected
+      ? true
+      : page === 2 && isRandomChatConnected
+        ? true
+        : false
+
+  // 당장만나 버튼의 비활성화 조건문
+  const canCreateMeetNow =
+    page === 1 ? canCreateGroupMeetNow : page === 2 ? false : false // 랜덤챗 만들때 수정해야함
+
+  const closeModal = () => {
+    setIsOpenCreateModal(false)
+  }
+
+  // 당장만나 버튼 클릭시
+  const handleClickMeetNow = () => {
+    setIsOpenCreateModal(true)
+  }
+
+  const handleClickExit = () => {
+    // 나가기 버튼 클릭시
+    if (page === 1) {
+      groupChatWorker.postMessage(['exit'])
+    } else if (page === 2) {
+      randomChatWorker.postMessage(['exit'])
+    }
+    setGroupChatUserCount(0)
     setPage(0)
   }
 
@@ -51,6 +84,12 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
         break
     }
   }, [page])
+  console.log(
+    'isConnected,canCreateMeetNow,canCreateGroupMeetNow',
+    isConnected,
+    canCreateMeetNow,
+    canCreateGroupMeetNow,
+  )
 
   return (
     <div className="relative flex h-50pxr w-full shrink-0 flex-col items-center bg-background-main shadow-top-shadow">
@@ -60,13 +99,20 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
             type="meetNow"
             size="l"
             text="당장만나"
-            onClick={clickMeetNow}
+            onClick={handleClickMeetNow}
+            disabled={isConnected ? !canCreateMeetNow : true}
+          />
+          <CreateMeetNowModal
+            isOpen={isOpenCreateModal}
+            closeModal={closeModal}
+            isOpenSetter={setIsOpenCreateModal}
           />
           <CustomButton
             type="exit"
             size="l"
             text="나가기"
-            onClick={clickExit}
+            onClick={handleClickExit}
+            disabled={!isConnected}
           />
         </div>
       )}
@@ -89,7 +135,7 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
             <div
               className={`${indicatorColor[page].color} h-12pxr w-12pxr rounded-full`}
             />
-            {page === 1 ? (
+            {page === 1 && groupChatUserCount !== 0 ? (
               <p>{groupChatUserCount}명 채팅중</p>
             ) : page === 2 ? (
               <p>{opponentAvatar}</p>
