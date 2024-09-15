@@ -10,6 +10,13 @@ body {
   background-color: #2e2f38;
 }
 
+pre {
+  font-family: 'Pretendard Variable';
+  word-wrap: break-word;
+  color: white;
+  line-height: 140%;
+}
+
 ::-webkit-scrollbar {
   width: 3px; /* 수직 스크롤바 너비 */
   height: 3px; /* 수평 스크롤바 높이 */

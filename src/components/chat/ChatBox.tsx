@@ -30,17 +30,19 @@ export default function ChatBox({
   const fomattedTime = formatTime(writingTime)
 
   return (
-    <div className={`${timeDirection} flex w-full items-end gap-5pxr`}>
+    <pre
+      className={`${timeDirection} text-['Pretendard Variable'] flex w-full items-end gap-5pxr`}
+    >
       {type === 'chat' ? (
-        <div
+        <p
           className={`${classNames} px-15pxr py-7pxr text-16pxr leading-[140%]`}
         >
-          {context}
-        </div>
+          {context.trim()}
+        </p>
       ) : (
         <div className={`${classNames} w-340pxr p-15pxr`}>
           <p className="text-24pxr">당장만나!</p>
-          <p className="text-16pxr leading-[140%]">{context}</p>
+          <p className="text-16pxr leading-[140%]">{context.trim()}</p>
           <div className="flex w-full justify-end">
             <CustomButton
               onClick={() => open(url)}
@@ -52,6 +54,6 @@ export default function ChatBox({
         </div>
       )}
       <div className="text-13pxr">{fomattedTime}</div>
-    </div>
+    </pre>
   )
 }
