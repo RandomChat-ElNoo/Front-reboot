@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ChatList from './ChatList'
 import TextInputBox from './TextInputBox'
 import useChatStore from '../../store/useChatStore'
@@ -27,13 +27,14 @@ export default function GroupChatPage() {
   const [inputValue, setInputValue] = useState('')
   const [canSendMessage, setCanSendMessage] = useState(true)
   const [api, contextHolder] = notification.useNotification()
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   const openNotification = () => {
     api['error']({
       message: '조금 천천히 입력해주세요',
       className: 'bg-[#343439] rounded-[5px]',
       closeIcon: null,
-      duration: 0.5,
+      duration: 0.7,
     })
   }
 
@@ -61,19 +62,32 @@ export default function GroupChatPage() {
       return
     }
 
+    const formattedValue = inputValue.slice(0, 300).replace(/\n{3,}/g, '\n\n')
+
+    const LineCount = (formattedValue.match(/\n/g) || []).length // 줄바꿈 개수
+
+    let result = formattedValue
+
+    if (LineCount > 4) {
+      const lines = formattedValue.split('\n') // 줄바꿈 기준으로 나누기
+      const newlineLimitedText = lines.slice(0, 5).join('\n') // 줄바꿈 5개까지만 남기기
+      const remainingText = lines.slice(5).join(' ') // 나머지 문자는 줄바꿈 없이 이어 붙이기
+      result = newlineLimitedText + ' ' + remainingText //
+    }
+
     const newChat = [...groupChat]
     newChat.push({
       isMine: true,
       type: 'chat',
-      context: inputValue,
+      context: result,
       time: new Date().toISOString(),
     })
     setGroupChat(newChat)
-    const data = ['chat', inputValue, JSON.stringify(new Date())]
+    const data = ['chat', result, JSON.stringify(new Date())]
     groupChatWorker.postMessage(data)
     setCanSendMessage(false)
 
-    const timerId = setTimeout(() => {
+    setTimeout(() => {
       setCanSendMessage(true)
     }, 1000)
 
@@ -81,7 +95,7 @@ export default function GroupChatPage() {
   }
 
   useEffect(() => {
-    groupChatWorker.onmessage = (e) => {
+    const handleWorkerMessage = (e: any) => {
       // 워커가 컴포넌트로 보내준 메시지를 처리하는 곳
       console.log('From Worker', e.data)
       let data
@@ -117,6 +131,7 @@ export default function GroupChatPage() {
             time: data[2] as string,
           }
           setGroupChat((prevGroupChat) => [...prevGroupChat, newChat])
+          console.log('page :', page)
           if (page !== 1) {
             setGroupChatAlert((prev) => prev + 1)
           }
@@ -150,20 +165,40 @@ export default function GroupChatPage() {
           break
       }
     }
+
     const closeSocket = () => {
       groupChatWorker.postMessage(['close'])
     }
+
+    groupChatWorker.addEventListener('message', handleWorkerMessage)
     window.addEventListener('beforeunload', closeSocket)
     return () => {
+      groupChatWorker.removeEventListener('message', handleWorkerMessage)
       window.removeEventListener('beforeunload', closeSocket)
     }
-  }, [])
+  }, [page])
+
+  useEffect(() => {
+    if (!scrollRef.current) return
+
+    const { scrollTop, scrollHeight, offsetHeight } = scrollRef.current
+
+    const doScrollDown = scrollTop > scrollHeight - offsetHeight * 1.5
+
+    if (doScrollDown) {
+      scrollRef.current.scrollTop = scrollHeight
+      return
+    }
+  }, [groupChat])
 
   return (
     <div className="flex h-full w-full flex-row justify-center">
       {contextHolder}
       <div className="relative w-full">
-        <div className="h-[calc(100%-76px)] w-full overflow-y-scroll">
+        <div
+          ref={scrollRef}
+          className="h-[calc(100%-76px)] w-full overflow-y-scroll"
+        >
           <div className="mx-auto max-w-1200pxr">
             <ChatList chatList={groupChat} isConnected={isGroupChatConnected} />
           </div>
