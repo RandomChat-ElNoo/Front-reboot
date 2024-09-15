@@ -52,7 +52,7 @@ export default function MeetNowModal({
         </div>
       }
     >
-      <p className="mt-10pxr text-16pxr"> {context}</p>
+      <p className="mt-10pxr text-16pxr leading-[140%]"> {context}</p>
     </Modal>
   )
 }

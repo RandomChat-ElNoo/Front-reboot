@@ -38,13 +38,13 @@ export default function SideBarMenuButton({
       <p className="text-18pxr">{title}</p>
       <div className="absolute -top-7pxr right-0pxr">
         {buttonAlert.map((item) => (
-          <>
+          <div key={item.title}>
             {title === item.title && item.alertType > 0 && (
               <div className="flex h-28pxr w-28pxr items-center justify-center rounded-full bg-alert-red">
                 {item.alertType > 10 ? '10⁺' : item.alertType}
               </div>
             )}
-          </>
+          </div>
         ))}
       </div>
     </button>

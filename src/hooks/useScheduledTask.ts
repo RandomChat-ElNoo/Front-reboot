@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 interface UseScheduledTaskProps {
-  targetDate: Date
+  targetDate: string | null
   callback: () => void
 }
 
@@ -12,10 +12,14 @@ interface UseScheduledTaskProps {
 
 function useScheduledTask({ targetDate, callback }: UseScheduledTaskProps) {
   useEffect(() => {
+    if (!targetDate) return
+
+    const formattedDate = new Date(targetDate)
+    console.log(formattedDate)
     const now = new Date()
 
     // 타겟 시간이 현재 시간보다 이전이면 실행하지 않음
-    const timeDifference = targetDate.getTime() - now.getTime()
+    const timeDifference = formattedDate.getTime() - now.getTime()
 
     if (timeDifference <= 0) {
       // 이미 시간이 지난 경우 바로 true 설정

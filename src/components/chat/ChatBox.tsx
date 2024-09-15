@@ -1,16 +1,15 @@
-import formatTime from '../utills/formatTime'
-import CustomButton from './CustomButton'
+import formatTime from '../../utills/formatTime'
+import CustomButton from '../CustomButton'
 
 interface ChatBoxProps {
   context: string
-  writingTime: Date
+  writingTime: string
   isMine: boolean
   type: 'chat' | 'meetNow'
   url?: string
 }
 /**
- * main 화면에서 보여일 버튼
- *
+ * 채팅 내용을 보여주는 컨테이너 컴포넌트
  * @component
  * @param title - 버튼의 큰 글씨
  * @param context - 버튼의 작은 글씨
@@ -26,20 +25,24 @@ export default function ChatBox({
 }: ChatBoxProps) {
   const color = isMine ? 'bg-chat-box-me' : 'bg-chat-box'
   const timeDirection = isMine ? 'flex-row-reverse' : ''
-  const classNames = `${color} text-wrap justify-start flex flex-col gap-10pxr max-w-600pxr rounded-[15px]`
+  const classNames = `${color} break-words text-wrap justify-start flex flex-col gap-10pxr max-w-500pxr rounded-[15px]`
 
   const fomattedTime = formatTime(writingTime)
 
   return (
-    <div className={`${timeDirection} flex w-full items-end gap-5pxr`}>
+    <pre
+      className={`${timeDirection} text-['Pretendard Variable'] flex w-full items-end gap-5pxr`}
+    >
       {type === 'chat' ? (
-        <div className={`${classNames} px-15pxr py-7pxr text-16pxr`}>
-          {context}
-        </div>
+        <p
+          className={`${classNames} px-15pxr py-7pxr text-16pxr leading-[140%]`}
+        >
+          {context.trim()}
+        </p>
       ) : (
         <div className={`${classNames} w-340pxr p-15pxr`}>
-          <p className="text-24pxr">당장 만나</p>
-          <p className="text-16pxr">{context}</p>
+          <p className="text-24pxr">당장만나!</p>
+          <p className="text-16pxr leading-[140%]">{context.trim()}</p>
           <div className="flex w-full justify-end">
             <CustomButton
               onClick={() => open(url)}
@@ -51,6 +54,6 @@ export default function ChatBox({
         </div>
       )}
       <div className="text-13pxr">{fomattedTime}</div>
-    </div>
+    </pre>
   )
 }

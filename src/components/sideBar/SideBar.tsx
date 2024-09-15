@@ -58,7 +58,7 @@ export default function SideBar() {
         <img src="/imgs/svgs/logo-text.svg" className="h-40pxr" />
         <button
           onClick={closeSideBar}
-          className="tb:block absolute right-11pxr hidden"
+          className="absolute right-11pxr hidden tb:block"
         >
           <CloseOutlined
             onClick={closeOption}
@@ -69,7 +69,7 @@ export default function SideBar() {
       <section className="h-[calc(100%-110px)] w-full overflow-y-scroll pt-10pxr">
         <div className="flex flex-col items-center gap-10pxr">
           {sideButtons.map((item, index) => (
-            <>
+            <div key={item.title}>
               <SideBarMenuButton
                 title={item.title}
                 icon={item.icon}
@@ -80,13 +80,13 @@ export default function SideBar() {
               />
               {index === 0 && (
                 <Divider
-                  className="border-white px-10pxr"
+                  className="border-white px-10pxr pt-10pxr"
                   style={{ borderColor: 'white', margin: '0px' }}
                 >
                   채팅
                 </Divider>
               )}
-            </>
+            </div>
           ))}
           {isMeetNow && (
             <Divider
@@ -99,7 +99,7 @@ export default function SideBar() {
           <div className="flex w-full flex-col gap-10pxr px-10pxr">
             {randomChatMeetNow.map((item) => (
               <SideBarMeetNowButton
-                key={item.time.toISOString()}
+                key={item.time}
                 context={item.message}
                 time={item.time}
                 link={item.url}
@@ -108,7 +108,7 @@ export default function SideBar() {
             ))}
             {groupChatMeetNow.map((item) => (
               <SideBarMeetNowButton
-                key={item.time.toISOString()}
+                key={item.time}
                 context={item.message}
                 time={item.time}
                 link={item.url}
