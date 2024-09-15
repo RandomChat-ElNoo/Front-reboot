@@ -13,10 +13,9 @@ export const groupChatWorker = new Worker(
 )
 
 /** 메인페이지 컴포넌트
- * @todo 채팅에 타이머 1초걸기
- * @todo 채팅방 연결하기 디자인넣기
  * @todo 채팅링크 판별 + 이미지 미리보기
  * @todo 이모지 디자인
+ * @todo 채팅방 연결하기 디자인넣기
  */
 
 export default function Main() {
