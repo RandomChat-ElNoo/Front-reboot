@@ -7,8 +7,10 @@ interface EmojiButtonProps {
 
 /**
  * 이모지 버튼
- * @param onClick - 버튼 클릭 시 실행될 콜백 함수
+ * @param onClick 버튼 클릭 시 실행될 콜백 함수
+ * @param disabled 버튼 비활성화 boolean
  */
+
 export default function EmojiButton({ onClick, disabled }: EmojiButtonProps) {
   return (
     <button

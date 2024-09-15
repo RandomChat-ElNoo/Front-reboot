@@ -8,6 +8,7 @@ interface SendButtonProps {
 /**
  * 채팅 보내기 버튼
  * @param onClick - 버튼을 눌렀을 때 이벤트 핸들러
+ * @param disabled 버튼 비활성화 boolean
  */
 export default function SendButton({ onClick, disabled }: SendButtonProps) {
   return (

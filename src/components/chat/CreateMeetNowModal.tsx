@@ -12,10 +12,10 @@ interface CreateMeetNowModalProps {
 }
 
 /**
- * 문의하기 모달
- * @param isOpen - 모달창 열고 닫는 boolean 값
- * @param closeModal - 모달창을 닫는 함수
- *
+ * 상단바에 당장만나를 눌렀을 시 나오는 당장만나 만들기 모달
+ * @param isOpen 모달창 열고 닫는 boolean 값
+ * @param closeModal 모달창을 닫는 함수
+ * @param isOpenSetter isOpen의 setter 함수
  */
 
 export default function CreateMeetNowModal({
