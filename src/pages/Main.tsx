@@ -5,7 +5,19 @@ import Pages from '../components/Pages'
 import useGlobalStateStore from '../store/useGlobalStateStore'
 import usePageStore from '../store/usePageStore'
 
-/** 메인페이지 컴포넌트 */
+export const randomChatWorker = new Worker(
+  new URL('../workers/randomChatWorker.js', import.meta.url),
+)
+export const groupChatWorker = new Worker(
+  new URL('../workers/groupChatWorker.js', import.meta.url),
+)
+
+/** 메인페이지 컴포넌트
+ * @todo 채팅에 타이머 1초걸기
+ * @todo 채팅방 연결하기 디자인넣기
+ * @todo 채팅링크 판별 + 이미지 미리보기
+ * @todo 이모지 디자인
+ */
 
 export default function Main() {
   const { isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
