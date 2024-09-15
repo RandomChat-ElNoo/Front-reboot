@@ -39,7 +39,7 @@ export default function GroupChatPage() {
   }
 
   useScheduledTask({
-    targetDate: expiredTime ? expiredTime : null,
+    targetDate: expiredTime || null,
     callback: () => {
       setCanCreateGroupMeetNow(true)
     },

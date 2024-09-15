@@ -8,7 +8,8 @@ interface ChatListProps {
 
 /**
  * 채팅 말풍선이 표시될 리스트 박스
- * @param chatList - 채팅 박스 리스트
+ * @param chatList 채팅 박스 리스트
+ * @param isConnected 연결되어있는지 boolean값
  */
 
 export default function ChatList({ chatList, isConnected }: ChatListProps) {

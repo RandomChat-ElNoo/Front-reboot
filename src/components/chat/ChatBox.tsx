@@ -9,7 +9,7 @@ interface ChatBoxProps {
   url?: string
 }
 /**
- * main 화면에서 보여일 버튼
+ * 채팅 내용을 보여주는 컨테이너 컴포넌트
  * @component
  * @param title - 버튼의 큰 글씨
  * @param context - 버튼의 작은 글씨
