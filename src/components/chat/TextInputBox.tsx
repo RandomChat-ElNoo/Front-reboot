@@ -30,24 +30,26 @@ export default function TextInputBox({
   handleSendMessage,
 }: TextInputBoxProps) {
   const onEnterListener = (event: React.KeyboardEvent) => {
-    if (event.key && event.key !== 'Enter') {
-      return
+    if (event.key === 'Enter' && !event.shiftKey) {
+      // 기본 동작 방지 (새 줄 추가 방지)
+      event.preventDefault()
+      handleSendMessage(event) // 메시지 보내는 로직 실행
     }
-    handleSendMessage(event)
-  }
-  const handleOnChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value)
   }
 
+  const handleOnChangeInput = (e: any) => {
+    setInputValue(e.target.value)
+  }
+  console.log(inputValue)
   return (
-    <div className="relative flex h-fit w-full max-w-1200pxr items-center gap-10pxr rounded-[10px] bg-text-box px-20pxr py-5pxr">
-      <input
-        type="text"
+    <div className="relative flex h-46pxr w-full max-w-1200pxr items-center gap-10pxr rounded-[10px] bg-text-box px-20pxr py-5pxr">
+      <textarea
+        rows={1}
         maxLength={300}
         value={inputValue}
         onChange={handleOnChangeInput}
         placeholder="메시지 보내기"
-        className="h-36pxr w-full rounded-[10px] bg-text-box pr-90pxr focus:outline-none"
+        className="h-23pxr w-full resize-none overflow-hidden bg-text-box pr-90pxr text-16pxr leading-[140%] focus:outline-none"
         onKeyDown={onEnterListener}
         disabled={disabled}
       />

@@ -9,6 +9,7 @@ import usePageStore from '../../store/usePageStore'
 import useChatAlertStore from '../../store/useChatAlertStore'
 import useScheduledTask from '../../hooks/useScheduledTask'
 import useCanGroupChatMeetNowStore from '../../store/useCanGroupChatMeetNowStore'
+import { notification } from 'antd'
 
 export default function GroupChatPage() {
   const {
@@ -24,6 +25,17 @@ export default function GroupChatPage() {
     useCanGroupChatMeetNowStore()
   const { page } = usePageStore()
   const [inputValue, setInputValue] = useState('')
+  const [canSendMessage, setCanSendMessage] = useState(true)
+  const [api, contextHolder] = notification.useNotification()
+
+  const openNotification = () => {
+    api['error']({
+      message: '조금 천천히 입력해주세요',
+      className: 'bg-[#343439] rounded-[5px]',
+      closeIcon: null,
+      duration: 0.5,
+    })
+  }
 
   useScheduledTask({
     targetDate: expiredTime ? expiredTime : null,
@@ -40,7 +52,14 @@ export default function GroupChatPage() {
 
   // 채팅 보내기
   const SendMessage = () => {
-    if (inputValue.trim() === '') return
+    if (inputValue.trim() === '') {
+      setInputValue('')
+      return
+    }
+    if (!canSendMessage) {
+      openNotification()
+      return
+    }
 
     const newChat = [...groupChat]
     newChat.push({
@@ -52,6 +71,12 @@ export default function GroupChatPage() {
     setGroupChat(newChat)
     const data = ['chat', inputValue, JSON.stringify(new Date())]
     groupChatWorker.postMessage(data)
+    setCanSendMessage(false)
+
+    const timerId = setTimeout(() => {
+      setCanSendMessage(true)
+    }, 1000)
+
     setInputValue('')
   }
 
@@ -136,6 +161,7 @@ export default function GroupChatPage() {
 
   return (
     <div className="flex h-full w-full flex-row justify-center">
+      {contextHolder}
       <div className="relative w-full">
         <div className="h-[calc(100%-76px)] w-full overflow-y-scroll">
           <div className="mx-auto max-w-1200pxr">
