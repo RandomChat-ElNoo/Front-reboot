@@ -4,7 +4,7 @@ import MeetNowModal from './MeetNowModal'
 
 interface SideBarMeetNowButtonProps {
   context: string
-  time: Date
+  time: string
   link: string
   isRandomChat: boolean
 }

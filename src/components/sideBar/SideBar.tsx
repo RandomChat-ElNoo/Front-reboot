@@ -99,7 +99,7 @@ export default function SideBar() {
           <div className="flex w-full flex-col gap-10pxr px-10pxr">
             {randomChatMeetNow.map((item) => (
               <SideBarMeetNowButton
-                key={item.time.toISOString()}
+                key={item.time}
                 context={item.message}
                 time={item.time}
                 link={item.url}
@@ -108,7 +108,7 @@ export default function SideBar() {
             ))}
             {groupChatMeetNow.map((item) => (
               <SideBarMeetNowButton
-                key={item.time.toISOString()}
+                key={item.time}
                 context={item.message}
                 time={item.time}
                 link={item.url}

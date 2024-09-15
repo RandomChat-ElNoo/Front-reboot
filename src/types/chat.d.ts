@@ -2,7 +2,7 @@ interface Chat {
   isMine: boolean
   type: 'chat' | 'meetNow'
   context: string
-  time: Date
+  time: string
   link?: string
 }
 
@@ -10,6 +10,6 @@ interface MeetNow {
   isRandomChat: boolean
   message: string
   url: string
-  time: Date
-  endTime: Date
+  time: string
+  endTime?: Date
 }
