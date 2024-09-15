@@ -14,6 +14,7 @@ export default function Pages() {
   const homePageShown = page === 0 ? '' : 'hidden'
   const groupChatPageShown = page === 1 ? '' : 'hidden'
   const randomChatPageShown = page === 2 ? '' : 'hidden'
+
   useEffect(() => {
     if (page === 1) {
       setGroupChatAlert(0)

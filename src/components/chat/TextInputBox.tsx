@@ -40,7 +40,7 @@ export default function TextInputBox({
   const handleOnChangeInput = (e: any) => {
     setInputValue(e.target.value)
   }
-  console.log(inputValue)
+
   return (
     <div className="relative flex h-46pxr w-full max-w-1200pxr items-center gap-10pxr rounded-[10px] bg-text-box px-20pxr py-5pxr">
       <textarea
