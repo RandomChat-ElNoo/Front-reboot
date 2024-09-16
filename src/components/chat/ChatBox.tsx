@@ -13,10 +13,11 @@ interface ChatBoxProps {
 }
 /**
  * 채팅 내용을 보여주는 컨테이너 컴포넌트
- * @component
- * @param title - 버튼의 큰 글씨
- * @param context - 버튼의 작은 글씨
- * @param onClick - 클릭시 이벤트 핸들러 함수
+ * @param context 버튼의 작은 글씨
+ * @param writingTime 채팅친 시간
+ * @param isMine 내꺼인지 boolean
+ * @param type 채팅인지 당장만나인지
+ * @param url 당장 만나의 주소 값
  */
 
 export default function ChatBox({
@@ -35,8 +36,8 @@ export default function ChatBox({
 
   useEffect(() => {
     const isImgUrl = async () => {
-      const isimg = await isImageFile(context)
-      setIsImg(type === 'chat' && isimg)
+      const isImage = await isImageFile(context)
+      setIsImg(type === 'chat' && isImage)
     }
     isImgUrl()
   }, [context])

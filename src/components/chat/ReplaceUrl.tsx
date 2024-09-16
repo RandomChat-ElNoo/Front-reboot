@@ -56,37 +56,37 @@ export default function ReplaceUrl({
   const linkifiedText = parts.reduce(
     (acc, part, index) => {
       acc.push(part)
-      if (matches && matches[index]) {
-        acc.push(
-          <>
-            <LinkWarningModal
-              link={matches[index]}
-              open={linkWarningModal}
-              setter={setLinkWarningModal}
-            />
-            {useImgTag ? (
-              <button className="max-h-450pxr max-w-700pxr" onClick={handleImg}>
-                <img
-                  className="max-h-450pxr max-w-700pxr object-contain"
-                  key={index}
-                  src={matches[index]}
-                />
-              </button>
-            ) : (
-              <>
-                <a
-                  key={index}
-                  href={matches[index]}
-                  onClick={handleClickLink}
-                  className={`${className} text-blue-400 hover:underline`}
-                >
-                  {matches[index]}
-                </a>
-              </>
-            )}
-          </>,
-        )
-      }
+      if (!(matches && matches[index])) return acc
+      acc.push(
+        <>
+          <LinkWarningModal
+            link={matches[index]}
+            open={linkWarningModal}
+            setter={setLinkWarningModal}
+          />
+          {useImgTag ? (
+            <button className="h-fit w-fit" onClick={handleImg}>
+              <img
+                className="h-auto max-h-450pxr w-full max-w-700pxr object-contain"
+                key={index}
+                src={matches[index]}
+              />
+            </button>
+          ) : (
+            <>
+              <a
+                key={index}
+                href={matches[index]}
+                onClick={handleClickLink}
+                className={`${className} text-blue-400 hover:underline`}
+              >
+                {matches[index]}
+              </a>
+            </>
+          )}
+        </>,
+      )
+
       return acc
     },
     [] as (string | JSX.Element)[],
