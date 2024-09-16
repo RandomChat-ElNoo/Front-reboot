@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react'
 import formatTime from '../../utills/formatTime'
+import isImageFile from '../../utills/isImageFile'
 import CustomButton from '../CustomButton'
+import ReplaceUrl from './ReplaceUrl'
 
 interface ChatBoxProps {
   context: string
@@ -10,10 +13,11 @@ interface ChatBoxProps {
 }
 /**
  * 채팅 내용을 보여주는 컨테이너 컴포넌트
- * @component
- * @param title - 버튼의 큰 글씨
- * @param context - 버튼의 작은 글씨
- * @param onClick - 클릭시 이벤트 핸들러 함수
+ * @param context 버튼의 작은 글씨
+ * @param writingTime 채팅친 시간
+ * @param isMine 내꺼인지 boolean
+ * @param type 채팅인지 당장만나인지
+ * @param url 당장 만나의 주소 값
  */
 
 export default function ChatBox({
@@ -23,24 +27,33 @@ export default function ChatBox({
   type,
   url,
 }: ChatBoxProps) {
+  const [isImg, setIsImg] = useState(false)
   const color = isMine ? 'bg-chat-box-me' : 'bg-chat-box'
   const timeDirection = isMine ? 'flex-row-reverse' : ''
-  const classNames = `${color} break-words text-wrap justify-start flex flex-col gap-10pxr max-w-500pxr rounded-[15px]`
+  const classNames = `${color} break-words text-wrap max-w-500pxr rounded-[15px]`
 
   const fomattedTime = formatTime(writingTime)
 
+  useEffect(() => {
+    const isImgUrl = async () => {
+      const isImage = await isImageFile(context)
+      setIsImg(type === 'chat' && isImage)
+    }
+    isImgUrl()
+  }, [context])
   return (
-    <pre
-      className={`${timeDirection} text-['Pretendard Variable'] flex w-full items-end gap-5pxr`}
-    >
+    <pre className={`${timeDirection} flex w-full items-end gap-5pxr`}>
       {type === 'chat' ? (
-        <p
-          className={`${classNames} px-15pxr py-7pxr text-16pxr leading-[140%]`}
-        >
-          {context.trim()}
-        </p>
+        <ReplaceUrl
+          className="text-16pxr leading-[140%]"
+          text={context.trim()}
+          isImage={isImg}
+          isMine={isMine}
+        />
       ) : (
-        <div className={`${classNames} w-340pxr p-15pxr`}>
+        <div
+          className={`${classNames} flex w-340pxr flex-col justify-start gap-10pxr p-15pxr`}
+        >
           <p className="text-24pxr">당장만나!</p>
           <p className="text-16pxr leading-[140%]">{context.trim()}</p>
           <div className="flex w-full justify-end">

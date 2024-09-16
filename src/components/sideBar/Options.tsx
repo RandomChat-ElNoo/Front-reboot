@@ -61,7 +61,7 @@ export default function Options({ closeOption }: OptionsProps) {
             <Switch
               defaultValue={isRandomChatImgPreview}
               onChange={() => {
-                setIsRandomChatImgPreview(!isRandomChatImgPreview)
+                setIsGroupChatImgPreview(!isGroupChatImgPreview)
               }}
               className="h-22pxr w-44pxr bg-black"
             />
@@ -71,7 +71,7 @@ export default function Options({ closeOption }: OptionsProps) {
             <Switch
               defaultValue={isGroupChatImgPreview}
               onChange={() => {
-                setIsGroupChatImgPreview(!isGroupChatImgPreview)
+                setIsRandomChatImgPreview(!isRandomChatImgPreview)
               }}
               className="h-22pxr w-44pxr bg-black"
             />

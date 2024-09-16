@@ -17,7 +17,7 @@ export default function ChatList({ chatList, isConnected }: ChatListProps) {
     <div className="flex h-full max-w-1200pxr flex-col gap-20pxr px-20pxr pt-20pxr">
       {isConnected ? (
         <Divider
-          className="border-white"
+          className="border-white px-20pxr"
           style={{ borderColor: 'white', margin: '0px' }}
         >
           채팅에 연결되었습니다!
