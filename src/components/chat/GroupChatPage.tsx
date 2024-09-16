@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import ChatList from './ChatList'
-import TextInputBox from './TextInputBox'
-import useChatStore from '../../store/useChatStore'
 import { groupChatWorker } from '../../pages/Main'
-import useGlobalStateStore from '../../store/useGlobalStateStore'
+import { notification } from 'antd'
+import ChatList from './ChatList'
 import CustomButton from '../CustomButton'
+import TextInputBox from './TextInputBox'
+import useScroll from '../../hooks/useScroll'
+import useScheduledTask from '../../hooks/useScheduledTask'
+import useChatStore from '../../store/useChatStore'
+import useGlobalStateStore from '../../store/useGlobalStateStore'
 import usePageStore from '../../store/usePageStore'
 import useChatAlertStore from '../../store/useChatAlertStore'
-import useScheduledTask from '../../hooks/useScheduledTask'
 import useCanGroupChatMeetNowStore from '../../store/useCanGroupChatMeetNowStore'
-import { notification } from 'antd'
 
 export default function GroupChatPage() {
   const {
@@ -28,6 +29,8 @@ export default function GroupChatPage() {
   const [canSendMessage, setCanSendMessage] = useState(true)
   const [api, contextHolder] = notification.useNotification()
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  useScroll(scrollRef, [groupChat])
 
   const openNotification = () => {
     api['error']({
@@ -72,7 +75,7 @@ export default function GroupChatPage() {
       const lines = formattedValue.split('\n') // 줄바꿈 기준으로 나누기
       const newlineLimitedText = lines.slice(0, 5).join('\n') // 줄바꿈 5개까지만 남기기
       const remainingText = lines.slice(5).join(' ') // 나머지 문자는 줄바꿈 없이 이어 붙이기
-      result = newlineLimitedText + ' ' + remainingText //
+      result = newlineLimitedText + ' ' + remainingText
     }
 
     const newChat = [...groupChat]
@@ -98,12 +101,14 @@ export default function GroupChatPage() {
     const handleWorkerMessage = (e: any) => {
       // 워커가 컴포넌트로 보내준 메시지를 처리하는 곳
       console.log('From Worker', e.data)
+
       let data
       if (typeof e.data === 'string') {
         data = JSON.parse(e.data)
       } else {
         data = e.data
       }
+
       console.log('data :', data)
 
       switch (
@@ -177,19 +182,6 @@ export default function GroupChatPage() {
       window.removeEventListener('beforeunload', closeSocket)
     }
   }, [page])
-
-  useEffect(() => {
-    if (!scrollRef.current) return
-
-    const { scrollTop, scrollHeight, offsetHeight } = scrollRef.current
-
-    const doScrollDown = scrollTop > scrollHeight - offsetHeight * 1.5
-
-    if (doScrollDown) {
-      scrollRef.current.scrollTop = scrollHeight
-      return
-    }
-  }, [groupChat])
 
   return (
     <div className="flex h-full w-full flex-row justify-center">
