@@ -1,6 +1,5 @@
 import { CloseOutlined, HomeFilled, MoreOutlined } from '@ant-design/icons'
 import SideBarMenuButton from './SideBarMenuButton'
-import usePageStore from '../../store/usePageStore'
 import { Divider } from 'antd'
 import useOptionStore from '../../store/useOptionStore'
 import Options from './Options'
@@ -29,8 +28,7 @@ const sideButtons = [
 
 export default function SideBar() {
   const { randomChatMeetNow, groupChatMeetNow } = useChatStore()
-  const { setIsSideBarOpen } = useGlobalStateStore()
-  const { page, setPage } = usePageStore()
+  const { page, setPage, setIsSideBarOpen } = useGlobalStateStore()
   const { avatar } = useOptionStore()
   const [isOptionOpen, setIsOptionOpen] = useState(false)
   const isMeetNow =

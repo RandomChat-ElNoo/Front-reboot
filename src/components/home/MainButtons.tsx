@@ -2,8 +2,8 @@ import { useState } from 'react'
 import ContactModal from './ContactModal'
 import DonationModal from './DonationModal'
 import MainButton from './MainButton'
-import usePageStore from '../../store/usePageStore'
 import { notification } from 'antd'
+import useGlobalStateStore from '../../store/useGlobalStateStore'
 
 /**
  * main 화면에서 보여일 버튼들
@@ -12,7 +12,7 @@ import { notification } from 'antd'
 export default function MainButtons() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false)
-  const { setPage } = usePageStore()
+  const { setPage } = useGlobalStateStore()
   const [api, contextHolder] = notification.useNotification()
 
   const openNotificationWithIcon = (

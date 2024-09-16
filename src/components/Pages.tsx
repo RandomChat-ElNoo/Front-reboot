@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
-import usePageStore from '../store/usePageStore'
 import GroupChatPage from './chat/GroupChatPage'
 import Home from './home/Home'
 import useChatAlertStore from '../store/useChatAlertStore'
+import useGlobalStateStore from '../store/useGlobalStateStore'
 
 /**
  * 본문 부분에 랜더링 되는 부분
  * @todo page 들 연결해주기
  */
 export default function Pages() {
-  const { page } = usePageStore()
+  const { page } = useGlobalStateStore()
   const { setGroupChatAlert, setRandomChatAlert } = useChatAlertStore()
   const homePageShown = page === 0 ? '' : 'hidden'
   const groupChatPageShown = page === 1 ? '' : 'hidden'

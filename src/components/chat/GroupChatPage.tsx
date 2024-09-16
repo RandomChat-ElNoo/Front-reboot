@@ -8,7 +8,6 @@ import useScroll from '../../hooks/useScroll'
 import useScheduledTask from '../../hooks/useScheduledTask'
 import useChatStore from '../../store/useChatStore'
 import useGlobalStateStore from '../../store/useGlobalStateStore'
-import usePageStore from '../../store/usePageStore'
 import useChatAlertStore from '../../store/useChatAlertStore'
 import useCanGroupChatMeetNowStore from '../../store/useCanGroupChatMeetNowStore'
 
@@ -20,11 +19,10 @@ export default function GroupChatPage() {
     setGroupChatMeetNow,
   } = useChatStore()
   const { setGroupChatAlert } = useChatAlertStore()
-  const { isGroupChatConnected, setIsGroupChatConnected } =
+  const { page, isGroupChatConnected, setIsGroupChatConnected } =
     useGlobalStateStore()
   const { setCanCreateGroupMeetNow, expiredTime, setExpiredTime } =
     useCanGroupChatMeetNowStore()
-  const { page } = usePageStore()
   const [inputValue, setInputValue] = useState('')
   const [canSendMessage, setCanSendMessage] = useState(true)
   const [api, contextHolder] = notification.useNotification()

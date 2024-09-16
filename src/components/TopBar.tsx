@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import usePageStore from '../store/usePageStore'
 import CustomButton from './CustomButton'
 import useChatStore from '../store/useChatStore'
 import useGlobalStateStore from '../store/useGlobalStateStore'
@@ -19,9 +18,9 @@ interface TopBarProps {
 export default function TopBar({ onClickSideBarButton }: TopBarProps) {
   const { groupChatUserCount, setGroupChatUserCount, opponentAvatar } =
     useChatStore()
-  const { isRandomChatConnected, isGroupChatConnected } = useGlobalStateStore()
+  const { isRandomChatConnected, isGroupChatConnected, page, setPage } =
+    useGlobalStateStore()
   const { canCreateGroupMeetNow } = useCanGroupChatMeetNowStore()
-  const { page, setPage } = usePageStore()
   const [title, setTitle] = useState('홈')
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false)
 
