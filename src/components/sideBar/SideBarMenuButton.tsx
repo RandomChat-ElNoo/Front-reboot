@@ -4,7 +4,7 @@ import useChatAlertStore from '../../store/useChatAlertStore'
 interface SideBarMenuButtonProps {
   title: string
   icon: ReactNode
-  actived: boolean
+  active: boolean
   onClick: () => void
 }
 
@@ -12,17 +12,17 @@ interface SideBarMenuButtonProps {
  * 홈,랜덤채팅 같은 메뉴버튼
  * @param title 제목
  * @param icon ReactNode로 아이콘 넣어주기
- * @param actived 활성화 되어 있는지
+ * @param active 활성화 되어 있는지
  */
 
 export default function SideBarMenuButton({
   title,
   icon,
-  actived,
+  active,
   onClick,
 }: SideBarMenuButtonProps) {
   const { randomChatAlert, groupChatAlert } = useChatAlertStore()
-  const background = actived ? 'bg-button-sidebar-hover' : 'bg-transparent'
+  const background = active ? 'bg-button-sidebar-hover' : 'bg-transparent'
 
   const buttonAlert = [
     { title: '전체 채팅', alertType: groupChatAlert },

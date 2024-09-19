@@ -71,7 +71,7 @@ export default function SideBar() {
               <SideBarMenuButton
                 title={item.title}
                 icon={item.icon}
-                actived={page === index}
+                active={page === index}
                 onClick={() => {
                   setPage(index)
                 }}

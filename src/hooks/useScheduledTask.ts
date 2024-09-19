@@ -15,7 +15,6 @@ function useScheduledTask({ targetDate, callback }: UseScheduledTaskProps) {
     if (!targetDate) return
 
     const formattedDate = new Date(targetDate)
-    console.log(formattedDate)
     const now = new Date()
 
     // 타겟 시간이 현재 시간보다 이전이면 실행하지 않음
