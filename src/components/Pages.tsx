@@ -3,6 +3,7 @@ import GroupChatPage from './chat/GroupChatPage'
 import Home from './home/Home'
 import useChatAlertStore from '../store/useChatAlertStore'
 import useGlobalStateStore from '../store/useGlobalStateStore'
+import RandomChatPage from './chat/RandomChatPage'
 
 /**
  * 본문 부분에 랜더링 되는 부분
@@ -32,7 +33,9 @@ export default function Pages() {
       <div className={`${groupChatPageShown} h-full w-full`}>
         <GroupChatPage />
       </div>
-      <div className={`${randomChatPageShown} h-full w-full`}></div>
+      <div className={`${randomChatPageShown} h-full w-full`}>
+        <RandomChatPage />
+      </div>
     </div>
   )
 }
