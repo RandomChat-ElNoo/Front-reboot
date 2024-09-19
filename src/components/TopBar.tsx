@@ -126,7 +126,7 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
             <div className="h-5pxr w-35pxr rounded-full bg-white" />
           </div>
           {randomChatAlert > 0 && (
-            <div className="absolute -right-5pxr top-0pxr flex h-18pxr w-18pxr items-center justify-center rounded-full bg-alert-red text-14pxr">
+            <div className="absolute -right-5pxr top-0pxr hidden h-18pxr w-18pxr items-center justify-center rounded-full bg-alert-red text-14pxr tb:flex">
               {randomChatAlert > 10 ? '10⁺' : randomChatAlert}
             </div>
           )}
