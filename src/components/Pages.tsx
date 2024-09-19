@@ -27,7 +27,7 @@ export default function Pages() {
 
   return (
     <div className="h-[calc(100vh-50px)] w-full">
-      <div className={`${homePageShown} h-full w-full`}>
+      <div className={`${homePageShown} h-full w-full overflow-y-scroll`}>
         <Home />
       </div>
       <div className={`${groupChatPageShown} h-full w-full`}>
