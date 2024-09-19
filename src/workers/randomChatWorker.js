@@ -1,8 +1,8 @@
 /** 채팅은 socket.send("안녕"+","+"뉴데이트")
- * @todo 조인후 인터넷이 끊기면 클라이언트에서socket.onclose 발생 하는데
+ * @todo 소켓 함수 묶어주기 ( 재연결 로직 )
  */
 
-const socket = new WebSocket('https://api.vtalk.be/')
+let socket = new WebSocket('https://api.vtalk.be/')
 
 // 공통
 const SendMessage = (msg) => {
@@ -10,8 +10,8 @@ const SendMessage = (msg) => {
   socket.send(data)
 }
 
-const createWorld = () => {
-  const data = JSON.stringify(['createWorld'])
+const createWorld = (msg) => {
+  const data = JSON.stringify(['createWorld', msg])
   socket.send(data)
 }
 
@@ -91,9 +91,14 @@ self.onmessage = (e) => {
       break
 
     case 'createWorld':
-      createWorld()
+      if (msg) {
+        createWorld(msg)
+      }
       break
 
+    case 'reconnect':
+      socket = new WebSocket(`https://api.vtalk.be/?vtalt=${Id}`)
+      break
     default:
       console.error('Unknown message action:', action)
       break
@@ -103,4 +108,11 @@ self.onmessage = (e) => {
 socket.onmessage = (e) => {
   const response = JSON.parse(e.data)
   self.postMessage(response)
+}
+socket.onopen = () => {
+  getIdPrivateChat()
+}
+
+socket.onclose = () => {
+  self.postMessage(['getSavedId'])
 }
