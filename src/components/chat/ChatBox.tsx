@@ -3,12 +3,13 @@ import formatTime from '../../utills/formatTime'
 import isImageFile from '../../utills/isImageFile'
 import CustomButton from '../CustomButton'
 import ReplaceUrl from './ReplaceUrl'
+import { Divider } from 'antd'
 
 interface ChatBoxProps {
   context: string
   writingTime: string
   isMine: boolean
-  type: 'chat' | 'meetNow'
+  type: 'chat' | 'meetNow' | 'connect'
   url?: string
 }
 /**
@@ -43,30 +44,44 @@ export default function ChatBox({
   }, [context])
   return (
     <pre className={`${timeDirection} flex w-full items-end gap-5pxr`}>
-      {type === 'chat' ? (
-        <ReplaceUrl
-          className="text-16pxr leading-[140%]"
-          text={context.trim()}
-          isImage={isImg}
-          isMine={isMine}
-        />
-      ) : (
-        <div
-          className={`${classNames} flex w-340pxr flex-col justify-start gap-10pxr p-15pxr`}
+      {type === 'connect' ? (
+        <Divider
+          className="border-white px-20pxr"
+          style={{ borderColor: 'white', margin: '0px' }}
         >
-          <p className="text-24pxr">당장만나!</p>
-          <p className="text-16pxr leading-[140%]">{context.trim()}</p>
-          <div className="flex w-full justify-end">
-            <CustomButton
-              onClick={() => open(url)}
-              type="meetNow"
-              size="l"
-              text="당장만나!"
-            />
-          </div>
-        </div>
+          {context}
+        </Divider>
+      ) : type === 'chat' ? (
+        <>
+          <ReplaceUrl
+            className="text-16pxr leading-[140%]"
+            text={context.trim()}
+            isImage={isImg}
+            isMine={isMine}
+          />
+          <div className="text-13pxr">{fomattedTime}</div>
+        </>
+      ) : (
+        type === 'meetNow' && (
+          <>
+            <div
+              className={`${classNames} flex w-340pxr flex-col justify-start gap-10pxr p-15pxr`}
+            >
+              <p className="text-24pxr">당장만나!</p>
+              <p className="text-16pxr leading-[140%]">{context.trim()}</p>
+              <div className="flex w-full justify-end">
+                <CustomButton
+                  onClick={() => open(url)}
+                  type="meetNow"
+                  size="l"
+                  text="당장만나!"
+                />
+              </div>
+            </div>
+            <div className="text-13pxr">{fomattedTime}</div>
+          </>
+        )
       )}
-      <div className="text-13pxr">{fomattedTime}</div>
     </pre>
   )
 }
