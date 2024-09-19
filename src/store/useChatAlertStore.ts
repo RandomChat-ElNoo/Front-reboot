@@ -11,8 +11,8 @@ const useChatAlertStore = create<ChatAlertStore>((set) => ({
   randomChatAlert: 0,
   setRandomChatAlert: (value) => {
     set((state) => ({
-      groupChatAlert:
-        typeof value === 'function' ? value(state.groupChatAlert) : value,
+      randomChatAlert:
+        typeof value === 'function' ? value(state.randomChatAlert) : value,
     }))
   },
   groupChatAlert: 0,

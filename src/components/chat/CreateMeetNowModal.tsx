@@ -3,7 +3,7 @@ import TextArea from 'antd/es/input/TextArea'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import CustomButton from '../CustomButton'
 import { groupChatWorker, randomChatWorker } from '../../pages/Main'
-import usePageStore from '../../store/usePageStore'
+import useGlobalStateStore from '../../store/useGlobalStateStore'
 
 interface CreateMeetNowModalProps {
   isOpen: boolean
@@ -26,7 +26,7 @@ export default function CreateMeetNowModal({
   const [askOkButton, setAskOkButton] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
-  const { page } = usePageStore()
+  const { page } = useGlobalStateStore()
 
   const handleInputOnchange = (e: any) => {
     setInputValue(e.target.value)

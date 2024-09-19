@@ -4,7 +4,7 @@ import MainButtons from './MainButtons'
 
 export default function Home() {
   return (
-    <div className="flex w-full flex-row justify-center px-10pxr pt-60pxr">
+    <div className="mb-20pxr flex w-full flex-row justify-center px-10pxr pt-60pxr">
       <MainButtons />
     </div>
   )

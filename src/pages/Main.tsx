@@ -3,24 +3,23 @@ import SideBar from '../components/sideBar/SideBar'
 import TopBar from '../components/TopBar'
 import Pages from '../components/Pages'
 import useGlobalStateStore from '../store/useGlobalStateStore'
-import usePageStore from '../store/usePageStore'
 
 export const randomChatWorker = new Worker(
   new URL('../workers/randomChatWorker.js', import.meta.url),
 )
+
 export const groupChatWorker = new Worker(
   new URL('../workers/groupChatWorker.js', import.meta.url),
 )
 
 /** 메인페이지 컴포넌트
- * @todo 채팅링크 판별 + 이미지 미리보기
  * @todo 이모지 디자인
- * @todo 채팅방 연결하기 디자인넣기
+ * @todo 툴팁넣기
+ * @todo 에러처리( socket.onerror, 소켓에서 날라오는 에러 )
  */
 
 export default function Main() {
-  const { isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
-  const { page } = usePageStore()
+  const { page, isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
 
   const openSideBar = () => {
     setIsSideBarOpen(true)
@@ -29,6 +28,18 @@ export default function Main() {
   const closeSideBar = () => {
     setIsSideBarOpen(false)
   }
+
+  useEffect(() => {
+    const closeSocket = () => {
+      groupChatWorker.postMessage(['close'])
+      randomChatWorker.postMessage(['close'])
+    }
+
+    window.addEventListener('beforeunload', closeSocket)
+    return () => {
+      window.removeEventListener('beforeunload', closeSocket)
+    }
+  }, [])
 
   useEffect(() => {
     setIsSideBarOpen(false)

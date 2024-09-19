@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import LinkWarningModal from './LinkWarningModal'
-import usePageStore from '../../store/usePageStore'
 import useOptionStore from '../../store/useOptionStore'
+import useGlobalStateStore from '../../store/useGlobalStateStore'
 
 interface ReplaceUrlProps {
   text: string
@@ -19,7 +19,7 @@ export default function ReplaceUrl({
   const [linkWarningModal, setLinkWarningModal] = useState(false)
   const [useImgTag, setUseImgTag] = useState(false)
   const { isGroupChatImgPreview, isRandomChatImgPreview } = useOptionStore()
-  const { page } = usePageStore()
+  const { page } = useGlobalStateStore()
   const color = isMine ? 'bg-chat-box-me' : 'bg-chat-box'
   const urlRegex =
     /(?:https:\/\/)(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-z]{2,6}(?:[-a-zA-Z0-9@:%_+.~#?&/=]*)/g

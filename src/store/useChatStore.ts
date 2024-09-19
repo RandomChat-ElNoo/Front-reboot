@@ -21,6 +21,12 @@ interface ChatStore {
 
   opponentAvatar: string
   setOpponentAvatar: (value: string) => void
+
+  randomChatMatchingCount: number
+  setRandomChatMatchingCount: (value: number) => void
+
+  canCreateRandomChatMeetNow: boolean
+  setCanCreateRandomChatMeetNow: (value: boolean) => void
 }
 
 const useChatStore = create<ChatStore>((set) => ({
@@ -54,8 +60,16 @@ const useChatStore = create<ChatStore>((set) => ({
   groupChatUserCount: 0,
   setGroupChatUserCount: (value) => set({ groupChatUserCount: value }),
 
-  opponentAvatar: '기타',
+  opponentAvatar: '',
   setOpponentAvatar: (value) => set({ opponentAvatar: value }),
+
+  randomChatMatchingCount: 0,
+  setRandomChatMatchingCount: (value) =>
+    set({ randomChatMatchingCount: value }),
+
+  canCreateRandomChatMeetNow: true,
+  setCanCreateRandomChatMeetNow: (value) =>
+    set({ canCreateRandomChatMeetNow: value }),
 }))
 
 export default useChatStore
