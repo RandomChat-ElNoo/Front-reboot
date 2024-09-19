@@ -4,6 +4,8 @@ import isImageFile from '../../utills/isImageFile'
 import CustomButton from '../CustomButton'
 import ReplaceUrl from './ReplaceUrl'
 import { Divider } from 'antd'
+import { randomChatWorker } from '../../pages/Main'
+import useChatStore from '../../store/useChatStore'
 
 interface ChatBoxProps {
   context: string
@@ -12,6 +14,7 @@ interface ChatBoxProps {
   type: 'chat' | 'meetNow' | 'connect'
   url?: string
 }
+
 /**
  * 채팅 내용을 보여주는 컨테이너 컴포넌트
  * @param context 버튼의 작은 글씨
@@ -28,12 +31,18 @@ export default function ChatBox({
   type,
   url,
 }: ChatBoxProps) {
+  const { setOpponentAvatar } = useChatStore()
   const [isImg, setIsImg] = useState(false)
   const color = isMine ? 'bg-chat-box-me' : 'bg-chat-box'
   const timeDirection = isMine ? 'flex-row-reverse' : ''
   const classNames = `${color} break-words text-wrap max-w-500pxr rounded-[15px]`
 
   const fomattedTime = formatTime(writingTime)
+
+  const onClickRematching = () => {
+    randomChatWorker.postMessage(['join'])
+    setOpponentAvatar('')
+  }
 
   useEffect(() => {
     const isImgUrl = async () => {
@@ -42,15 +51,26 @@ export default function ChatBox({
     }
     isImgUrl()
   }, [context])
+
   return (
     <pre className={`${timeDirection} flex w-full items-end gap-5pxr`}>
       {type === 'connect' ? (
-        <Divider
-          className="border-white px-20pxr"
-          style={{ borderColor: 'white', margin: '0px' }}
-        >
-          {context}
-        </Divider>
+        <div className="flex w-full flex-col items-center gap-10pxr">
+          <Divider
+            className="border-white px-20pxr"
+            style={{ borderColor: 'white', margin: '0px' }}
+          >
+            {context}
+          </Divider>
+          {context === '상대방이 퇴장하였습니다' && (
+            <button
+              onClick={onClickRematching}
+              className="h-30pxr w-80pxr rounded-full bg-chat-box shadow-top-shadow"
+            >
+              재매칭
+            </button>
+          )}
+        </div>
       ) : type === 'chat' ? (
         <>
           <ReplaceUrl

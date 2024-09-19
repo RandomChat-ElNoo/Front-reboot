@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { groupChatWorker } from '../../pages/Main'
 import { notification } from 'antd'
 import ChatList from './ChatList'
-import CustomButton from '../CustomButton'
 import TextInputBox from './TextInputBox'
 import useScroll from '../../hooks/useScroll'
 import useScheduledTask from '../../hooks/useScheduledTask'
@@ -10,6 +9,7 @@ import useChatStore from '../../store/useChatStore'
 import useGlobalStateStore from '../../store/useGlobalStateStore'
 import useChatAlertStore from '../../store/useChatAlertStore'
 import useCanGroupChatMeetNowStore from '../../store/useCanGroupChatMeetNowStore'
+import JoinDialog from './JoinDialog'
 
 export default function GroupChatPage() {
   const {
@@ -115,6 +115,14 @@ export default function GroupChatPage() {
         case 'join':
           setIsGroupChatConnected(true)
           setGroupChatUserCount(data[1])
+
+          const connectedMessage: Chat = {
+            isMine: false,
+            type: 'connect',
+            context: '채팅에 연결되었습니다!',
+            time: new Date().toISOString(),
+          }
+          setGroupChat((prevChat) => [...prevChat, connectedMessage])
           break
 
         case 'exit':
@@ -190,7 +198,7 @@ export default function GroupChatPage() {
           className="h-[calc(100%-76px)] w-full overflow-y-scroll"
         >
           <div className="mx-auto max-w-1200pxr">
-            <ChatList chatList={groupChat} isConnected={isGroupChatConnected} />
+            <ChatList chatList={groupChat} />
           </div>
         </div>
         <div className="mx-auto max-w-1200pxr px-10pxr pt-10pxr">
@@ -206,14 +214,7 @@ export default function GroupChatPage() {
           />
         </div>
         {isGroupChatConnected || (
-          <div className="absolute right-0pxr top-0pxr flex h-full w-full items-center justify-center backdrop-blur-[2px]">
-            <CustomButton
-              onClick={JoinGroupChat}
-              type={'meetNow'}
-              size={'l'}
-              text={'입장하기!'}
-            />
-          </div>
+          <JoinDialog isRandomChat={false} onClick={JoinGroupChat} />
         )}
       </div>
     </div>

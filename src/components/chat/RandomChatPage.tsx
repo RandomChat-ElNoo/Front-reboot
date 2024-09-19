@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { randomChatWorker } from '../../pages/Main'
 import ChatList from './ChatList'
-import CustomButton from '../CustomButton'
 import TextInputBox from './TextInputBox'
 import useScroll from '../../hooks/useScroll'
 import useChatStore from '../../store/useChatStore'
@@ -9,6 +8,8 @@ import useGlobalStateStore from '../../store/useGlobalStateStore'
 import useChatAlertStore from '../../store/useChatAlertStore'
 import useOptionStore from '../../store/useOptionStore'
 import { LoadingOutlined } from '@ant-design/icons'
+import JoinDialog from './JoinDialog'
+import MatchingCount from './MatchingCount'
 
 /**
  * @todo fist조인으로 입장버튼 보이기
@@ -99,6 +100,7 @@ export default function RandomChatPage() {
         data[0] // ["action",메시지] 로 이루어진 데이터를 분리해서 처리하는 곳
       ) {
         case 'join':
+          setRandomChat([])
           randomChatWorker.postMessage(['setAvatar', avatar])
           setIsWaiting(false)
           setIsRandomChatConnected(true)
@@ -135,6 +137,14 @@ export default function RandomChatPage() {
           }
           if (data[1] === 'opponent') {
             setIsRandomChatConnected(false)
+
+            const disConnectedMessage: Chat = {
+              isMine: false,
+              type: 'connect',
+              context: '상대방이 퇴장하였습니다',
+              time: new Date().toISOString(),
+            }
+            setRandomChat((prevChat) => [...prevChat, disConnectedMessage])
           }
 
           break
@@ -232,24 +242,10 @@ export default function RandomChatPage() {
           />
         </div>
         {isFirstJoin && (
-          <>
-            <div className="absolute right-0pxr top-0pxr flex h-full w-full items-center justify-center backdrop-blur-[2px]">
-              <CustomButton
-                onClick={JoinRandomChat}
-                type={'meetNow'}
-                size={'l'}
-                text={'입장하기!'}
-              />
-            </div>
-          </>
+          <JoinDialog onClick={JoinRandomChat} isRandomChat={true} />
         )}
         {isWaiting && (
-          <>
-            <div className="absolute right-0pxr top-0pxr flex h-full w-full items-center justify-center backdrop-blur-[2px]">
-              <LoadingOutlined />
-              <p>{randomChatMatchingCount}</p>
-            </div>
-          </>
+          <MatchingCount randomChatMatchingCount={randomChatMatchingCount} />
         )}
       </div>
     </div>
