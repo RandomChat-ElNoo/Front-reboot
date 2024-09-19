@@ -5,6 +5,7 @@ import useGlobalStateStore from '../store/useGlobalStateStore'
 import { groupChatWorker, randomChatWorker } from '../pages/Main'
 import CreateMeetNowModal from './chat/CreateMeetNowModal'
 import useCanGroupChatMeetNowStore from '../store/useCanGroupChatMeetNowStore'
+import useChatAlertStore from '../store/useChatAlertStore'
 
 interface TopBarProps {
   onClickSideBarButton: () => void
@@ -16,10 +17,15 @@ interface TopBarProps {
  */
 
 export default function TopBar({ onClickSideBarButton }: TopBarProps) {
-  const { groupChatUserCount, setGroupChatUserCount, opponentAvatar } =
-    useChatStore()
+  const {
+    groupChatUserCount,
+    setGroupChatUserCount,
+    opponentAvatar,
+    canCreateRandomChatMeetNow,
+  } = useChatStore()
   const { isRandomChatConnected, isGroupChatConnected, page, setPage } =
     useGlobalStateStore()
+  const { randomChatAlert } = useChatAlertStore()
   const { canCreateGroupMeetNow } = useCanGroupChatMeetNowStore()
   const [title, setTitle] = useState('홈')
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false)
@@ -45,7 +51,9 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
 
   // 당장만나 버튼의 비활성화 조건문
   const canCreateMeetNow =
-    page === 1 ? canCreateGroupMeetNow : page === 2 ? false : false // 랜덤챗 만들때 수정해야함
+    page === 1
+      ? canCreateGroupMeetNow
+      : page === 2 && canCreateRandomChatMeetNow
 
   const closeModal = () => {
     setIsOpenCreateModal(false)
@@ -60,10 +68,11 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
     // 나가기 버튼 클릭시
     if (page === 1) {
       groupChatWorker.postMessage(['exit'])
+      setGroupChatUserCount(0)
     } else if (page === 2) {
       randomChatWorker.postMessage(['exit'])
     }
-    setGroupChatUserCount(0)
+
     setPage(0)
   }
 
@@ -80,12 +89,6 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
         break
     }
   }, [page])
-  console.log(
-    'isConnected,canCreateMeetNow,canCreateGroupMeetNow',
-    isConnected,
-    canCreateMeetNow,
-    canCreateGroupMeetNow,
-  )
 
   return (
     <div className="relative flex h-50pxr w-full shrink-0 flex-col items-center bg-background-main shadow-top-shadow">
@@ -108,20 +111,25 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
             size="l"
             text="나가기"
             onClick={handleClickExit}
-            disabled={!isConnected}
+            disabled={false}
           />
         </div>
       )}
       <div className="absolute left-0pxr top-0pxr flex h-50pxr flex-row items-center gap-15pxr pl-5pxr">
         <button
           onClick={onClickSideBarButton}
-          className="pointer-events-none flex h-40pxr w-40pxr items-center justify-center tb:pointer-events-auto"
+          className="pointer-events-none relative flex h-40pxr w-40pxr items-center justify-center tb:pointer-events-auto"
         >
           <div className="w-35xr hidden h-35pxr flex-col justify-around tb:flex">
             <div className="h-5pxr w-35pxr rounded-full bg-white" />
             <div className="h-5pxr w-35pxr rounded-full bg-white" />
             <div className="h-5pxr w-35pxr rounded-full bg-white" />
           </div>
+          {randomChatAlert > 0 && (
+            <div className="absolute -right-5pxr top-0pxr flex h-18pxr w-18pxr items-center justify-center rounded-full bg-alert-red text-14pxr">
+              {randomChatAlert > 10 ? '10⁺' : randomChatAlert}
+            </div>
+          )}
         </button>
         <div className="flex flex-row items-center gap-15pxr tb:gap-5pxr mb:flex-col mb:items-start">
           <h1 className="text-30pxr tb:text-25pxr mb:text-23pxr">{title}</h1>
