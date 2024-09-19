@@ -7,11 +7,11 @@ import useChatStore from '../../store/useChatStore'
 import useGlobalStateStore from '../../store/useGlobalStateStore'
 import useChatAlertStore from '../../store/useChatAlertStore'
 import useOptionStore from '../../store/useOptionStore'
-import { LoadingOutlined } from '@ant-design/icons'
 import JoinDialog from './JoinDialog'
 import MatchingCount from './MatchingCount'
 
 /**
+ * 랜덤 채팅 페이지
  * @todo fist조인으로 입장버튼 보이기
  * @todo 세션스토리지 저장까진했고 재연결 짜야함
  */
@@ -27,8 +27,13 @@ export default function RandomChatPage() {
     setCanCreateRandomChatMeetNow,
   } = useChatStore()
   const { setRandomChatAlert } = useChatAlertStore()
-  const { isRandomChatConnected, page, setIsRandomChatConnected } =
-    useGlobalStateStore()
+  const {
+    page,
+    isVisible,
+    setIsVisible,
+    isRandomChatConnected,
+    setIsRandomChatConnected,
+  } = useGlobalStateStore()
   const { avatar } = useOptionStore()
   const [inputValue, setInputValue] = useState('')
   const [isWaiting, setIsWaiting] = useState(false)
@@ -37,6 +42,27 @@ export default function RandomChatPage() {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useScroll(scrollRef, [randomChat])
+
+  const requestPermission = async () => {
+    await Notification.requestPermission()
+  }
+
+  const notificate = (act: 'join' | 'msg', msg?: string) => {
+    const notification = new Notification('VTalk', {
+      body: `${act === 'join' ? '매칭되었습니다!' : `${msg}`}`,
+      icon: '/imgs/favicon.ico',
+    })
+
+    setTimeout(notification.close.bind(notification), 3000)
+
+    notification.addEventListener(
+      'click',
+      () => {
+        window.focus()
+      },
+      { once: true },
+    )
+  }
 
   // 랜덤 채팅 들어가기
   const JoinRandomChat = () => {
@@ -72,6 +98,22 @@ export default function RandomChatPage() {
   }
 
   useEffect(() => {
+    requestPermission() // 처음 실행시 알림 울리게 할건지 권한 묻기
+
+    const handleFocusOnBrowser = () => {
+      if (document.visibilityState === 'visible') {
+        setIsVisible(true)
+        return
+      }
+      setIsVisible(false)
+    }
+    document.addEventListener('visibilitychange', handleFocusOnBrowser)
+    return () => {
+      document.removeEventListener('visibilitychange', handleFocusOnBrowser)
+    }
+  }, [])
+
+  useEffect(() => {
     if (isWaiting) {
       randomChatWorker.postMessage(['count'])
       const sendingCount = setInterval(() => {
@@ -105,6 +147,10 @@ export default function RandomChatPage() {
           setIsWaiting(false)
           setIsRandomChatConnected(true)
           setIsFirstJoin(false)
+
+          if (!isVisible || page !== 2) {
+            notificate('join')
+          }
 
           const connectedMessage: Chat = {
             isMine: false,
@@ -150,6 +196,11 @@ export default function RandomChatPage() {
           break
 
         case 'chat':
+          console.log('isVisible,page', isVisible, page)
+          if (!isVisible || page !== 2) {
+            notificate('msg', data[1])
+          }
+
           const newChat: Chat = {
             isMine: false,
             type: 'chat',
@@ -216,7 +267,7 @@ export default function RandomChatPage() {
       randomChatWorker.removeEventListener('message', handleWorkerMessage)
       window.removeEventListener('beforeunload', closeSocket)
     }
-  }, [page])
+  }, [page, isVisible])
 
   return (
     <div className="flex h-full w-full flex-row justify-center">
