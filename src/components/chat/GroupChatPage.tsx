@@ -96,7 +96,7 @@ export default function GroupChatPage() {
   }
 
   useEffect(() => {
-    const handleWorkerMessage = (e: any) => {
+    const handleWorkerMessage = (e: MessageEvent) => {
       // 워커가 컴포넌트로 보내준 메시지를 처리하는 곳
       console.log('From Worker', e.data)
 
@@ -177,15 +177,10 @@ export default function GroupChatPage() {
       }
     }
 
-    const closeSocket = () => {
-      groupChatWorker.postMessage(['close'])
-    }
-
     groupChatWorker.addEventListener('message', handleWorkerMessage)
-    window.addEventListener('beforeunload', closeSocket)
+
     return () => {
       groupChatWorker.removeEventListener('message', handleWorkerMessage)
-      window.removeEventListener('beforeunload', closeSocket)
     }
   }, [page])
 

@@ -91,7 +91,7 @@ export default function RandomChatPage() {
 
     setRandomChat(newChat)
 
-    const data = ['chat', formattedValue, JSON.stringify(new Date())]
+    const data = ['chat', formattedValue, new Date().toISOString()]
     randomChatWorker.postMessage(data)
 
     setInputValue('')
@@ -107,6 +107,7 @@ export default function RandomChatPage() {
       }
       setIsVisible(false)
     }
+
     document.addEventListener('visibilitychange', handleFocusOnBrowser)
     return () => {
       document.removeEventListener('visibilitychange', handleFocusOnBrowser)
@@ -128,14 +129,14 @@ export default function RandomChatPage() {
 
   useEffect(() => {
     // 워커가 컴포넌트로 보내준 메시지를 처리하는 곳
-    const handleWorkerMessage = (e: any) => {
+    const handleWorkerMessage = (e: MessageEvent) => {
       let data
       if (typeof e.data === 'string') {
         data = JSON.parse(e.data)
       } else {
         data = e.data
       }
-      console.log('From Worker', e.data)
+      console.log('From Worker', e)
       console.log('data :', data)
 
       switch (
@@ -257,15 +258,10 @@ export default function RandomChatPage() {
       }
     }
 
-    const closeSocket = () => {
-      randomChatWorker.postMessage(['close'])
-    }
-
     randomChatWorker.addEventListener('message', handleWorkerMessage)
-    window.addEventListener('beforeunload', closeSocket)
+
     return () => {
       randomChatWorker.removeEventListener('message', handleWorkerMessage)
-      window.removeEventListener('beforeunload', closeSocket)
     }
   }, [page, isVisible])
 

@@ -13,8 +13,6 @@ export const groupChatWorker = new Worker(
 )
 
 /** 메인페이지 컴포넌트
- * @todo 랜덤챗
- * @todo 랜덤챗 매칭 알림 및 윈도우 알림
  * @todo 이모지 디자인
  * @todo 툴팁넣기
  * @todo 에러처리( socket.onerror, 소켓에서 날라오는 에러 )
@@ -30,6 +28,18 @@ export default function Main() {
   const closeSideBar = () => {
     setIsSideBarOpen(false)
   }
+
+  useEffect(() => {
+    const closeSocket = () => {
+      groupChatWorker.postMessage(['close'])
+      randomChatWorker.postMessage(['close'])
+    }
+
+    window.addEventListener('beforeunload', closeSocket)
+    return () => {
+      window.removeEventListener('beforeunload', closeSocket)
+    }
+  }, [])
 
   useEffect(() => {
     setIsSideBarOpen(false)
