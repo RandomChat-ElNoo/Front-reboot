@@ -300,6 +300,7 @@ export default function RandomChatPage() {
             setInputValue={setInputValue}
             disabled={!isRandomChatConnected}
             onEmojiClick={sendEmoji}
+            isConnected={isRandomChatConnected}
           />
         </div>
         {isFirstJoin && (
