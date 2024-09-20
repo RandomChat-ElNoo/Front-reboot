@@ -97,6 +97,24 @@ export default function RandomChatPage() {
     setInputValue('')
   }
 
+  const sendEmoji = (emojiName: string) => {
+    const emoji = `::${emojiName}::`
+
+    const newChat = [...randomChat]
+
+    newChat.push({
+      isMine: true,
+      type: 'chat',
+      context: emoji,
+      time: new Date().toISOString(),
+    })
+
+    setRandomChat(newChat)
+
+    const data = ['chat', emoji, new Date().toISOString()]
+    randomChatWorker.postMessage(data)
+  }
+
   useEffect(() => {
     requestPermission() // 처음 실행시 알림 울리게 할건지 권한 묻기
 
@@ -266,7 +284,7 @@ export default function RandomChatPage() {
   }, [page, isVisible])
 
   return (
-    <div className="flex h-full w-full flex-row justify-center">
+    <div className="flex h-full w-full flex-row justify-center overflow-hidden">
       <div className="relative w-full">
         <div
           ref={scrollRef}
@@ -276,16 +294,15 @@ export default function RandomChatPage() {
             <ChatList chatList={randomChat} />
           </div>
         </div>
-        <div className="mx-auto max-w-1200pxr px-10pxr pt-10pxr">
+        <div className="mx-auto max-w-1200pxr">
           <TextInputBox
-            onEmojiButtonClick={function (): void {
-              throw new Error('Function not implemented.')
-            }}
             onSendButtonClick={SendMessage}
             handleSendMessage={SendMessage}
             inputValue={inputValue}
             setInputValue={setInputValue}
             disabled={!isRandomChatConnected}
+            onEmojiClick={sendEmoji}
+            isConnected={isRandomChatConnected}
           />
         </div>
         {isFirstJoin && (
