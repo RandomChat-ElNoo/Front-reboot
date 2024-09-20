@@ -98,18 +98,20 @@ export default function RandomChatPage() {
   }
 
   const sendEmoji = (emojiName: string) => {
+    const emoji = `::${emojiName}::`
+
     const newChat = [...randomChat]
 
     newChat.push({
       isMine: true,
       type: 'chat',
-      context: `::${emojiName}::`,
+      context: emoji,
       time: new Date().toISOString(),
     })
 
     setRandomChat(newChat)
 
-    const data = ['chat', `::${emojiName}::`, new Date().toISOString()]
+    const data = ['chat', emoji, new Date().toISOString()]
     randomChatWorker.postMessage(data)
   }
 

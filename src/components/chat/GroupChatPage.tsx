@@ -95,6 +95,37 @@ export default function GroupChatPage() {
     setInputValue('')
   }
 
+  const SendEmoji = (emojiName: string) => {
+    if (!canSendMessage) {
+      openNotification()
+      return
+    }
+
+    const emoji = `::${emojiName}::`
+
+    const newChat = [...groupChat]
+
+    newChat.push({
+      isMine: true,
+      type: 'chat',
+      context: emoji,
+      time: new Date().toISOString(),
+    })
+
+    setGroupChat(newChat)
+
+    const data = ['chat', emoji, JSON.stringify(new Date())]
+
+    groupChatWorker.postMessage(data)
+    setCanSendMessage(false)
+
+    setTimeout(() => {
+      setCanSendMessage(true)
+    }, 1000)
+
+    setInputValue('')
+  }
+
   useEffect(() => {
     const handleWorkerMessage = (e: MessageEvent) => {
       // 워커가 컴포넌트로 보내준 메시지를 처리하는 곳
@@ -185,7 +216,7 @@ export default function GroupChatPage() {
   }, [page])
 
   return (
-    <div className="flex h-full w-full flex-row justify-center">
+    <div className="flex h-full w-full flex-row justify-center overflow-hidden">
       {contextHolder}
       <div className="relative w-full">
         <div
@@ -198,14 +229,13 @@ export default function GroupChatPage() {
         </div>
         <div className="mx-auto max-w-1200pxr px-10pxr pt-10pxr">
           <TextInputBox
-            onEmojiButtonClick={function (): void {
-              throw new Error('Function not implemented.')
-            }}
+            onEmojiClick={SendEmoji}
             onSendButtonClick={SendMessage}
             handleSendMessage={SendMessage}
             inputValue={inputValue}
             setInputValue={setInputValue}
             disabled={!isGroupChatConnected}
+            isConnected={isGroupChatConnected}
           />
         </div>
         {isGroupChatConnected || (
