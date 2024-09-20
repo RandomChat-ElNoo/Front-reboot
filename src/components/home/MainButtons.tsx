@@ -33,7 +33,7 @@ export default function MainButtons() {
       <div className="flex w-full max-w-530pxr flex-col items-center gap-30pxr tb:gap-15pxr">
         <img
           className="h-full max-h-350pxr w-full max-w-350pxr object-contain"
-          src="/imgs/pngs/logo-full.png"
+          src="/imgs/webp/logo-full.webp"
         />
         <div className="flex w-full flex-col items-center gap-20pxr">
           <div className="flex w-full flex-row justify-between gap-30pxr tb:gap-15pxr">
