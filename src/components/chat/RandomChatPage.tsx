@@ -294,7 +294,7 @@ export default function RandomChatPage() {
             <ChatList chatList={randomChat} />
           </div>
         </div>
-        <div className="max-w-1200pxr">
+        <div className="mx-auto max-w-1200pxr">
           <TextInputBox
             onSendButtonClick={SendMessage}
             handleSendMessage={SendMessage}

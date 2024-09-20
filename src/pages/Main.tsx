@@ -13,7 +13,6 @@ export const groupChatWorker = new Worker(
 )
 
 /** 메인페이지 컴포넌트
- * @todo 이모지 디자인
  * @todo 툴팁넣기
  * @todo 에러처리( socket.onerror, 소켓에서 날라오는 에러 )
  */

@@ -1,12 +1,18 @@
 import { CloseOutlined } from '@ant-design/icons'
 import { EMOJI_ARRAY } from '../../constant/emoji'
 
-interface EmojiProps {
+interface EmojiBoxProps {
   onClickEmoji: (emojiName: string) => void
   closeEmoji: () => void
 }
 
-export default function EmojiBox({ onClickEmoji, closeEmoji }: EmojiProps) {
+/**
+ * 인풋의 이모지 버튼을 눌럿을시 나오는 이모지 팝업 컴포넌트
+ * @param onClickEmoji 이모지보내는 함수
+ * @param closeEmoji 이모지창 닫는 함수
+ */
+
+export default function EmojiBox({ onClickEmoji, closeEmoji }: EmojiBoxProps) {
   return (
     <div className="flex w-full max-w-340pxr flex-col">
       <section className="flex h-40pxr w-full flex-row items-center justify-between bg-background-sidebar-bottom px-10pxr">

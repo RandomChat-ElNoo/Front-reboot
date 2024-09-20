@@ -227,7 +227,7 @@ export default function GroupChatPage() {
             <ChatList chatList={groupChat} />
           </div>
         </div>
-        <div className="mx-auto max-w-1200pxr px-10pxr pt-10pxr">
+        <div className="mx-auto max-w-1200pxr">
           <TextInputBox
             onEmojiClick={SendEmoji}
             onSendButtonClick={SendMessage}
