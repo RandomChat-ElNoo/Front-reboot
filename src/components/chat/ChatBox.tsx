@@ -6,6 +6,7 @@ import ReplaceUrl from './ReplaceUrl'
 import { Divider } from 'antd'
 import { randomChatWorker } from '../../pages/Main'
 import useChatStore from '../../store/useChatStore'
+import { EMOJI_ARRAY } from '../../constant/emoji'
 
 interface ChatBoxProps {
   context: string
@@ -37,6 +38,10 @@ export default function ChatBox({
   const timeDirection = isMine ? 'flex-row-reverse' : ''
   const classNames = `${color} break-words text-wrap max-w-500pxr rounded-[15px]`
 
+  const emojiNames = EMOJI_ARRAY.map((emoji) => emoji.name).join('|')
+  const regex = new RegExp(`::(${emojiNames})::`)
+  const isEmoji = regex.test(context)
+
   const fomattedTime = formatTime(writingTime)
 
   const onClickRematching = () => {
@@ -49,7 +54,10 @@ export default function ChatBox({
       const isImage = await isImageFile(context)
       setIsImg(type === 'chat' && isImage)
     }
-    isImgUrl()
+
+    if (!isEmoji) {
+      isImgUrl()
+    }
   }, [context])
 
   return (
@@ -73,12 +81,24 @@ export default function ChatBox({
         </div>
       ) : type === 'chat' ? (
         <>
-          <ReplaceUrl
-            className="text-16pxr leading-[140%]"
-            text={context.trim()}
-            isImage={isImg}
-            isMine={isMine}
-          />
+          {isEmoji ? (
+            <div
+              className={`${color} aspect-square max-w-150pxr rounded-[15px] p-15pxr`}
+            >
+              <img
+                className="object-contain"
+                alt={`emoji-${context.replace(/::/g, '')}.png`}
+                src={`/imgs/emojis/${context.replace(/::/g, '')}.png`}
+              />
+            </div>
+          ) : (
+            <ReplaceUrl
+              className="text-16pxr leading-[140%]"
+              text={context.trim()}
+              isImage={isImg}
+              isMine={isMine}
+            />
+          )}
           <div className="text-13pxr">{fomattedTime}</div>
         </>
       ) : (
