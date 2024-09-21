@@ -79,9 +79,10 @@ export default function UpdateLogModal({
               • 당장 만나!
             </p>
             <p className="text-pretty pl-28pxr text-18pxr leading-[140%]">
-              상대를 바로 보고 싶을 때 당장 만나를 사용해 보세요 <br />
+              상대를 바로 보고 싶을 때 당장 만나를 사용해 보세요. <br />
               표시할 문구를 적고 당장만나 버튼을 누르면 VTalk에서 월드를 생성해
-              줍니다!
+              줍니다! <br />
+              전체 채팅, 랜덤 채팅 각각 30분의 대기 시간이 있어요.
             </p>
             <br />
             <p className="text-pretty pl-10pxr text-23pxr leading-[180%]">
