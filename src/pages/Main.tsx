@@ -1,8 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import SideBar from '../components/sideBar/SideBar'
 import TopBar from '../components/TopBar'
 import Pages from '../components/Pages'
 import useGlobalStateStore from '../store/useGlobalStateStore'
+import useOptionStore from '../store/useOptionStore'
+import UpdateLogModal from '../components/UpdateLogModal'
 
 export const randomChatWorker = new Worker(
   new URL('../workers/randomChatWorker.js', import.meta.url),
@@ -14,11 +16,13 @@ export const groupChatWorker = new Worker(
 
 /** 메인페이지 컴포넌트
  * @todo 툴팁넣기
- * @todo 에러처리( socket.onerror, 소켓에서 날라오는 에러 )
+ * @todo 에러처리( socket.onerror, 소켓에서 날라오는 에러 ), 최적화
  */
 
 export default function Main() {
   const { page, isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
+  const { seeUpdateLogModal, setSeeUpdateLogModal } = useOptionStore()
+  const [updateLogModalOpen, setUpdateLogModalOpenOpen] = useState(false)
 
   const openSideBar = () => {
     setIsSideBarOpen(true)
@@ -28,7 +32,20 @@ export default function Main() {
     setIsSideBarOpen(false)
   }
 
+  const closeModal = (seeNoMore: boolean = false) => {
+    if (!seeNoMore) {
+      setUpdateLogModalOpenOpen(false)
+      return
+    }
+    setSeeUpdateLogModal(false)
+    setUpdateLogModalOpenOpen(false)
+  }
+
   useEffect(() => {
+    if (seeUpdateLogModal) {
+      setUpdateLogModalOpenOpen(true)
+    }
+
     const closeSocket = () => {
       groupChatWorker.postMessage(['close'])
       randomChatWorker.postMessage(['close'])
@@ -65,6 +82,7 @@ export default function Main() {
           <Pages />
         </section>
       </div>
+      <UpdateLogModal open={updateLogModalOpen} closeModal={closeModal} />
     </div>
   )
 }

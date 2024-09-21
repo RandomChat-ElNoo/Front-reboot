@@ -27,6 +27,9 @@ interface ChatStore {
 
   canCreateRandomChatMeetNow: boolean
   setCanCreateRandomChatMeetNow: (value: boolean) => void
+
+  RandomChatMeetNowExpireTime: string
+  setRandomChatMeetNowExpireTime: (value: string) => void
 }
 
 const useChatStore = create<ChatStore>((set) => ({
@@ -70,6 +73,10 @@ const useChatStore = create<ChatStore>((set) => ({
   canCreateRandomChatMeetNow: true,
   setCanCreateRandomChatMeetNow: (value) =>
     set({ canCreateRandomChatMeetNow: value }),
+
+  RandomChatMeetNowExpireTime: '',
+  setRandomChatMeetNowExpireTime: (value) =>
+    set({ RandomChatMeetNowExpireTime: value }),
 }))
 
 export default useChatStore

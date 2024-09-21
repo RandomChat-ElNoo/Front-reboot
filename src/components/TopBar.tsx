@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
+import { groupChatWorker, randomChatWorker } from '../pages/Main'
+import useGlobalStateStore from '../store/useGlobalStateStore'
+import useChatAlertStore from '../store/useChatAlertStore'
+import useCanGroupChatMeetNowStore from '../store/useCanGroupChatMeetNowStore'
 import CustomButton from './CustomButton'
 import useChatStore from '../store/useChatStore'
-import useGlobalStateStore from '../store/useGlobalStateStore'
-import { groupChatWorker, randomChatWorker } from '../pages/Main'
 import CreateMeetNowModal from './chat/CreateMeetNowModal'
-import useCanGroupChatMeetNowStore from '../store/useCanGroupChatMeetNowStore'
-import useChatAlertStore from '../store/useChatAlertStore'
+import { Tooltip } from 'antd'
 
 interface TopBarProps {
   onClickSideBarButton: () => void
@@ -13,7 +14,6 @@ interface TopBarProps {
 
 /** 상단 바
  * @param onClickSideBarButton 사이드 바를 닫아주는 함수
- * @todo canCreateMeetNow 랜덤챗 만들때 수정해야함
  */
 
 export default function TopBar({ onClickSideBarButton }: TopBarProps) {
@@ -22,13 +22,15 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
     setGroupChatUserCount,
     opponentAvatar,
     canCreateRandomChatMeetNow,
+    RandomChatMeetNowExpireTime,
   } = useChatStore()
   const { isRandomChatConnected, isGroupChatConnected, page, setPage } =
     useGlobalStateStore()
   const { randomChatAlert } = useChatAlertStore()
-  const { canCreateGroupMeetNow } = useCanGroupChatMeetNowStore()
+  const { canCreateGroupMeetNow, expiredTime } = useCanGroupChatMeetNowStore()
   const [title, setTitle] = useState('홈')
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false)
+  const [meetNowTooltip, setMeetNowTooltip] = useState('')
 
   const indicatorColor = [
     { page: 0, color: '' },
@@ -76,31 +78,53 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
     setPage(0)
   }
 
-  useEffect(() => {
-    switch (page) {
-      case 0:
-        setTitle('홈')
-        break
-      case 1:
-        setTitle('전체 채팅')
-        break
-      case 2:
-        setTitle('랜덤 채팅')
-        break
+  const handleHoverOnMeetNow = () => {
+    const cooltime = (time: string) => {
+      return Math.floor(
+        (new Date(time).getTime() - new Date().getTime()) / 1000 / 60, // 시간차이를 계산해서 몇분남았나를 리턴
+      )
     }
+
+    if (canCreateMeetNow) {
+      setMeetNowTooltip('')
+    }
+
+    const createMeetNowTooltipText =
+      [
+        `${cooltime(expiredTime)}분 후에 가능해요`,
+        `${cooltime(RandomChatMeetNowExpireTime)}분 후에 가능해요`,
+      ][page - 1] || ''
+
+    setMeetNowTooltip(createMeetNowTooltipText)
+  }
+
+  useEffect(() => {
+    handleHoverOnMeetNow()
+  }, [expiredTime, RandomChatMeetNowExpireTime])
+
+  useEffect(() => {
+    setTitle(['홈', '전체 채팅', '랜덤 채팅'][page])
   }, [page])
 
   return (
     <div className="relative flex h-50pxr w-full shrink-0 flex-col items-center bg-background-main shadow-top-shadow">
       {page !== 0 && (
         <div className="flex h-full w-full max-w-1200pxr flex-row items-center justify-end gap-20pxr px-20pxr tb:gap-10pxr mb:px-10pxr">
-          <CustomButton
-            type="meetNow"
-            size="l"
-            text="당장만나"
-            onClick={handleClickMeetNow}
-            disabled={isConnected ? !canCreateMeetNow : true}
-          />
+          <Tooltip
+            title={meetNowTooltip}
+            placement="bottom"
+            onOpenChange={handleHoverOnMeetNow}
+          >
+            <div>
+              <CustomButton
+                type="meetNow"
+                size="l"
+                text="당장만나"
+                onClick={handleClickMeetNow}
+                disabled={isConnected ? !canCreateMeetNow : true}
+              />
+            </div>
+          </Tooltip>
           <CreateMeetNowModal
             isOpen={isOpenCreateModal}
             closeModal={closeModal}
