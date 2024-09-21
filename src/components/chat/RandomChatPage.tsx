@@ -41,7 +41,7 @@ export default function RandomChatPage() {
   const [isFirstJoin, setIsFirstJoin] = useState(true)
 
   const scrollRef = useRef<HTMLDivElement>(null)
-
+  const isMobile = /Mobi/i.test(window.navigator.userAgent)
   useScroll(scrollRef, [randomChat])
 
   const requestPermission = async () => {
@@ -117,7 +117,9 @@ export default function RandomChatPage() {
   }
 
   useEffect(() => {
-    requestPermission() // 처음 실행시 알림 울리게 할건지 권한 묻기
+    if (!isMobile) {
+      requestPermission() // 처음 실행시 알림 울리게 할건지 권한 묻기
+    }
 
     const handleFocusOnBrowser = () => {
       if (document.visibilityState === 'visible') {
@@ -168,7 +170,7 @@ export default function RandomChatPage() {
           setIsRandomChatConnected(true)
           setIsFirstJoin(false)
 
-          if (!isVisible || page !== 2) {
+          if (!isMobile && (!isVisible || page !== 2)) {
             notificate('join')
           }
 
@@ -212,12 +214,12 @@ export default function RandomChatPage() {
             }
             setRandomChat((prevChat) => [...prevChat, disConnectedMessage])
           }
-
+          setRandomChatMeetNowExpireTime('')
+          setIsWaiting(false)
           break
 
         case 'chat':
-          console.log('isVisible,page', isVisible, page)
-          if (!isVisible || page !== 2) {
+          if (!isMobile && (!isVisible || page !== 2)) {
             notificate('msg', data[1])
           }
 

@@ -17,6 +17,8 @@ export const groupChatWorker = new Worker(
 /** 메인페이지 컴포넌트
  * @todo 툴팁넣기
  * @todo 에러처리( socket.onerror, 소켓에서 날라오는 에러 ), 최적화
+ * @todo chatbox key값 수정, css 너비수정
+ * @todo input 컴포지션 문제
  */
 
 export default function Main() {

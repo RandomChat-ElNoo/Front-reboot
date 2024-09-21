@@ -92,7 +92,7 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
     const createMeetNowTooltipText =
       [
         `${cooltime(expiredTime)}분 후에 가능해요`,
-        `${cooltime(RandomChatMeetNowExpireTime)}분 후에 가능해요`,
+        `${RandomChatMeetNowExpireTime ? cooltime(RandomChatMeetNowExpireTime) + '분 후에 가능해요' : ''}`,
       ][page - 1] || ''
 
     setMeetNowTooltip(createMeetNowTooltipText)
