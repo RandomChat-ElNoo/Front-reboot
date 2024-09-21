@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
+import { groupChatWorker, randomChatWorker } from '../pages/Main'
+import useGlobalStateStore from '../store/useGlobalStateStore'
+import useChatAlertStore from '../store/useChatAlertStore'
+import useCanGroupChatMeetNowStore from '../store/useCanGroupChatMeetNowStore'
 import CustomButton from './CustomButton'
 import useChatStore from '../store/useChatStore'
-import useGlobalStateStore from '../store/useGlobalStateStore'
-import { groupChatWorker, randomChatWorker } from '../pages/Main'
 import CreateMeetNowModal from './chat/CreateMeetNowModal'
-import useCanGroupChatMeetNowStore from '../store/useCanGroupChatMeetNowStore'
-import useChatAlertStore from '../store/useChatAlertStore'
 import { Tooltip } from 'antd'
 
 interface TopBarProps {
@@ -14,7 +14,6 @@ interface TopBarProps {
 
 /** 상단 바
  * @param onClickSideBarButton 사이드 바를 닫아주는 함수
- * @todo canCreateMeetNow 랜덤챗 만들때 수정해야함
  */
 
 export default function TopBar({ onClickSideBarButton }: TopBarProps) {
@@ -79,22 +78,29 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
     setPage(0)
   }
 
-  useEffect(() => {
+  const handleHoverOnMeetNow = () => {
     const cooltime = (time: string) => {
       return Math.floor(
-        (new Date(time).getTime() - new Date().getTime()) / 1000 / 60,
+        (new Date(time).getTime() - new Date().getTime()) / 1000 / 60, // 시간차이를 계산해서 몇분남았나를 리턴
       )
     }
 
+    if (canCreateMeetNow) {
+      setMeetNowTooltip('')
+    }
+
     const createMeetNowTooltipText =
-      !canCreateMeetNow && page === 1
-        ? `${cooltime(expiredTime)}분 후에 가능해요`
-        : !canCreateMeetNow && page === 2
-          ? `${cooltime(RandomChatMeetNowExpireTime)}분 후에 가능해요`
-          : ''
+      [
+        `${cooltime(expiredTime)}분 후에 가능해요`,
+        `${cooltime(RandomChatMeetNowExpireTime)}분 후에 가능해요`,
+      ][page - 1] || ''
 
     setMeetNowTooltip(createMeetNowTooltipText)
-  }, [page, expiredTime, canCreateMeetNow, RandomChatMeetNowExpireTime])
+  }
+
+  useEffect(() => {
+    handleHoverOnMeetNow()
+  }, [expiredTime, RandomChatMeetNowExpireTime])
 
   useEffect(() => {
     switch (page) {
@@ -114,7 +120,11 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
     <div className="relative flex h-50pxr w-full shrink-0 flex-col items-center bg-background-main shadow-top-shadow">
       {page !== 0 && (
         <div className="flex h-full w-full max-w-1200pxr flex-row items-center justify-end gap-20pxr px-20pxr tb:gap-10pxr mb:px-10pxr">
-          <Tooltip title={meetNowTooltip} placement="bottom">
+          <Tooltip
+            title={meetNowTooltip}
+            placement="bottom"
+            onOpenChange={handleHoverOnMeetNow}
+          >
             <div>
               <CustomButton
                 type="meetNow"
