@@ -8,6 +8,8 @@ interface useOptionStoreProps {
   setIsRandomChatImgPreview: (state: boolean) => void
   isGroupChatImgPreview: boolean
   setIsGroupChatImgPreview: (state: boolean) => void
+  seeUpdateLogModal: boolean
+  setSeeUpdateLogModal: (state: boolean) => void
 }
 
 const useOptionStore = create(
@@ -24,6 +26,10 @@ const useOptionStore = create(
       isGroupChatImgPreview: false,
       setIsGroupChatImgPreview: (state) => {
         set({ isGroupChatImgPreview: state })
+      },
+      seeUpdateLogModal: true,
+      setSeeUpdateLogModal: (state) => {
+        set({ seeUpdateLogModal: state })
       },
     }),
     {
