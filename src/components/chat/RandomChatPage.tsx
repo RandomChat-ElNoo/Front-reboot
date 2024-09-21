@@ -202,10 +202,8 @@ export default function RandomChatPage() {
             setCanCreateRandomChatMeetNow(true)
             setRandomChatMeetNow([])
             setIsFirstJoin(true)
-            setRandomChatMeetNowExpireTime('')
           }
           if (data[1] === 'opponent') {
-            setRandomChatMeetNowExpireTime('')
             setIsRandomChatConnected(false)
 
             const disConnectedMessage: Chat = {
@@ -216,7 +214,8 @@ export default function RandomChatPage() {
             }
             setRandomChat((prevChat) => [...prevChat, disConnectedMessage])
           }
-
+          setRandomChatMeetNowExpireTime('')
+          setIsWaiting(false)
           break
 
         case 'chat':
