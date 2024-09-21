@@ -6,6 +6,7 @@ import { groupChatWorker, randomChatWorker } from '../pages/Main'
 import CreateMeetNowModal from './chat/CreateMeetNowModal'
 import useCanGroupChatMeetNowStore from '../store/useCanGroupChatMeetNowStore'
 import useChatAlertStore from '../store/useChatAlertStore'
+import { Tooltip } from 'antd'
 
 interface TopBarProps {
   onClickSideBarButton: () => void
@@ -22,13 +23,15 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
     setGroupChatUserCount,
     opponentAvatar,
     canCreateRandomChatMeetNow,
+    RandomChatMeetNowExpireTime,
   } = useChatStore()
   const { isRandomChatConnected, isGroupChatConnected, page, setPage } =
     useGlobalStateStore()
   const { randomChatAlert } = useChatAlertStore()
-  const { canCreateGroupMeetNow } = useCanGroupChatMeetNowStore()
+  const { canCreateGroupMeetNow, expiredTime } = useCanGroupChatMeetNowStore()
   const [title, setTitle] = useState('홈')
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false)
+  const [meetNowTooltip, setMeetNowTooltip] = useState('')
 
   const indicatorColor = [
     { page: 0, color: '' },
@@ -77,6 +80,23 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
   }
 
   useEffect(() => {
+    const cooltime = (time: string) => {
+      return Math.floor(
+        (new Date(time).getTime() - new Date().getTime()) / 1000 / 60,
+      )
+    }
+
+    const createMeetNowTooltipText =
+      !canCreateMeetNow && page === 1
+        ? `${cooltime(expiredTime)}분 후에 가능해요`
+        : !canCreateMeetNow && page === 2
+          ? `${cooltime(RandomChatMeetNowExpireTime)}분 후에 가능해요`
+          : ''
+
+    setMeetNowTooltip(createMeetNowTooltipText)
+  }, [page, expiredTime, canCreateMeetNow, RandomChatMeetNowExpireTime])
+
+  useEffect(() => {
     switch (page) {
       case 0:
         setTitle('홈')
@@ -94,13 +114,17 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
     <div className="relative flex h-50pxr w-full shrink-0 flex-col items-center bg-background-main shadow-top-shadow">
       {page !== 0 && (
         <div className="flex h-full w-full max-w-1200pxr flex-row items-center justify-end gap-20pxr px-20pxr tb:gap-10pxr mb:px-10pxr">
-          <CustomButton
-            type="meetNow"
-            size="l"
-            text="당장만나"
-            onClick={handleClickMeetNow}
-            disabled={isConnected ? !canCreateMeetNow : true}
-          />
+          <Tooltip title={meetNowTooltip} placement="bottom">
+            <div>
+              <CustomButton
+                type="meetNow"
+                size="l"
+                text="당장만나"
+                onClick={handleClickMeetNow}
+                disabled={isConnected ? !canCreateMeetNow : true}
+              />
+            </div>
+          </Tooltip>
           <CreateMeetNowModal
             isOpen={isOpenCreateModal}
             closeModal={closeModal}

@@ -25,6 +25,7 @@ export default function RandomChatPage() {
     randomChatMatchingCount,
     setRandomChatMatchingCount,
     setCanCreateRandomChatMeetNow,
+    setRandomChatMeetNowExpireTime,
   } = useChatStore()
   const { setRandomChatAlert } = useChatAlertStore()
   const {
@@ -256,6 +257,12 @@ export default function RandomChatPage() {
 
           if (data.length === 5) {
             setCanCreateRandomChatMeetNow(false)
+
+            const currentTime = new Date()
+            currentTime.setMinutes(currentTime.getMinutes() + 30)
+            const coolTime = currentTime.toISOString()
+            setRandomChatMeetNowExpireTime(coolTime)
+
             setTimeout(
               () => {
                 setCanCreateRandomChatMeetNow(true)
