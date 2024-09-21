@@ -103,17 +103,7 @@ export default function TopBar({ onClickSideBarButton }: TopBarProps) {
   }, [expiredTime, RandomChatMeetNowExpireTime])
 
   useEffect(() => {
-    switch (page) {
-      case 0:
-        setTitle('홈')
-        break
-      case 1:
-        setTitle('전체 채팅')
-        break
-      case 2:
-        setTitle('랜덤 채팅')
-        break
-    }
+    setTitle(['홈', '전체 채팅', '랜덤 채팅'][page])
   }, [page])
 
   return (

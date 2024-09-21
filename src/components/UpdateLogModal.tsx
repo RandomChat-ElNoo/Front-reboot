@@ -7,6 +7,11 @@ interface UpdateLogModalProps {
   closeModal: (seeNoMore?: boolean) => void
 }
 
+/** 메인 화면에서 뜰 업데이트 로그 모달
+ * @param open 모달을 열어줄 boolean값
+ * @param closeModal 모달을 닫을때 실행할 함수
+ */
+
 export default function UpdateLogModal({
   open,
   closeModal,
@@ -16,11 +21,10 @@ export default function UpdateLogModal({
   const onClose = () => {
     closeModal(seeNoMoreCheck)
   }
-  console.log('seeNoMoreCheck', seeNoMoreCheck)
+
   return (
     <>
       <Modal
-        className=""
         closeIcon={null}
         width={600}
         open={open}
