@@ -1,6 +1,6 @@
 import { CloseOutlined, HomeFilled, MoreOutlined } from '@ant-design/icons'
 import SideBarMenuButton from './SideBarMenuButton'
-import { Divider } from 'antd'
+import { Divider, Tooltip } from 'antd'
 import useOptionStore from '../../store/useOptionStore'
 import Options from './Options'
 import { useState } from 'react'
@@ -128,9 +128,11 @@ export default function SideBar() {
               <p className="text-18pxr">아바타</p>
               <p className="text-16pxr">{avatar}</p>
             </button>
-            <button onClick={handleOption} className="">
-              <MoreOutlined className="text-24pxr text-white" />
-            </button>
+            <Tooltip title="옵션">
+              <button onClick={handleOption} className="">
+                <MoreOutlined className="text-24pxr text-white" />
+              </button>
+            </Tooltip>
           </div>
         </div>
         <div

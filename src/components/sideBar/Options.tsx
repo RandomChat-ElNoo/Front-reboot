@@ -1,5 +1,5 @@
 import { CloseOutlined, UnorderedListOutlined } from '@ant-design/icons'
-import { Button, ConfigProvider, Input, Switch } from 'antd'
+import { Button, ConfigProvider, Input, Switch, Tooltip } from 'antd'
 import useOptionStore from '../../store/useOptionStore'
 import { useState } from 'react'
 
@@ -49,10 +49,12 @@ export default function Options({ closeOption }: OptionsProps) {
         <section className="flex h-40pxr flex-row items-center justify-between bg-background-sidebar-bottom px-10pxr">
           <UnorderedListOutlined style={{ fontSize: '28px', color: 'white' }} />
           <p className="text-18pxr">옵션</p>
-          <CloseOutlined
-            onClick={closeOption}
-            style={{ fontSize: '28px', color: 'white' }}
-          />
+          <Tooltip title="닫기">
+            <CloseOutlined
+              onClick={closeOption}
+              style={{ fontSize: '28px', color: 'white' }}
+            />
+          </Tooltip>
         </section>
         <section className="flex w-full flex-col gap-10pxr bg-background-sidebar px-10pxr py-20pxr">
           <p className="text-18pxr">이미지 미리보기</p>
