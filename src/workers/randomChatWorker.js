@@ -46,6 +46,11 @@ const typingPrivateChat = () => {
   socket.send(data)
 }
 
+const stopTypingPrivateChat = () => {
+  const data = JSON.stringify(['stopTyping'])
+  socket.send(data)
+}
+
 const getIdPrivateChat = () => {
   const data = JSON.stringify(['getId'])
   socket.send(data)
@@ -85,6 +90,10 @@ const randomChatWorkerHandler = () => {
 
       case 'typing':
         typingPrivateChat()
+        break
+
+      case 'stopTyping':
+        stopTypingPrivateChat()
         break
 
       case 'setAvatar':

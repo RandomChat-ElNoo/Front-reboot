@@ -47,6 +47,7 @@ export default function RandomChatPage() {
   const isMobile = /Mobi/i.test(window.navigator.userAgent)
 
   useScroll(scrollRef, [randomChat])
+  useTypingTimer(inputValue)
 
   const requestPermission = async () => {
     await Notification.requestPermission()
@@ -138,6 +139,14 @@ export default function RandomChatPage() {
       document.removeEventListener('visibilitychange', handleFocusOnBrowser)
     }
   }, [])
+
+  useEffect(() => {
+    if (amIRandomChatTyping) {
+      randomChatWorker.postMessage(['typing'])
+      return
+    }
+    randomChatWorker.postMessage(['stopTyping'])
+  }, [amIRandomChatTyping])
 
   useEffect(() => {
     if (isWaiting) {
@@ -277,6 +286,13 @@ export default function RandomChatPage() {
               30 * 60 * 1000,
             )
           }
+          break
+        case 'typing':
+          setIsRandomChatTyping(true)
+          break
+
+        case 'stopTyping':
+          setIsRandomChatTyping(false)
           break
 
         case 'getId':
