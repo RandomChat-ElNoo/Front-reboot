@@ -1,7 +1,9 @@
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import EmojiBox from './EmojiBox'
 import EmojiButton from './EmojiButton'
 import SendButton from './SendButton'
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import JumpingDot from '../JumpingDot'
+import useChatStore from '../../store/useChatStore'
 
 interface TextInputBoxProps {
   inputValue: string
@@ -33,6 +35,7 @@ export default function TextInputBox({
   onSendButtonClick,
   handleSendMessage,
 }: TextInputBoxProps) {
+  const { isRandomChatTyping } = useChatStore()
   const [isOpenEmoji, setIsOpenEmoji] = useState(false)
   const [isCompositionEnd, setIsCompositionEnd] = useState(true)
 
@@ -66,7 +69,7 @@ export default function TextInputBox({
     console.log('isCompositionEnd', isCompositionEnd)
   }, [isCompositionEnd])
   return (
-    <div className="relative z-20 mx-auto mb-auto bg-background-main px-10pxr pt-10pxr">
+    <div className="relative z-20 mx-auto mb-auto bg-background-main px-10pxr pt-16pxr">
       <div className="relative flex h-46pxr w-full max-w-1200pxr items-center gap-10pxr rounded-[10px] bg-text-box px-20pxr py-5pxr">
         <textarea
           onCompositionStart={() => {
@@ -107,6 +110,13 @@ export default function TextInputBox({
         </div>
       </div>
       <div className="h-20pxr w-full bg-background-main" />
+      <div
+        data-isTyping={isRandomChatTyping}
+        className="absolute left-15pxr top-0pxr hidden flex-row items-end gap-5pxr data-[isTyping=true]:flex"
+      >
+        <p className="text-14pxr">상대방이 입력중입니다</p>
+        <JumpingDot />
+      </div>
     </div>
   )
 }
