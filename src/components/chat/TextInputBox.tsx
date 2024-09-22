@@ -39,12 +39,14 @@ export default function TextInputBox({
   const toggleEmojiTransitionClass = isOpenEmoji ? '-translate-y-[270px]' : ''
 
   const onEnterListener = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' && !event.shiftKey && isCompositionEnd) {
-      // 기본 동작 방지 (새 줄 추가 방지)
-      event.preventDefault()
-      handleSendMessage(event) // 메시지 보내는 로직 실행
+    if (event.key === 'Enter' && !event.shiftKey) {
+      if (isCompositionEnd) {
+        // 기본 동작 방지 (새 줄 추가 방지)
+        event.preventDefault()
+        handleSendMessage(event) // 메시지 보내는 로직 실행
+      }
+      setIsCompositionEnd(true)
     }
-    setIsCompositionEnd(true)
   }
 
   const handleOnChangeInput = (e: any) => {
@@ -60,7 +62,9 @@ export default function TextInputBox({
       setIsOpenEmoji(false)
     }
   }, [isConnected])
-
+  useEffect(() => {
+    console.log('isCompositionEnd', isCompositionEnd)
+  }, [isCompositionEnd])
   return (
     <div className="relative z-20 mx-auto mb-auto bg-background-main px-10pxr pt-10pxr">
       <div className="relative flex h-46pxr w-full max-w-1200pxr items-center gap-10pxr rounded-[10px] bg-text-box px-20pxr py-5pxr">
