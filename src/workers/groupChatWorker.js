@@ -83,8 +83,10 @@ const handler = () => {
   }
 
   socket.onclose = () => {
+    console.log('끊김')
     setTimeout(() => {
       socket = new WebSocket('https://api.vtalk.be/')
+      console.log('재연결')
       handler()
     }, 1000)
   }
