@@ -9,6 +9,7 @@ import useChatAlertStore from '../../store/useChatAlertStore'
 import useOptionStore from '../../store/useOptionStore'
 import JoinDialog from './JoinDialog'
 import MatchingCount from './MatchingCount'
+import useTypingTimer from '../../hooks/useTypingTimer'
 
 /**
  * 랜덤 채팅 페이지
@@ -22,6 +23,8 @@ export default function RandomChatPage() {
     setRandomChat,
     setOpponentAvatar,
     setRandomChatMeetNow,
+    setIsRandomChatTyping,
+    amIRandomChatTyping,
     randomChatMatchingCount,
     setRandomChatMatchingCount,
     setCanCreateRandomChatMeetNow,
@@ -42,7 +45,9 @@ export default function RandomChatPage() {
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const isMobile = /Mobi/i.test(window.navigator.userAgent)
+
   useScroll(scrollRef, [randomChat])
+  useTypingTimer(inputValue)
 
   const requestPermission = async () => {
     await Notification.requestPermission()
@@ -134,6 +139,14 @@ export default function RandomChatPage() {
       document.removeEventListener('visibilitychange', handleFocusOnBrowser)
     }
   }, [])
+
+  useEffect(() => {
+    if (amIRandomChatTyping) {
+      randomChatWorker.postMessage(['typing'])
+      return
+    }
+    randomChatWorker.postMessage(['stopTyping'])
+  }, [amIRandomChatTyping])
 
   useEffect(() => {
     if (isWaiting) {
@@ -274,6 +287,13 @@ export default function RandomChatPage() {
             )
           }
           break
+        case 'typing':
+          setIsRandomChatTyping(true)
+          break
+
+        case 'stopTyping':
+          setIsRandomChatTyping(false)
+          break
 
         case 'getId':
           sessionStorage.setItem('randomChatSocketId', data[1])
@@ -298,7 +318,7 @@ export default function RandomChatPage() {
       <div className="relative w-full">
         <div
           ref={scrollRef}
-          className="h-[calc(100%-76px)] w-full overflow-y-scroll"
+          className="h-[calc(100%-82px)] w-full overflow-y-scroll"
         >
           <div className="mx-auto max-w-1200pxr">
             <ChatList chatList={randomChat} />

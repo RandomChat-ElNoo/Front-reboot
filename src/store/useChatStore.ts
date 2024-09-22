@@ -3,6 +3,12 @@ interface ChatStore {
   randomChat: Chat[]
   setRandomChat: (value: Chat[] | ((prev: Chat[]) => Chat[])) => void
 
+  isRandomChatTyping: boolean
+  setIsRandomChatTyping: (value: boolean) => void
+
+  amIRandomChatTyping: boolean
+  setAmIRandomChatTyping: (value: boolean) => void
+
   randomChatMeetNow: MeetNow[]
   setRandomChatMeetNow: (
     value: MeetNow[] | ((prev: MeetNow[]) => MeetNow[]),
@@ -39,6 +45,13 @@ const useChatStore = create<ChatStore>((set) => ({
       randomChat: typeof value === 'function' ? value(state.randomChat) : value,
     }))
   },
+
+  isRandomChatTyping: false,
+  setIsRandomChatTyping: (value) => set({ isRandomChatTyping: value }),
+
+  amIRandomChatTyping: false,
+  setAmIRandomChatTyping: (value) => set({ amIRandomChatTyping: value }),
+
   randomChatMeetNow: [],
   setRandomChatMeetNow: (value) => {
     set((state) => ({
