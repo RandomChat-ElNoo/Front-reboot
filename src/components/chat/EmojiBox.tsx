@@ -32,7 +32,11 @@ export default function EmojiBox({ onClickEmoji, closeEmoji }: EmojiBoxProps) {
             className="aspect-square w-full shrink-0"
             key={item.name}
           >
-            <img className="aspect-square object-contain" src={item.src} />
+            <img
+              className="aspect-square object-contain"
+              src={item.src}
+              alt={`${item.name}`}
+            />
           </button>
         ))}
       </section>

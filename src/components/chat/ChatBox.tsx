@@ -89,8 +89,8 @@ export default function ChatBox({
             >
               <img
                 className="object-contain"
-                alt={`emoji-${context.replace(/::/g, '')}.png`}
-                src={`/imgs/emojis/${context.replace(/::/g, '')}.png`}
+                alt={`emoji-${context.replace(/::/g, '')}.webp`}
+                src={`/imgs/emojis/${context.replace(/::/g, '')}.webp`}
               />
             </div>
           ) : (

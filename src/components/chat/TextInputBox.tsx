@@ -65,9 +65,11 @@ export default function TextInputBox({
       setIsOpenEmoji(false)
     }
   }, [isConnected])
+
   useEffect(() => {
     console.log('isCompositionEnd', isCompositionEnd)
   }, [isCompositionEnd])
+
   return (
     <div className="relative z-20 mx-auto mb-auto bg-background-main px-10pxr pt-16pxr">
       <div className="relative flex h-46pxr w-full max-w-1200pxr items-center gap-10pxr rounded-[10px] bg-text-box px-20pxr py-5pxr">
@@ -111,8 +113,8 @@ export default function TextInputBox({
       </div>
       <div className="h-20pxr w-full bg-background-main" />
       <div
-        data-isTyping={isRandomChatTyping}
-        className="absolute left-15pxr top-0pxr hidden flex-row items-end gap-5pxr data-[isTyping=true]:flex"
+        data-istyping={isRandomChatTyping}
+        className="absolute left-15pxr top-0pxr hidden flex-row items-end gap-5pxr data-[istyping=true]:flex"
       >
         <p className="text-14pxr">상대방이 입력중입니다</p>
         <JumpingDot />

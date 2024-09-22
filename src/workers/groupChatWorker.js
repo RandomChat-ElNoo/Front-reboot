@@ -86,6 +86,10 @@ const groupChatWorkerHandler = () => {
     self.postMessage(['reconnect'])
   }
 
+  socket.onerror = (e) => {
+    console.log('socketError', e)
+  }
+
   socket.onclose = () => {
     setTimeout(() => {
       socket = new WebSocket('https://api.vtalk.be/')

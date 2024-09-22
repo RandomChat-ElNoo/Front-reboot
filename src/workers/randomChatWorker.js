@@ -43,8 +43,10 @@ const typingPrivateChat = () => {
 }
 
 const stopTypingPrivateChat = () => {
-  const data = JSON.stringify(['stopTyping'])
-  socket.send(data)
+  if (socket.readyState === WebSocket.OPEN) {
+    const data = JSON.stringify(['stopTyping'])
+    socket.send(data)
+  }
 }
 
 const getIdPrivateChat = () => {
@@ -121,6 +123,10 @@ const randomChatWorkerHandler = () => {
 
   socket.onopen = () => {
     getIdPrivateChat()
+  }
+
+  socket.onerror = (e) => {
+    console.log('socketError', e)
   }
 
   socket.onclose = () => {
