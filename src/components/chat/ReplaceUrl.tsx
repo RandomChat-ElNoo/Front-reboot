@@ -70,6 +70,9 @@ export default function ReplaceUrl({
                 className="h-auto max-h-450pxr w-full max-w-700pxr object-contain"
                 key={index}
                 src={matches[index]}
+                onLoad={() => {
+                  window.scrollTo(0, document.body.scrollHeight)
+                }}
               />
             </button>
           ) : (

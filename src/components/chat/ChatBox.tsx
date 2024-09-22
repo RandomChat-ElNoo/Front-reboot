@@ -91,6 +91,9 @@ export default function ChatBox({
                 className="object-contain"
                 alt={`emoji-${context.replace(/::/g, '')}.webp`}
                 src={`/imgs/emojis/${context.replace(/::/g, '')}.webp`}
+                onLoad={() => {
+                  window.scrollTo(0, document.body.scrollHeight)
+                }}
               />
             </div>
           ) : (
