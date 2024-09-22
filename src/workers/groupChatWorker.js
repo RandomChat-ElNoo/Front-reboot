@@ -70,7 +70,8 @@ const groupChatWorkerHandler = () => {
           createWorld(msg)
         }
         break
-
+      case '':
+        break
       default:
         console.error('Unknown message action:', action)
         break
@@ -82,11 +83,13 @@ const groupChatWorkerHandler = () => {
     self.postMessage(response)
   }
 
+  socket.onopen = () => {
+    self.postMessage(['reconnect'])
+  }
+
   socket.onclose = () => {
-    console.log('끊김')
     setTimeout(() => {
       socket = new WebSocket('https://api.vtalk.be/')
-      console.log('재연결')
       groupChatWorkerHandler()
     }, 1000)
   }
