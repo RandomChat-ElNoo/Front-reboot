@@ -1,7 +1,6 @@
-let socket = new WebSocket('https://api.vtalk.be/')
+let socket = new WebSocket('wss://api.vtalk.be/')
 
 // 공통
-
 const SendMessage = (msg) => {
   const data = JSON.stringify(['chat', msg, new Date()])
   socket.send(data)

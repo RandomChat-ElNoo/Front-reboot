@@ -1,8 +1,4 @@
-/** 채팅은 socket.send("안녕"+","+"뉴데이트")
- * @todo 소켓 함수 묶어주기 ( 재연결 로직 )
- */
-
-let socket = new WebSocket('https://api.vtalk.be/')
+let socket = new WebSocket('wss://api.vtalk.be/')
 
 // 공통
 const SendMessage = (msg) => {
