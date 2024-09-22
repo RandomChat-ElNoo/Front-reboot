@@ -61,7 +61,9 @@ export default function ChatBox({
   }, [context])
 
   return (
-    <pre className={`${timeDirection} flex w-full items-end gap-5pxr`}>
+    <pre
+      className={`${timeDirection} flex w-full items-end gap-5pxr break-all`}
+    >
       {type === 'connect' ? (
         <div className="flex w-full flex-col items-center gap-10pxr">
           <Divider

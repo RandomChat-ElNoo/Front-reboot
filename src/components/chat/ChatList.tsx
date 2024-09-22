@@ -14,7 +14,7 @@ export default function ChatList({ chatList }: ChatListProps) {
     <div className="flex h-full max-w-1200pxr flex-col gap-20pxr px-20pxr pt-20pxr">
       {chatList.map((chat) => (
         <ChatBox
-          key={chat.time.toString()}
+          key={`${chat.context}+${chat.time.toString()}`}
           context={chat.context}
           isMine={chat.isMine}
           type={chat.type}
