@@ -34,15 +34,17 @@ export default function TextInputBox({
   handleSendMessage,
 }: TextInputBoxProps) {
   const [isOpenEmoji, setIsOpenEmoji] = useState(false)
+  const [isCompositionEnd, setIsCompositionEnd] = useState(true)
 
   const toggleEmojiTransitionClass = isOpenEmoji ? '-translate-y-[270px]' : ''
 
   const onEnterListener = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter' && !event.shiftKey && isCompositionEnd) {
       // 기본 동작 방지 (새 줄 추가 방지)
       event.preventDefault()
       handleSendMessage(event) // 메시지 보내는 로직 실행
     }
+    setIsCompositionEnd(true)
   }
 
   const handleOnChangeInput = (e: any) => {
@@ -63,6 +65,12 @@ export default function TextInputBox({
     <div className="relative z-20 mx-auto mb-auto bg-background-main px-10pxr pt-10pxr">
       <div className="relative flex h-46pxr w-full max-w-1200pxr items-center gap-10pxr rounded-[10px] bg-text-box px-20pxr py-5pxr">
         <textarea
+          onCompositionStart={() => {
+            setIsCompositionEnd(false)
+          }}
+          onCompositionEnd={() => {
+            setIsCompositionEnd(true)
+          }}
           rows={1}
           maxLength={300}
           value={inputValue}
