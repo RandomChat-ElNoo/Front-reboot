@@ -1,3 +1,5 @@
+/** 인풋위에 쓰일 점 3개가 바운스하는 컴포넌트 */
+
 export default function JumpingDot() {
   return (
     <div className="flex flex-row gap-2pxr">

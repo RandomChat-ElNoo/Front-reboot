@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react'
 import useChatStore from '../store/useChatStore'
 
+/**
+ * 디펜던시 값만 넣어주면 자동으로 typing 상태를 바꿔주는 훅
+ * @param inputValue useEffect 디펜던시에 넣어줄 값
+ */
+
 export default function useTypingTimer(inputValue: string) {
   const { setAmIRandomChatTyping } = useChatStore()
   const timeoutRef = useRef<number | undefined>(undefined)
