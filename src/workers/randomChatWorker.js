@@ -52,67 +52,75 @@ const getIdPrivateChat = () => {
 }
 
 // 워커가 응답을 받아 실행하는 부분
-self.onmessage = (e) => {
-  const [action, msg] = e.data
+const randomChatWorkerHandler = () => {
+  self.onmessage = (e) => {
+    const [action, msg] = e.data
 
-  switch (action) {
-    case 'chat':
-      if (msg) {
-        SendMessage(msg)
-      }
-      break
+    switch (action) {
+      case 'chat':
+        if (msg) {
+          SendMessage(msg)
+        }
+        break
 
-    case 'join':
-      joinPrivateChat()
-      break
+      case 'join':
+        joinPrivateChat()
+        break
 
-    case 'getId':
-      getIdPrivateChat()
-      break
+      case 'getId':
+        getIdPrivateChat()
+        break
 
-    case 'exit':
-      exitChat()
-      break
+      case 'exit':
+        exitChat()
+        break
 
-    case 'close':
-      closeSocket()
-      break
+      case 'close':
+        closeSocket()
+        break
 
-    case 'count':
-      countPrivateChat()
-      break
+      case 'count':
+        countPrivateChat()
+        break
 
-    case 'typing':
-      typingPrivateChat()
-      break
+      case 'typing':
+        typingPrivateChat()
+        break
 
-    case 'setAvatar':
-      setAvatarPrivateChat(msg ? msg : '기타')
-      break
+      case 'setAvatar':
+        setAvatarPrivateChat(msg ? msg : '기타')
+        break
 
-    case 'createWorld':
-      if (msg) {
-        createWorld(msg)
-      }
-      break
+      case 'createWorld':
+        if (msg) {
+          createWorld(msg)
+        }
+        break
 
-    case 'reconnect':
-      socket = new WebSocket(`https://api.vtalk.be/?vtalt=${Id}`)
-      break
-    default:
-      console.error('Unknown message action:', action)
-      break
+      case 'reconnect':
+        setTimeout(() => {
+          socket = new WebSocket(`https://api.vtalk.be/?vtalt=${msg}`)
+          randomChatWorkerHandler()
+        }, 1000)
+        break
+      default:
+        console.error('Unknown message action:', action)
+        break
+    }
+  }
+
+  socket.onmessage = (e) => {
+    const response = JSON.parse(e.data)
+    self.postMessage(response)
+  }
+
+  socket.onopen = () => {
+    getIdPrivateChat()
+  }
+
+  socket.onclose = () => {
+    self.postMessage(['getSavedId'])
   }
 }
 
-socket.onmessage = (e) => {
-  const response = JSON.parse(e.data)
-  self.postMessage(response)
-}
-socket.onopen = () => {
-  getIdPrivateChat()
-}
-
-socket.onclose = () => {
-  self.postMessage(['getSavedId'])
-}
+randomChatWorkerHandler()

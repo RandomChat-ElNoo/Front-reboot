@@ -34,7 +34,7 @@ const countGroupChat = () => {
 }
 
 // 워커가 응답을 받아 실행하는 부분
-const handler = () => {
+const groupChatWorkerHandler = () => {
   self.onmessage = (e) => {
     const [action, msg] = e.data
     console.log(action, msg, 'worker')
@@ -87,9 +87,9 @@ const handler = () => {
     setTimeout(() => {
       socket = new WebSocket('https://api.vtalk.be/')
       console.log('재연결')
-      handler()
+      groupChatWorkerHandler()
     }, 1000)
   }
 }
 
-handler()
+groupChatWorkerHandler()

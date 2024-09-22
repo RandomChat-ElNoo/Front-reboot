@@ -278,7 +278,7 @@ export default function RandomChatPage() {
           sessionStorage.setItem('randomChatSocketId', data[1])
           break
 
-        case 'savedId':
+        case 'getSavedId':
           const id = sessionStorage.getItem('randomChatSocketId')
           randomChatWorker.postMessage(['reconnect', id])
           break
