@@ -129,7 +129,6 @@ export default function GroupChatPage() {
   useEffect(() => {
     const handleWorkerMessage = (e: MessageEvent) => {
       // 워커가 컴포넌트로 보내준 메시지를 처리하는 곳
-      console.log('From Worker', e.data)
 
       let data
       if (typeof e.data === 'string') {
@@ -138,22 +137,24 @@ export default function GroupChatPage() {
         data = e.data
       }
 
-      console.log('data :', data)
+      console.log('data from group:', data)
 
       switch (
         data[0] // ["action",메시지] 로 이루어진 데이터를 분리해서 처리하는 곳
       ) {
         case 'join':
-          setIsGroupChatConnected(true)
-          setGroupChatUserCount(data[1])
-
           const connectedMessage: Chat = {
             isMine: false,
             type: 'connect',
-            context: '채팅에 연결되었습니다!',
+            context: isGroupChatConnected
+              ? '채팅에 재연결되었습니다!'
+              : '채팅에 연결되었습니다!',
             time: new Date().toISOString(),
           }
           setGroupChat((prevChat) => [...prevChat, connectedMessage])
+
+          setGroupChatUserCount(data[1])
+          setIsGroupChatConnected(true)
           break
 
         case 'exit':
@@ -205,6 +206,13 @@ export default function GroupChatPage() {
             setCanCreateGroupMeetNow(false)
           }
           break
+        case 'reconnect':
+          console.log('isGroupChatConnected', isGroupChatConnected)
+          if (isGroupChatConnected) {
+            groupChatWorker.postMessage(['joinGroup'])
+            console.log('reconnect commend')
+          }
+          break
       }
     }
 
@@ -213,7 +221,7 @@ export default function GroupChatPage() {
     return () => {
       groupChatWorker.removeEventListener('message', handleWorkerMessage)
     }
-  }, [page])
+  }, [page, isGroupChatConnected])
 
   return (
     <div className="flex h-full w-full flex-row justify-center overflow-hidden">

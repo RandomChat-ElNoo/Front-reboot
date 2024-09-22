@@ -157,8 +157,7 @@ export default function RandomChatPage() {
       } else {
         data = e.data
       }
-      console.log('From Worker', e)
-      console.log('data :', data)
+      console.log('data from random :', data)
 
       switch (
         data[0] // ["action",메시지] 로 이루어진 데이터를 분리해서 처리하는 곳
@@ -177,7 +176,9 @@ export default function RandomChatPage() {
           const connectedMessage: Chat = {
             isMine: false,
             type: 'connect',
-            context: '채팅에 연결되었습니다!',
+            context: isRandomChatConnected
+              ? '채팅에 재연결되었습니다!'
+              : '채팅에 연결되었습니다!',
             time: new Date().toISOString(),
           }
           setRandomChat((prevChat) => [...prevChat, connectedMessage])
@@ -278,7 +279,7 @@ export default function RandomChatPage() {
           sessionStorage.setItem('randomChatSocketId', data[1])
           break
 
-        case 'savedId':
+        case 'getSavedId':
           const id = sessionStorage.getItem('randomChatSocketId')
           randomChatWorker.postMessage(['reconnect', id])
           break
