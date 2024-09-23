@@ -87,12 +87,12 @@ const groupChatWorkerHandler = () => {
   }
 
   socket.onerror = (e) => {
-    console.log('socketError', e)
+    console.log('groupSocketError', e)
   }
 
   socket.onclose = () => {
     setTimeout(() => {
-      socket = new WebSocket('https://api.vtalk.be/')
+      socket = new WebSocket('wss://api.vtalk.be/')
       groupChatWorkerHandler()
     }, 1000)
   }
