@@ -5,6 +5,7 @@ import Pages from '../components/Pages'
 import useGlobalStateStore from '../store/useGlobalStateStore'
 import useOptionStore from '../store/useOptionStore'
 import UpdateLogModal from '../components/UpdateLogModal'
+import usePreventRefresh from '../hooks/usePreventRefresh'
 
 export const randomChatWorker = new Worker(
   new URL('../workers/randomChatWorker.js', import.meta.url),
@@ -20,6 +21,8 @@ export default function Main() {
   const { page, isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
   const { seeUpdateLogModal, setSeeUpdateLogModal } = useOptionStore()
   const [updateLogModalOpen, setUpdateLogModalOpenOpen] = useState(false)
+
+  usePreventRefresh()
 
   const openSideBar = () => {
     setIsSideBarOpen(true)
