@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import SideBar from '../components/sideBar/SideBar'
 import TopBar from '../components/TopBar'
 import Pages from '../components/Pages'
 import useGlobalStateStore from '../store/useGlobalStateStore'
 import useOptionStore from '../store/useOptionStore'
 import UpdateLogModal from '../components/UpdateLogModal'
-import usePreventRefresh from '../hooks/usePreventRefresh'
 
 export const randomChatWorker = new Worker(
   new URL('../workers/randomChatWorker.js', import.meta.url),
@@ -19,10 +18,9 @@ export const groupChatWorker = new Worker(
 
 export default function Main() {
   const { page, isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
-  const { seeUpdateLogModal, setSeeUpdateLogModal } = useOptionStore()
+  const { setSeeUpdateLogModal } = useOptionStore()
   const [updateLogModalOpen, setUpdateLogModalOpenOpen] = useState(false)
-
-  usePreventRefresh()
+  const preventRefreshTriggered = useRef(false)
 
   const openSideBar = () => {
     setIsSideBarOpen(true)
@@ -42,17 +40,24 @@ export default function Main() {
   }
 
   useEffect(() => {
-    if (seeUpdateLogModal) {
-      setUpdateLogModalOpenOpen(true)
+    const preventRefresh = (e: BeforeUnloadEvent) => {
+      preventRefreshTriggered.current = true // 알림창이 표시됨
+      e.preventDefault()
+      e.returnValue = ''
     }
 
     const closeSocket = () => {
-      groupChatWorker.postMessage(['close'])
-      randomChatWorker.postMessage(['close'])
+      if (!preventRefreshTriggered.current) {
+        groupChatWorker.postMessage(['close'])
+        randomChatWorker.postMessage(['close'])
+      }
     }
 
+    window.addEventListener('beforeunload', preventRefresh)
     window.addEventListener('beforeunload', closeSocket)
+
     return () => {
+      window.removeEventListener('beforeunload', preventRefresh)
       window.removeEventListener('beforeunload', closeSocket)
     }
   }, [])
