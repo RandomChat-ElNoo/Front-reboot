@@ -106,10 +106,17 @@ const randomChatWorkerHandler = () => {
 
       case 'reconnect':
         setTimeout(() => {
-          socket = new WebSocket(`https://api.vtalk.be/?vtalk=${msg}`)
-          randomChatWorkerHandler()
+          try {
+            self.postMessage(['chat', '재연결 시도'])
+            socket = new WebSocket(`https://api.vtalk.be/?vtalk=${msg}`)
+            randomChatWorkerHandler()
+          } catch (e) {
+            self.postMessage(['chat', '재연결 실패'])
+            self.postMessage(['chat', `${e}`])
+          }
         }, 1000)
         break
+
       default:
         console.error('Unknown message action:', action)
         break
@@ -126,7 +133,8 @@ const randomChatWorkerHandler = () => {
   }
 
   socket.onerror = (e) => {
-    console.log('socketError', e)
+    console.log('socket error: ', e)
+    self.postMessage(['chat', `에러발생 : ${e}`])
   }
 
   socket.onclose = () => {
