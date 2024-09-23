@@ -6,6 +6,7 @@ import useGlobalStateStore from '../store/useGlobalStateStore'
 import useOptionStore from '../store/useOptionStore'
 import UpdateLogModal from '../components/UpdateLogModal'
 import usePreventRefresh from '../hooks/usePreventRefresh'
+import useMobileResize from '../hooks/useMobileResize'
 
 export const randomChatWorker = new Worker(
   new URL('../workers/randomChatWorker.js', import.meta.url),
@@ -21,6 +22,7 @@ export default function Main() {
   const { page, isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
   const { seeUpdateLogModal, setSeeUpdateLogModal } = useOptionStore()
   const [updateLogModalOpen, setUpdateLogModalOpenOpen] = useState(false)
+  const innerHeight = useMobileResize()
 
   usePreventRefresh()
 
@@ -62,7 +64,10 @@ export default function Main() {
   }, [page])
 
   return (
-    <div className="relative h-fit min-h-screen w-screen bg-background-main leading-none">
+    <div
+      style={{ minHeight: `${innerHeight}px` }}
+      className="relative h-fit w-screen bg-background-main leading-none transition-all duration-300 ease-in-out"
+    >
       <div
         data-open={isSideBarOpen}
         className="fixed z-[100] translate-x-0pxr transition-transform duration-300 ease-in-out tb:data-[open=false]:-translate-x-260pxr tb:data-[open=true]:translate-x-0pxr"
