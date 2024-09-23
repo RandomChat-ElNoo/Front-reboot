@@ -15,8 +15,8 @@ export default function GroupChatPage() {
   const {
     groupChat,
     setGroupChat,
-    setGroupChatUserCount,
     setGroupChatMeetNow,
+    setGroupChatUserCount,
   } = useChatStore()
   const { setGroupChatAlert } = useChatAlertStore()
   const { page, isGroupChatConnected, setIsGroupChatConnected } =
@@ -199,13 +199,22 @@ export default function GroupChatPage() {
             url: data[2],
             time: data[3],
           }
-          setGroupChatMeetNow((prev) => [...prev, meetNow])
+          setGroupChatMeetNow((prev) => [meetNow, ...prev])
+
+          setTimeout(
+            () => {
+              console.log('pop전체당장만나')
+              setGroupChatMeetNow((prev) => prev.slice(0, -1))
+            },
+            10 * 60 * 1000,
+          )
 
           if (data.length === 5) {
             setExpiredTime(data[4])
             setCanCreateGroupMeetNow(false)
           }
           break
+
         case 'reconnect':
           console.log('isGroupChatConnected', isGroupChatConnected)
           if (isGroupChatConnected) {

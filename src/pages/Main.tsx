@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import SideBar from '../components/sideBar/SideBar'
 import TopBar from '../components/TopBar'
 import Pages from '../components/Pages'
 import useGlobalStateStore from '../store/useGlobalStateStore'
 import useOptionStore from '../store/useOptionStore'
 import UpdateLogModal from '../components/UpdateLogModal'
-import usePreventRefresh from '../hooks/usePreventRefresh'
-import useMobileResize from '../hooks/useMobileResize'
 
 export const randomChatWorker = new Worker(
   new URL('../workers/randomChatWorker.js', import.meta.url),
@@ -20,11 +18,9 @@ export const groupChatWorker = new Worker(
 
 export default function Main() {
   const { page, isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
-  const { seeUpdateLogModal, setSeeUpdateLogModal } = useOptionStore()
+  const { setSeeUpdateLogModal } = useOptionStore()
   const [updateLogModalOpen, setUpdateLogModalOpenOpen] = useState(false)
-  const innerHeight = useMobileResize()
-
-  usePreventRefresh()
+  const preventRefreshTriggered = useRef(false)
 
   const openSideBar = () => {
     setIsSideBarOpen(true)
@@ -44,17 +40,24 @@ export default function Main() {
   }
 
   useEffect(() => {
-    if (seeUpdateLogModal) {
-      setUpdateLogModalOpenOpen(true)
+    const preventRefresh = (e: BeforeUnloadEvent) => {
+      preventRefreshTriggered.current = true
+      e.preventDefault()
+      e.returnValue = ''
     }
 
     const closeSocket = () => {
-      groupChatWorker.postMessage(['close'])
-      randomChatWorker.postMessage(['close'])
+      if (!preventRefreshTriggered.current) {
+        groupChatWorker.postMessage(['close'])
+        randomChatWorker.postMessage(['close'])
+      }
     }
 
+    window.addEventListener('beforeunload', preventRefresh)
     window.addEventListener('beforeunload', closeSocket)
+
     return () => {
+      window.removeEventListener('beforeunload', preventRefresh)
       window.removeEventListener('beforeunload', closeSocket)
     }
   }, [])
@@ -64,10 +67,7 @@ export default function Main() {
   }, [page])
 
   return (
-    <div
-      style={{ minHeight: `${innerHeight}px` }}
-      className="relative h-fit w-screen bg-background-main leading-none transition-all duration-300 ease-in-out"
-    >
+    <div className="relative h-fit min-h-screen w-screen bg-background-main leading-none transition-all duration-300 ease-in-out">
       <div
         data-open={isSideBarOpen}
         className="fixed z-[100] translate-x-0pxr transition-transform duration-300 ease-in-out tb:data-[open=false]:-translate-x-260pxr tb:data-[open=true]:translate-x-0pxr"
@@ -84,7 +84,7 @@ export default function Main() {
       <div className="ml-260pxr flex h-full w-[calc(100%-260px)] flex-col tb:ml-0pxr tb:w-full">
         <TopBar onClickSideBarButton={openSideBar} />
         <section className="h-full w-full">
-          <Pages height={innerHeight} />
+          <Pages />
         </section>
       </div>
       <UpdateLogModal open={updateLogModalOpen} closeModal={closeModal} />

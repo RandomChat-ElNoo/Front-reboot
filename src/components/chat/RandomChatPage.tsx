@@ -13,8 +13,6 @@ import useTypingTimer from '../../hooks/useTypingTimer'
 
 /**
  * 랜덤 채팅 페이지
- * @todo fist조인으로 입장버튼 보이기
- * @todo 세션스토리지 저장까진했고 재연결 짜야함
  */
 
 export default function RandomChatPage() {

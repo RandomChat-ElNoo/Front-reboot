@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 
 export default function usePreventRefresh() {
   useEffect(() => {
-    const preventRefresh = (e: any) => {
+    const preventRefresh = (e: BeforeUnloadEvent) => {
       e.preventDefault()
-      e.returnValue = ''
+      e.returnValue = '12312313'
     }
 
     window.addEventListener('beforeunload', preventRefresh)

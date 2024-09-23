@@ -5,16 +5,12 @@ import useChatAlertStore from '../store/useChatAlertStore'
 import useGlobalStateStore from '../store/useGlobalStateStore'
 import RandomChatPage from './chat/RandomChatPage'
 
-interface PagesProps {
-  height: number
-}
-
 /**
  * 본문 부분에 랜더링 되는 부분
  * @param height 상위에서 내려주는 높이
  */
 
-export default function Pages({ height }: PagesProps) {
+export default function Pages() {
   const { page } = useGlobalStateStore()
   const { setGroupChatAlert, setRandomChatAlert } = useChatAlertStore()
   const homePageShown = page === 0 ? '' : 'hidden'
@@ -31,7 +27,7 @@ export default function Pages({ height }: PagesProps) {
   }, [page])
 
   return (
-    <div style={{ height: `${height - 50}px` }} className="w-full">
+    <div className="h-[calc(100vh-50px)] w-full">
       <div className={`${homePageShown} h-full w-full overflow-y-scroll`}>
         <Home />
       </div>

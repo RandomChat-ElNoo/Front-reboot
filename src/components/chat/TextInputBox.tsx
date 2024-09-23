@@ -4,6 +4,7 @@ import EmojiButton from './EmojiButton'
 import SendButton from './SendButton'
 import JumpingDot from '../JumpingDot'
 import useChatStore from '../../store/useChatStore'
+import useGlobalStateStore from '../../store/useGlobalStateStore'
 
 interface TextInputBoxProps {
   inputValue: string
@@ -35,11 +36,13 @@ export default function TextInputBox({
   onSendButtonClick,
   handleSendMessage,
 }: TextInputBoxProps) {
+  const { page } = useGlobalStateStore()
   const { isRandomChatTyping } = useChatStore()
   const [isOpenEmoji, setIsOpenEmoji] = useState(false)
   const [isCompositionEnd, setIsCompositionEnd] = useState(true)
 
   const toggleEmojiTransitionClass = isOpenEmoji ? '-translate-y-[270px]' : ''
+  const showTypingText = isRandomChatTyping && page === 2
 
   const onEnterListener = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -113,7 +116,7 @@ export default function TextInputBox({
       </div>
       <div className="h-20pxr w-full bg-background-main" />
       <div
-        data-istyping={isRandomChatTyping}
+        data-istyping={showTypingText}
         className="absolute left-15pxr top-0pxr hidden flex-row items-end gap-5pxr data-[istyping=true]:flex"
       >
         <p className="text-14pxr">상대방이 입력중입니다</p>
