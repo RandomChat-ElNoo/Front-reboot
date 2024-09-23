@@ -7,10 +7,8 @@ export default function useMobileResize() {
   const adjustHeight = () => {
     if (window.visualViewport) {
       setHeight(window.visualViewport.height)
-      console.log(window.visualViewport.height)
     } else {
       setHeight(window.innerHeight)
-      console.log(window.innerHeight)
     }
   }
 
