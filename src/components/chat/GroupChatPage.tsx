@@ -15,7 +15,6 @@ export default function GroupChatPage() {
   const {
     groupChat,
     setGroupChat,
-    groupChatMeetNow,
     setGroupChatMeetNow,
     setGroupChatUserCount,
   } = useChatStore()

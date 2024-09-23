@@ -41,7 +41,7 @@ export default function Main() {
 
   useEffect(() => {
     const preventRefresh = (e: BeforeUnloadEvent) => {
-      preventRefreshTriggered.current = true // 알림창이 표시됨
+      preventRefreshTriggered.current = true
       e.preventDefault()
       e.returnValue = ''
     }
