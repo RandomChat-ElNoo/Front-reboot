@@ -119,7 +119,10 @@ export default function UpdateLogModal({
             </p>
             <p className="text-pretty pl-28pxr text-18pxr leading-[140%]">
               채팅 도중 연결이 끊기는 현상이 있어서 불편했죠? <br />
-              이제는 연결 로직을 개선해서 끊김 현상이 개선되었어요!
+              이제는 연결 로직을 개선해서 재연결 하는 로직을 추가했어요!
+              <br />
+              모바일에선 딴짓을 너무 오래 하면 모바일 브라우저 특정상 중간에
+              채팅이 안보일 수 있어요.
             </p>
             <br />
           </div>
