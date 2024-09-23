@@ -172,14 +172,6 @@ export default function RandomChatPage() {
       }
       console.log('data from random :', data)
 
-      const connectedMessage: Chat = {
-        isMine: false,
-        type: 'connect',
-        context: `workerData: ${data}`,
-        time: new Date().toISOString(),
-      }
-      setRandomChat((prevChat) => [...prevChat, connectedMessage])
-
       switch (
         data[0] // ["action",메시지] 로 이루어진 데이터를 분리해서 처리하는 곳
       ) {
