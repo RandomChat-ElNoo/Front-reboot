@@ -92,7 +92,7 @@ const groupChatWorkerHandler = () => {
 
   socket.onclose = () => {
     setTimeout(() => {
-      socket = new WebSocket('https://api.vtalk.be/')
+      socket = new WebSocket('wss://api.vtalk.be/')
       groupChatWorkerHandler()
     }, 1000)
   }

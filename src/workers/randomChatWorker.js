@@ -108,7 +108,7 @@ const randomChatWorkerHandler = () => {
         setTimeout(() => {
           try {
             self.postMessage(['chat', '재연결 시도'])
-            socket = new WebSocket(`wws://api.vtalk.be/?vtalk=${msg}`)
+            socket = new WebSocket(`wss://api.vtalk.be/?vtalk=${msg}`)
             randomChatWorkerHandler()
           } catch (e) {
             self.postMessage(['chat', '재연결 실패'])
