@@ -84,7 +84,7 @@ export default function Main() {
       <div className="ml-260pxr flex h-full w-[calc(100%-260px)] flex-col tb:ml-0pxr tb:w-full">
         <TopBar onClickSideBarButton={openSideBar} />
         <section className="h-full w-full">
-          <Pages />
+          <Pages height={innerHeight} />
         </section>
       </div>
       <UpdateLogModal open={updateLogModalOpen} closeModal={closeModal} />
