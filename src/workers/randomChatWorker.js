@@ -106,7 +106,7 @@ const randomChatWorkerHandler = () => {
 
       case 'reconnect':
         setTimeout(() => {
-          socket = new WebSocket(`https://api.vtalk.be/?vtalt=${msg}`)
+          socket = new WebSocket(`https://api.vtalk.be/?vtalk=${msg}`)
           randomChatWorkerHandler()
         }, 1000)
         break
