@@ -12,9 +12,9 @@ interface ChatListProps {
 export default function ChatList({ chatList }: ChatListProps) {
   return (
     <div className="flex h-full max-w-1200pxr flex-col gap-20pxr px-20pxr pt-20pxr">
-      {chatList.map((chat) => (
+      {chatList.map((chat, index) => (
         <ChatBox
-          key={`${chat.context}+${chat.time.toString()}`}
+          key={`${chat.context}+${index}`}
           context={chat.context}
           isMine={chat.isMine}
           type={chat.type}
