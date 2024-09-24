@@ -40,25 +40,35 @@ export default function Main() {
   }
 
   useEffect(() => {
-    const preventRefresh = (e: BeforeUnloadEvent) => {
-      preventRefreshTriggered.current = true
-      e.preventDefault()
-      e.returnValue = ''
+    window.history.pushState(null, '', window.location.href)
+
+    const handleBeforeUnload = () => {
+      // 소켓을 닫는 로직
+      groupChatWorker.postMessage(['close'])
+      randomChatWorker.postMessage(['close'])
     }
 
-    const closeSocket = () => {
-      if (!preventRefreshTriggered.current) {
-        groupChatWorker.postMessage(['close'])
-        randomChatWorker.postMessage(['close'])
+    const handlePopstate = () => {
+      history.pushState(null, '', window.location.href)
+    }
+
+    const preventReload = (event: KeyboardEvent) => {
+      if (
+        (event.ctrlKey && (event.keyCode == 78 || event.keyCode == 82)) ||
+        event.key === 'F5'
+      ) {
+        event.preventDefault()
       }
     }
 
-    window.addEventListener('beforeunload', preventRefresh)
-    window.addEventListener('beforeunload', closeSocket)
+    window.addEventListener('keydown', preventReload)
+    window.addEventListener('popstate', handlePopstate)
+    window.addEventListener('beforeunload', handleBeforeUnload)
 
     return () => {
-      window.removeEventListener('beforeunload', preventRefresh)
-      window.removeEventListener('beforeunload', closeSocket)
+      window.removeEventListener('keydown', preventReload)
+      window.removeEventListener('popstate', handlePopstate)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
     }
   }, [])
 
