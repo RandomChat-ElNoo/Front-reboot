@@ -19,7 +19,7 @@ export const groupChatWorker = new Worker(
 
 export default function Main() {
   const { page, isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
-  const { setSeeUpdateLogModal } = useOptionStore()
+  const { seeUpdateLogModal, setSeeUpdateLogModal } = useOptionStore()
   const [updateLogModalOpen, setUpdateLogModalOpenOpen] = useState(false)
   const [api, contextHolder] = notification.useNotification()
   const preventRefreshTriggered = useRef(false)
@@ -110,6 +110,12 @@ export default function Main() {
       groupChatWorker.removeEventListener('message', handleWorkerMessage)
       window.removeEventListener('beforeunload', handleBeforeUnload)
       window.removeEventListener('unload', handleUnload)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (seeUpdateLogModal) {
+      setUpdateLogModalOpenOpen(true)
     }
   }, [])
 
