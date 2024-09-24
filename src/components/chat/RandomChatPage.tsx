@@ -168,7 +168,6 @@ export default function RandomChatPage() {
       } else {
         data = e.data
       }
-      console.log('data from random :', data)
 
       switch (
         data[0] // ["action",메시지] 로 이루어진 데이터를 분리해서 처리하는 곳
