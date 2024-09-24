@@ -69,10 +69,6 @@ export default function TextInputBox({
     }
   }, [isConnected])
 
-  useEffect(() => {
-    console.log('isCompositionEnd', isCompositionEnd)
-  }, [isCompositionEnd])
-
   return (
     <div className="relative z-20 mx-auto mb-auto bg-background-main px-10pxr pt-16pxr">
       <div className="relative flex h-46pxr w-full max-w-1200pxr items-center gap-10pxr rounded-[10px] bg-text-box px-20pxr py-5pxr">

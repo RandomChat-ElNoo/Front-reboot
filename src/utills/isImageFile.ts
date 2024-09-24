@@ -20,7 +20,7 @@ export default async function isImageFile(fileUrl: string, headerLength = 8) {
 
     // 이미지 형식 판별
     if (bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) {
-      console.log('JPEG 이미지 파일입니다.')
+      // console.log('JPEG 이미지 파일입니다.')
       return true
     } else if (
       bytes[0] === 0x89 &&
@@ -32,7 +32,7 @@ export default async function isImageFile(fileUrl: string, headerLength = 8) {
       bytes[6] === 0x1a &&
       bytes[7] === 0x0a
     ) {
-      console.log('PNG 이미지 파일입니다.')
+      // console.log('PNG 이미지 파일입니다.')
       return true
     } else if (
       (bytes[0] === 0x47 &&
@@ -48,10 +48,10 @@ export default async function isImageFile(fileUrl: string, headerLength = 8) {
         bytes[4] === 0x39 &&
         bytes[5] === 0x61)
     ) {
-      console.log('GIF 이미지 파일입니다.')
+      // console.log('GIF 이미지 파일입니다.')
       return true
     } else if (bytes[0] === 0x42 && bytes[1] === 0x4d) {
-      console.log('BMP 이미지 파일입니다.')
+      // console.log('BMP 이미지 파일입니다.')
       return true
     } else if (
       (bytes[0] === 0x49 &&
@@ -63,10 +63,10 @@ export default async function isImageFile(fileUrl: string, headerLength = 8) {
         bytes[2] === 0x00 &&
         bytes[3] === 0x2a)
     ) {
-      console.log('TIFF 이미지 파일입니다.')
+      // console.log('TIFF 이미지 파일입니다.')
       return true
     } else {
-      console.log('알 수 없는 파일 형식입니다.')
+      // console.log('알 수 없는 파일 형식입니다.')
       return false
     }
   } catch (error: any) {

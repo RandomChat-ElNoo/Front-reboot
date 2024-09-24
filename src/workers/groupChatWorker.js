@@ -36,7 +36,7 @@ const countGroupChat = () => {
 const groupChatWorkerHandler = () => {
   self.onmessage = (e) => {
     const [action, msg] = e.data
-    console.log(action, msg, 'worker')
+
     switch (action) {
       case 'chat':
         if (msg) {
@@ -69,8 +69,7 @@ const groupChatWorkerHandler = () => {
           createWorld(msg)
         }
         break
-      case '':
-        break
+
       default:
         console.error('Unknown message action:', action)
         break

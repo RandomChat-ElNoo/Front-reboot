@@ -137,8 +137,6 @@ export default function GroupChatPage() {
         data = e.data
       }
 
-      console.log('data from group:', data)
-
       switch (
         data[0] // ["action",메시지] 로 이루어진 데이터를 분리해서 처리하는 곳
       ) {
@@ -174,7 +172,7 @@ export default function GroupChatPage() {
             time: data[2] as string,
           }
           setGroupChat((prevGroupChat) => [...prevGroupChat, newChat])
-          console.log('page :', page)
+
           if (page !== 1) {
             setGroupChatAlert((prev) => prev + 1)
           }
@@ -203,7 +201,6 @@ export default function GroupChatPage() {
 
           setTimeout(
             () => {
-              console.log('pop전체당장만나')
               setGroupChatMeetNow((prev) => prev.slice(0, -1))
             },
             10 * 60 * 1000,
@@ -216,10 +213,8 @@ export default function GroupChatPage() {
           break
 
         case 'reconnect':
-          console.log('isGroupChatConnected', isGroupChatConnected)
           if (isGroupChatConnected) {
             groupChatWorker.postMessage(['joinGroup'])
-            console.log('reconnect commend')
           }
           break
       }
