@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import SideBar from '../components/sideBar/SideBar'
 import TopBar from '../components/TopBar'
 import Pages from '../components/Pages'
@@ -20,7 +20,6 @@ export default function Main() {
   const { page, isSideBarOpen, setIsSideBarOpen } = useGlobalStateStore()
   const { setSeeUpdateLogModal } = useOptionStore()
   const [updateLogModalOpen, setUpdateLogModalOpenOpen] = useState(false)
-  const preventRefreshTriggered = useRef(false)
 
   const openSideBar = () => {
     setIsSideBarOpen(true)
