@@ -36,6 +36,7 @@ export default function EmojiBox({ onClickEmoji, closeEmoji }: EmojiBoxProps) {
               className="aspect-square object-contain"
               src={item.src}
               alt={`${item.name}`}
+              loading="lazy"
             />
           </button>
         ))}
