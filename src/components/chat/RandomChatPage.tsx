@@ -31,6 +31,7 @@ export default function RandomChatPage() {
   const { setRandomChatAlert } = useChatAlertStore()
   const {
     page,
+    setPage,
     isVisible,
     setIsVisible,
     isRandomChatConnected,
@@ -62,6 +63,7 @@ export default function RandomChatPage() {
     notification.addEventListener(
       'click',
       () => {
+        setPage(2)
         window.focus()
       },
       { once: true },
