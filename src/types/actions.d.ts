@@ -19,6 +19,7 @@ type PrivateChatAction =
   | 'exit'
   | 'setAvatar'
   | 'typing'
+  | 'stopTyping'
   | 'count'
   | 'close'
   | 'getId'
