@@ -38,7 +38,7 @@ export default function Main() {
 
   const notificate = (msg: string) => {
     const notification = new Notification('VTalk 공지사항', {
-      body: `${msg}`,
+      body: msg,
       icon: '/imgs/favicon.ico',
     })
 
@@ -111,12 +111,6 @@ export default function Main() {
       if (preventRefreshTriggered.current) {
         closeConnections()
       }
-    }
-
-    if ('sync' in navigator.serviceWorker) {
-      navigator.serviceWorker.ready.then((registration) => {
-        ;(registration as any).sync.register('close-connections')
-      })
     }
 
     // 이벤트 리스너 등록
