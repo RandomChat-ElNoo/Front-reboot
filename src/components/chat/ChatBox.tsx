@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
 import formatTime from '../../utills/formatTime'
-import isImageFile from '../../utills/isImageFile'
 import CustomButton from '../CustomButton'
-import ReplaceUrl from './ReplaceUrl'
 import { Divider } from 'antd'
 import { randomChatWorker } from '../../pages/Main'
 import useChatStore from '../../store/useChatStore'
 import { EMOJI_ARRAY } from '../../constant/emoji'
+import ReplaceToAtag from './ReplaceToAtag'
 
 interface ChatBoxProps {
   context: string
@@ -33,7 +31,6 @@ export default function ChatBox({
   url,
 }: ChatBoxProps) {
   const { setOpponentAvatar } = useChatStore()
-  const [isImg, setIsImg] = useState(false)
   const color = isMine ? 'bg-chat-box-me' : 'bg-chat-box'
   const timeDirection = isMine ? 'flex-row-reverse' : ''
   const classNames = `${color} break-words text-wrap max-w-500pxr rounded-[15px]`
@@ -42,23 +39,12 @@ export default function ChatBox({
   const regex = new RegExp(`::(${emojiNames})::`)
   const isEmoji = regex.test(context)
 
-  const fomattedTime = formatTime(writingTime)
+  const formattedTime = formatTime(writingTime)
 
   const onClickRematching = () => {
     randomChatWorker.postMessage(['join'])
     setOpponentAvatar('')
   }
-
-  useEffect(() => {
-    const isImgUrl = async () => {
-      const isImage = await isImageFile(context)
-      setIsImg(type === 'chat' && isImage)
-    }
-
-    if (!isEmoji) {
-      isImgUrl()
-    }
-  }, [context])
 
   return (
     <pre
@@ -97,14 +83,13 @@ export default function ChatBox({
               />
             </div>
           ) : (
-            <ReplaceUrl
+            <ReplaceToAtag
               className="text-16pxr leading-[140%]"
               text={context.trim()}
-              isImage={isImg}
               isMine={isMine}
             />
           )}
-          <div className="text-13pxr">{fomattedTime}</div>
+          <div className="text-13pxr">{formattedTime}</div>
         </>
       ) : (
         type === 'meetNow' && (
@@ -123,7 +108,7 @@ export default function ChatBox({
                 />
               </div>
             </div>
-            <div className="text-13pxr">{fomattedTime}</div>
+            <div className="text-13pxr">{formattedTime}</div>
           </>
         )
       )}
