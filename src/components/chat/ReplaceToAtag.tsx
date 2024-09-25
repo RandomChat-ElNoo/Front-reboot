@@ -44,6 +44,7 @@ export default function ReplaceToAtag({
       setIsImgUrl(isImgUrl)
     }
 
+    // url이 하나인지
     const isOnlyOneUrl = parts.join('') === '' && matches?.length === 1
 
     if (isOnlyOneUrl) {
@@ -64,22 +65,20 @@ export default function ReplaceToAtag({
       acc.push(part)
       if (!(matches && matches[index])) return acc
       acc.push(
-        <>
+        <span key={Math.random()}>
           <LinkWarningModal
-            key={index + 0}
             link={matches[index]}
             open={linkWarningModal}
             setter={setLinkWarningModal}
           />
           <a
-            key={index + 2}
             href={matches[index]}
             onClick={handleClickLink}
             className={`${className} text-blue-400 hover:underline`}
           >
             {matches[index]}
           </a>
-        </>,
+        </span>,
       )
 
       return acc
