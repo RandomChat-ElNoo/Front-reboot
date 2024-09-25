@@ -85,9 +85,19 @@ export default function Main() {
       }
     }
 
-    const handlePageHide = () => {
+    const closeConnections = () => {
       groupChatWorker.postMessage(['close'])
       randomChatWorker.postMessage(['close'])
+    }
+
+    const handlePageHide = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        // 페이지가 백그라운드 캐시로 이동하는 경우
+        closeConnections()
+      } else {
+        // 페이지가 완전히 언로드되는 경우
+        closeConnections()
+      }
     }
 
     // 새로고침 시 경고 메시지를 보여주는 함수
@@ -99,9 +109,14 @@ export default function Main() {
 
     const handleUnload = () => {
       if (preventRefreshTriggered.current) {
-        groupChatWorker.postMessage(['close'])
-        randomChatWorker.postMessage(['close'])
+        closeConnections()
       }
+    }
+
+    if ('sync' in navigator.serviceWorker) {
+      navigator.serviceWorker.ready.then((registration) => {
+        ;(registration as any).sync.register('close-connections')
+      })
     }
 
     // 이벤트 리스너 등록
