@@ -85,31 +85,37 @@ export default function Main() {
       }
     }
 
+    const handlePageHide = () => {
+      if (preventRefreshTriggered.current) {
+        groupChatWorker.postMessage(['close'])
+        randomChatWorker.postMessage(['close'])
+      }
+    }
+
     // 새로고침 시 경고 메시지를 보여주는 함수
-    const handleBeforeUnload = () => {
-      // preventRefreshTriggered.current = true
-      // e.preventDefault()
-      // e.returnValue = ''
-      groupChatWorker.postMessage(['close'])
-      randomChatWorker.postMessage(['close'])
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      preventRefreshTriggered.current = true
+      e.preventDefault()
+      e.returnValue = ''
     }
 
     const handleUnload = () => {
       if (preventRefreshTriggered.current) {
-        // 여기서 소켓 닫기 또는 필요한 작업 수행
-        // groupChatWorker.postMessage(['close'])
-        // randomChatWorker.postMessage(['close'])
+        groupChatWorker.postMessage(['close'])
+        randomChatWorker.postMessage(['close'])
       }
     }
 
     // 이벤트 리스너 등록
     groupChatWorker.addEventListener('message', handleWorkerMessage)
+    window.addEventListener('pagehide', handlePageHide)
     window.addEventListener('beforeunload', handleBeforeUnload)
     window.addEventListener('unload', handleUnload)
 
     // 컴포넌트 언마운트 시 이벤트 리스너 해제
     return () => {
       groupChatWorker.removeEventListener('message', handleWorkerMessage)
+      window.removeEventListener('pagehide', handlePageHide)
       window.removeEventListener('beforeunload', handleBeforeUnload)
       window.removeEventListener('unload', handleUnload)
     }
