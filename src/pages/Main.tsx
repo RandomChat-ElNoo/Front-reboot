@@ -113,6 +113,7 @@ export default function Main() {
       }
     }
 
+    // 백그라운드 동기화 api
     if ('sync' in navigator.serviceWorker) {
       navigator.serviceWorker.ready.then((registration) => {
         ;(registration as any).sync.register('close-connections')
