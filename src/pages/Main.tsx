@@ -86,10 +86,8 @@ export default function Main() {
     }
 
     const handlePageHide = () => {
-      if (preventRefreshTriggered.current) {
-        groupChatWorker.postMessage(['close'])
-        randomChatWorker.postMessage(['close'])
-      }
+      groupChatWorker.postMessage(['close'])
+      randomChatWorker.postMessage(['close'])
     }
 
     // 새로고침 시 경고 메시지를 보여주는 함수
