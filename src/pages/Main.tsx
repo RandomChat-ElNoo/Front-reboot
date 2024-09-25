@@ -86,17 +86,19 @@ export default function Main() {
     }
 
     // 새로고침 시 경고 메시지를 보여주는 함수
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      preventRefreshTriggered.current = true
-      e.preventDefault()
-      e.returnValue = ''
+    const handleBeforeUnload = () => {
+      // preventRefreshTriggered.current = true
+      // e.preventDefault()
+      // e.returnValue = ''
+      groupChatWorker.postMessage(['close'])
+      randomChatWorker.postMessage(['close'])
     }
 
     const handleUnload = () => {
       if (preventRefreshTriggered.current) {
         // 여기서 소켓 닫기 또는 필요한 작업 수행
-        groupChatWorker.postMessage(['close'])
-        randomChatWorker.postMessage(['close'])
+        // groupChatWorker.postMessage(['close'])
+        // randomChatWorker.postMessage(['close'])
       }
     }
 
