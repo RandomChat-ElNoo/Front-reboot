@@ -34,7 +34,7 @@ export default function SideBarMeetNowButton({
         className="relative h-100pxr w-full shrink-0 break-all rounded-[10px] bg-button-sidebar py-10pxr pl-20pxr pr-15pxr"
       >
         <div className="flex h-full flex-col gap-10pxr">
-          <div className="felx-row flex items-center justify-between">
+          <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-end gap-6pxr">
               <h1 className="text-18pxr">당장만나!</h1>
               <p className="text-16pxr">{formattedTime}</p>
