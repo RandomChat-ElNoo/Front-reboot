@@ -12,6 +12,7 @@ interface ChatBoxProps {
   isMine: boolean
   type: 'chat' | 'meetNow' | 'connect'
   url?: string
+  deleteMessage?: () => void
 }
 
 /**
@@ -29,6 +30,7 @@ export default function ChatBox({
   isMine,
   type,
   url,
+  deleteMessage,
 }: ChatBoxProps) {
   const { setOpponentAvatar } = useChatStore()
   const color = isMine ? 'bg-chat-box-me' : 'bg-chat-box'
@@ -48,7 +50,7 @@ export default function ChatBox({
 
   return (
     <pre
-      className={`${timeDirection} flex w-full items-end gap-5pxr break-all`}
+      className={`${timeDirection} group flex w-full items-end gap-5pxr break-all`}
     >
       {type === 'connect' ? (
         <div className="flex w-full flex-col items-center gap-10pxr">
@@ -90,6 +92,18 @@ export default function ChatBox({
             />
           )}
           <div className="text-13pxr">{formattedTime}</div>
+          {deleteMessage !== undefined && (
+            <div className="h-22pxr w-25pxr shrink-0 text-14pxr">
+              {!isMine && (
+                <p
+                  className="hidden cursor-pointer text-slate-400 group-hover:block"
+                  onClick={deleteMessage}
+                >
+                  삭제
+                </p>
+              )}
+            </div>
+          )}
         </>
       ) : (
         type === 'meetNow' && (
