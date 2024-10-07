@@ -16,6 +16,7 @@ interface ChatStore {
 
   groupChat: Chat[]
   setGroupChat: (value: Chat[] | ((prev: Chat[]) => Chat[])) => void
+  removeGroupChat: (value: number) => void
 
   groupChatMeetNow: MeetNow[]
   setGroupChatMeetNow: (
@@ -59,12 +60,17 @@ const useChatStore = create<ChatStore>((set) => ({
         typeof value === 'function' ? value(state.randomChatMeetNow) : value,
     }))
   },
+
   groupChat: [],
   setGroupChat: (value) => {
     set((state) => ({
       groupChat: typeof value === 'function' ? value(state.groupChat) : value,
     }))
   },
+  removeGroupChat: (value) =>
+    set((state) => ({
+      groupChat: state.groupChat.filter((_, index) => index !== value),
+    })),
 
   groupChatMeetNow: [],
   setGroupChatMeetNow: (value) => {
