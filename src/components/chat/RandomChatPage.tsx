@@ -213,8 +213,8 @@ export default function RandomChatPage() {
             setIsRandomChatConnected(false)
             setRandomChat([])
             setCanCreateRandomChatMeetNow(true)
-            setRandomChatMeetNow([])
             setIsFirstJoin(true)
+            setOpponentAvatar('')
           }
           if (data[1] === 'opponent') {
             setIsRandomChatConnected(false)
@@ -227,6 +227,8 @@ export default function RandomChatPage() {
             }
             setRandomChat((prevChat) => [...prevChat, disConnectedMessage])
           }
+          setRandomChatMeetNow([])
+          setIsRandomChatTyping(false)
           setRandomChatMeetNowExpireTime('')
           setIsWaiting(false)
           break
