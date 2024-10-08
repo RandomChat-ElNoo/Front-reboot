@@ -320,7 +320,7 @@ export default function RandomChatPage() {
           className="h-[calc(100%-82px)] w-full overflow-y-scroll"
         >
           <div className="mx-auto max-w-1200pxr">
-            <ChatList chatList={randomChat} type="random" />
+            <ChatList chatList={randomChat} />
           </div>
         </div>
         <div className="mx-auto max-w-1200pxr">

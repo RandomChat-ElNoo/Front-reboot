@@ -30,8 +30,8 @@ export default function ReplaceToAtag({
     e.preventDefault()
     setLinkWarningModal(true)
   }
-  const handleImg = () => {
-    window.open(text)
+  const handleClickImg = () => {
+    setLinkWarningModal(true)
   }
 
   const parts = text.split(urlRegex)
@@ -87,15 +87,22 @@ export default function ReplaceToAtag({
   )
 
   return useImgTag ? (
-    <button className="h-fit w-fit" onClick={handleImg}>
-      <img
-        className="h-auto max-h-450pxr w-full max-w-700pxr object-contain"
-        src={text}
-        onLoad={() => {
-          window.scrollTo(0, document.body.scrollHeight)
-        }}
+    <>
+      <button className="h-fit w-fit" onClick={handleClickImg}>
+        <img
+          className="h-auto max-h-450pxr w-full max-w-700pxr object-contain"
+          src={text}
+          onLoad={() => {
+            window.scrollTo(0, document.body.scrollHeight)
+          }}
+        />
+      </button>
+      <LinkWarningModal
+        link={text}
+        open={linkWarningModal}
+        setter={setLinkWarningModal}
       />
-    </button>
+    </>
   ) : (
     <div
       className={`${color} max-w-500pxr text-wrap break-words rounded-[15px] px-15pxr py-7pxr`}
