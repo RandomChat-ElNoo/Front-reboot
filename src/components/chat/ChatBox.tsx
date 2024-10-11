@@ -107,7 +107,7 @@ export default function ChatBox({
             </div>
           </>
         ) : (
-          <div className="flex items-end">
+          <div className={`${timeDirection} flex flex-row items-end gap-5pxr`}>
             <div
               className={`${classNames} flex w-340pxr flex-col justify-start gap-10pxr p-15pxr`}
             >
