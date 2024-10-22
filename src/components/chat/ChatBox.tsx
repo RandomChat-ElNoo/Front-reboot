@@ -6,6 +6,7 @@ import useChatStore from '../../store/useChatStore'
 import { EMOJI_ARRAY } from '../../constant/emoji'
 import ReplaceToAtag from './ReplaceToAtag'
 import { useState } from 'react'
+import RandomChatLastAD from '../Ads/RandomChatLastAD'
 
 interface ChatBoxProps {
   context: string
@@ -62,12 +63,15 @@ export default function ChatBox({
               {context}
             </Divider>
             {context === '상대방이 퇴장하였습니다' && (
-              <button
-                onClick={onClickRematching}
-                className="h-30pxr w-80pxr rounded-full bg-chat-box shadow-top-shadow"
-              >
-                재매칭
-              </button>
+              <>
+                <button
+                  onClick={onClickRematching}
+                  className="h-30pxr w-80pxr rounded-full bg-chat-box shadow-top-shadow"
+                >
+                  재매칭
+                </button>
+                <RandomChatLastAD />
+              </>
             )}
           </div>
         ) : type === 'chat' ? (
