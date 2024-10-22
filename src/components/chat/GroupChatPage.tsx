@@ -236,7 +236,7 @@ export default function GroupChatPage() {
           className="h-[calc(100%-82px)] w-full overflow-y-scroll"
         >
           <div className="mx-auto max-w-1200pxr">
-            <ChatList chatList={groupChat} />
+            <ChatList chatList={groupChat} type="group" />
           </div>
         </div>
         <div className="mx-auto max-w-1200pxr">

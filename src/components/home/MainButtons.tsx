@@ -4,6 +4,7 @@ import DonationModal from './DonationModal'
 import MainButton from './MainButton'
 import { notification } from 'antd'
 import useGlobalStateStore from '../../store/useGlobalStateStore'
+import MainPageAD from '../Ads/MainPageAD'
 
 /**
  * main 화면에서 보여일 버튼들
@@ -66,6 +67,7 @@ export default function MainButtons() {
             buttonType="wide"
             onClick={() => setIsDonationModalOpen(true)}
           />
+          <MainPageAD />
           <ContactModal
             isOpen={isContactModalOpen}
             closeModal={() => setIsContactModalOpen(false)}

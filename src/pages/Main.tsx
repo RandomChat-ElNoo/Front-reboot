@@ -138,6 +138,26 @@ export default function Main() {
     setIsSideBarOpen(false)
   }, [page])
 
+  useEffect(() => {
+    // 광고 스크립트 추가 부분
+    try {
+      const existingScript = document.querySelector(
+        'script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]',
+      )
+
+      if (!existingScript) {
+        const script = document.createElement('script')
+        script.src =
+          'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9319851907156363'
+        script.async = true
+        script.crossOrigin = 'anonymous'
+        document.head.appendChild(script)
+      }
+    } catch (err) {
+      console.error('AdSense 스크립트 로드 중 오류:', err)
+    }
+  }, [])
+
   return (
     <div className="relative h-fit min-h-screen w-screen bg-background-main leading-none transition-all duration-300 ease-in-out">
       {contextHolder}
