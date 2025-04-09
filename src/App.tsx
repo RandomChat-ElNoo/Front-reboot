@@ -1,5 +1,6 @@
-import Main from './pages/Main'
+// import Main from './pages/Main'
 import { ConfigProvider } from 'antd'
+import ShutDown from './pages/ShutDown'
 
 export default function App() {
   return (
@@ -18,7 +19,8 @@ export default function App() {
         },
       }}
     >
-      <Main />
+      {/* <Main /> */}
+      <ShutDown />
     </ConfigProvider>
   )
 }
